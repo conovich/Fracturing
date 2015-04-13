@@ -27,6 +27,7 @@
 #endif
 #include	<math.h>
 #include "Mesh.h"
+#include <BulletDynamics/btBulletDynamicsCommon.h>
 
 
 Cube myCube;

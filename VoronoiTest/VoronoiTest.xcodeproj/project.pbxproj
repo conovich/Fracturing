@@ -14,6 +14,14 @@
 		0427B97F1ADA42B3009CC475 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0427B97E1ADA42B3009CC475 /* Cocoa.framework */; };
 		0427B9821ADB001B009CC475 /* VoronoiTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0427B9801ADB001B009CC475 /* VoronoiTest.cpp */; };
 		0427B9851ADB004A009CC475 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0427B9831ADB004A009CC475 /* Mesh.cpp */; };
+		3E4F4D3C1ADC796200EDBF9A /* libBulletCollision.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4F4D341ADC796200EDBF9A /* libBulletCollision.a */; };
+		3E4F4D3D1ADC796200EDBF9A /* libBulletDynamics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4F4D351ADC796200EDBF9A /* libBulletDynamics.a */; };
+		3E4F4D3E1ADC796200EDBF9A /* libBulletMultiThreaded.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4F4D361ADC796200EDBF9A /* libBulletMultiThreaded.a */; };
+		3E4F4D3F1ADC796200EDBF9A /* libBulletSoftBody.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4F4D371ADC796200EDBF9A /* libBulletSoftBody.a */; };
+		3E4F4D401ADC796200EDBF9A /* libBulletSoftBodySolvers_OpenCL_Apple.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4F4D381ADC796200EDBF9A /* libBulletSoftBodySolvers_OpenCL_Apple.a */; };
+		3E4F4D411ADC796200EDBF9A /* libBulletSoftBodySolvers_OpenCL_Mini.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4F4D391ADC796200EDBF9A /* libBulletSoftBodySolvers_OpenCL_Mini.a */; };
+		3E4F4D421ADC796200EDBF9A /* libLinearMath.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4F4D3A1ADC796200EDBF9A /* libLinearMath.a */; };
+		3E4F4D431ADC796200EDBF9A /* libMiniCL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4F4D3B1ADC796200EDBF9A /* libMiniCL.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,6 +48,14 @@
 		0427B9811ADB001B009CC475 /* VoronoiTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoronoiTest.h; sourceTree = "<group>"; };
 		0427B9831ADB004A009CC475 /* Mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mesh.cpp; sourceTree = "<group>"; };
 		0427B9841ADB004A009CC475 /* Mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mesh.h; sourceTree = "<group>"; };
+		3E4F4D341ADC796200EDBF9A /* libBulletCollision.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletCollision.a; path = ../../../../usr/local/lib/libBulletCollision.a; sourceTree = "<group>"; };
+		3E4F4D351ADC796200EDBF9A /* libBulletDynamics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletDynamics.a; path = ../../../../usr/local/lib/libBulletDynamics.a; sourceTree = "<group>"; };
+		3E4F4D361ADC796200EDBF9A /* libBulletMultiThreaded.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletMultiThreaded.a; path = ../../../../usr/local/lib/libBulletMultiThreaded.a; sourceTree = "<group>"; };
+		3E4F4D371ADC796200EDBF9A /* libBulletSoftBody.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletSoftBody.a; path = ../../../../usr/local/lib/libBulletSoftBody.a; sourceTree = "<group>"; };
+		3E4F4D381ADC796200EDBF9A /* libBulletSoftBodySolvers_OpenCL_Apple.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletSoftBodySolvers_OpenCL_Apple.a; path = ../../../../usr/local/lib/libBulletSoftBodySolvers_OpenCL_Apple.a; sourceTree = "<group>"; };
+		3E4F4D391ADC796200EDBF9A /* libBulletSoftBodySolvers_OpenCL_Mini.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletSoftBodySolvers_OpenCL_Mini.a; path = ../../../../usr/local/lib/libBulletSoftBodySolvers_OpenCL_Mini.a; sourceTree = "<group>"; };
+		3E4F4D3A1ADC796200EDBF9A /* libLinearMath.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLinearMath.a; path = ../../../../usr/local/lib/libLinearMath.a; sourceTree = "<group>"; };
+		3E4F4D3B1ADC796200EDBF9A /* libMiniCL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMiniCL.a; path = ../../../../usr/local/lib/libMiniCL.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +63,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E4F4D3C1ADC796200EDBF9A /* libBulletCollision.a in Frameworks */,
+				3E4F4D3D1ADC796200EDBF9A /* libBulletDynamics.a in Frameworks */,
+				3E4F4D3E1ADC796200EDBF9A /* libBulletMultiThreaded.a in Frameworks */,
+				3E4F4D3F1ADC796200EDBF9A /* libBulletSoftBody.a in Frameworks */,
+				3E4F4D401ADC796200EDBF9A /* libBulletSoftBodySolvers_OpenCL_Apple.a in Frameworks */,
+				3E4F4D411ADC796200EDBF9A /* libBulletSoftBodySolvers_OpenCL_Mini.a in Frameworks */,
+				3E4F4D421ADC796200EDBF9A /* libLinearMath.a in Frameworks */,
+				3E4F4D431ADC796200EDBF9A /* libMiniCL.a in Frameworks */,
 				0427B97F1ADA42B3009CC475 /* Cocoa.framework in Frameworks */,
 				0427B97D1ADA42AA009CC475 /* OpenGL.framework in Frameworks */,
 				0427B97B1ADA42A0009CC475 /* GLUT.framework in Frameworks */,
@@ -59,6 +83,14 @@
 		0427B9651ADA4026009CC475 = {
 			isa = PBXGroup;
 			children = (
+				3E4F4D341ADC796200EDBF9A /* libBulletCollision.a */,
+				3E4F4D351ADC796200EDBF9A /* libBulletDynamics.a */,
+				3E4F4D361ADC796200EDBF9A /* libBulletMultiThreaded.a */,
+				3E4F4D371ADC796200EDBF9A /* libBulletSoftBody.a */,
+				3E4F4D381ADC796200EDBF9A /* libBulletSoftBodySolvers_OpenCL_Apple.a */,
+				3E4F4D391ADC796200EDBF9A /* libBulletSoftBodySolvers_OpenCL_Mini.a */,
+				3E4F4D3A1ADC796200EDBF9A /* libLinearMath.a */,
+				3E4F4D3B1ADC796200EDBF9A /* libMiniCL.a */,
 				0427B97E1ADA42B3009CC475 /* Cocoa.framework */,
 				0427B97C1ADA42AA009CC475 /* OpenGL.framework */,
 				0427B97A1ADA42A0009CC475 /* GLUT.framework */,
@@ -221,8 +253,15 @@
 		0427B9781ADA4026009CC475 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/local/include/bullet,
+					usr/local/include,
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					/usr/local/lib,
 					"$(SDKROOT)/usr/lib/system",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -232,8 +271,15 @@
 		0427B9791ADA4026009CC475 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/local/include/bullet,
+					usr/local/include,
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					/usr/local/lib,
 					"$(SDKROOT)/usr/lib/system",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -259,6 +305,7 @@
 				0427B9791ADA4026009CC475 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
