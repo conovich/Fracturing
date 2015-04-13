@@ -218,7 +218,7 @@ void Cube::GenerateRandomInternalPoints(int numPoints){
         
         float randomX = minX + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(maxX-minX)));
         float randomY = minY + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(maxY-minY)));
-        float randomZ = minX + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(maxY-minY)));
+        float randomZ = minZ + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(maxZ-minZ)));
         
         vector<float> randomPoint;
         randomPoint.push_back(randomX);
