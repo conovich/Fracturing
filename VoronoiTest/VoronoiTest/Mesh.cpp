@@ -18,6 +18,9 @@
 
 
 #include "Mesh.h"
+#include <BulletDynamics/btBulletDynamicsCommon.h>
+#include <BulletCollision/CollisionShapes/btConvexHullShape.h>
+
 
 #define NUM_ENDS 2           /* number of end "points" to draw */
 int myEnds[NUM_ENDS][2];       /* array of 2D points */
@@ -211,6 +214,10 @@ void Cube::GenerateRandomInternalPoints(int numPoints){
     numRandomPoints = numPoints;
     
     myRandomPoints.clear();
+    vector<btConvexHullShape> convexHulls;
+    //convexHull = btConvexHullShape();
+    btConvexHullShape convexMesh;
+    convexMesh = btConvexHullShape();
     
     for(int i = 0; i < numPoints; i++){
         
@@ -226,5 +233,10 @@ void Cube::GenerateRandomInternalPoints(int numPoints){
         randomPoint.push_back(randomZ);
         
         myRandomPoints.push_back(randomPoint);
+        
+        const btVector3 newPoint(randomX, randomY, randomZ);
+        
+        convexMesh.addPoint(newPoint);
     }
+    convexHulls.push_back(convexMesh);
 }
