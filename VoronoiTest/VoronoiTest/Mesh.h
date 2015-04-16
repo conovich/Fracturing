@@ -12,6 +12,9 @@
 #include <iostream>
 #include <vector>
 
+#include "Intersection.h"
+#include "Ray.h"
+
 using namespace std;
 
 
@@ -33,10 +36,12 @@ public:
     virtual void  DrawWireframe();
     
     std::vector<std::vector<float>> myRandomPoints;
+    std::vector<std::vector<float>> myInternalPoints;
     int numRandomPoints;
-    void GenerateRandomInternalPoints(int numPoints);
+    void GenerateRandomInternalPoints(int numPoints, std::vector<float> impactPt);
     virtual void DrawRandomPoints();
     
+    Intersection intersectImpl(const Ray &ray) const;
     
     std::vector<std::vector<float>> myPoints;
     std::vector<float> p1;

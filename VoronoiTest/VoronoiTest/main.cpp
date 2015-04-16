@@ -99,7 +99,11 @@ int		main(int argc, char **argv)
 {
     
     myCube = Cube();
-    myCube.GenerateRandomInternalPoints(10);
+    std::vector<float> pot;
+    pot.push_back(1.0f);
+    pot.push_back(0.0f);
+    pot.push_back(0.0f);
+    myCube.GenerateRandomInternalPoints(50, pot);
     
     
     /* Creation of the window */

@@ -18,6 +18,9 @@
 
 
 #include "Mesh.h"
+#include "Ray.h"
+#include "nearlyEqual.h"
+#include "Intersection.h"
 #include <BulletDynamics/btBulletDynamicsCommon.h>
 #include <BulletCollision/CollisionShapes/btConvexHullShape.h>
 
@@ -210,7 +213,7 @@ void Cube::DrawWireframe(){
     
 }
 
-void Cube::GenerateRandomInternalPoints(int numPoints){
+void Cube::GenerateRandomInternalPoints(int numPoints, std::vector<float> impactPt){
     numRandomPoints = numPoints;
     
     myRandomPoints.clear();
@@ -222,10 +225,9 @@ void Cube::GenerateRandomInternalPoints(int numPoints){
     for(int i = 0; i < numPoints; i++){
         
         //http://stackoverflow.com/questions/686353/c-random-float-number-generation
-        
-        float randomX = minX + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(maxX-minX)));
-        float randomY = minY + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(maxY-minY)));
-        float randomZ = minZ + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(maxZ-minZ)));
+        float randomX = impactPt[0] + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[0] + 0.25) - (impactPt[0] - 0.25))));
+        float randomY = impactPt[1] + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[1] + 0.25) - (impactPt[1] - 0.25))));
+        float randomZ = impactPt[2]+ static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[2] + 0.25) - (impactPt[2] - 0.25))));
         
         vector<float> randomPoint;
         randomPoint.push_back(randomX);
@@ -233,10 +235,113 @@ void Cube::GenerateRandomInternalPoints(int numPoints){
         randomPoint.push_back(randomZ);
         
         myRandomPoints.push_back(randomPoint);
+        std::vector<float> cubeCenter;
+        cubeCenter.push_back(0.0f);
+        cubeCenter.push_back(0.0f);
+        cubeCenter.push_back(0.0f);
+        
+        //generate points within the mesh
+        for(int j = 0; j < myRandomPoints.size(); j++) {
+            //raycast from each point in myRandomPoints in the direction of center of mesh
+            std::vector<float> direction;
+            direction.push_back(cubeCenter[0] - myRandomPoints[j][0]);
+            direction.push_back(cubeCenter[1] - myRandomPoints[j][1]);
+            direction.push_back(cubeCenter[2] - myRandomPoints[j][2]);
+            
+        }
+        
         
         const btVector3 newPoint(randomX, randomY, randomZ);
         
         convexMesh.addPoint(newPoint);
     }
     convexHulls.push_back(convexMesh);
+}
+
+Intersection Cube::intersectImpl(const Ray &ray) const
+{
+    Intersection inter;
+    glm::vec3 min = glm::vec3(-0.5f, -0.5f, -0.5f);
+    glm::vec3 max = glm::vec3(0.5f, 0.5f, 0.5f);
+    glm::vec3 E = ray.orig;
+    float near = -FLT_MAX;
+    float far = FLT_MAX;
+    
+    if (nearlyEqual(ray.dir[0], 0.0f) && (E[0] < min[0] || E[0] > max[0]))
+    {
+        inter.t  = -1;
+        return inter;
+    }
+    else
+    {
+        float a = ((min[0] - E[0]) / ray.dir[0]);
+        float b = ((max[0] - E[0]) / ray.dir[0]);
+        if (a > b) std::swap(a, b);
+        if (a > near) near = a;
+        if (b < far) far = b;
+        if (near > far)
+        {
+            inter.t = -1;
+            return inter;
+        }
+        if (far < 0.0f)
+        {
+            inter.t = -1;
+            return inter;
+        }
+    }
+    
+    if (nearlyEqual(ray.dir[1], 0.0f) && (E[1]  < min[1] || E[1]  > max[1]))
+    {
+        inter.t = -1;
+        return inter;
+    }
+    else
+    {
+        float a = ((min[1] - E[1]) / ray.dir[1]);
+        float b = ((max[1] - E[1]) / ray.dir[1]);
+        if (a > b) std::swap(a, b);
+        if (a > near) near = a;
+        if (b < far) far = b;
+        if (near > far)
+        {
+            inter.t = -1;
+            return inter;
+        }
+        if (far < 0.0f)
+        {
+            inter.t = -1;
+            return inter;
+        }
+    }
+    
+    if (nearlyEqual(ray.dir[2], 0.0f) && (E[2] < min[2] || E[2] > max[2]))
+    {
+        inter.t = -1;
+        return inter;
+    }
+    else
+    {
+        float a = ((min[2] - E[2]) / ray.dir[2]);
+        float b = ((max[2] - E[2]) / ray.dir[2]);
+        if (a > b) std::swap(a, b);
+        if (a > near) near = a;
+        if (b < far) far = b;
+        if (near > far)
+        {
+            inter.t = -1;
+            return inter;
+        }
+        if (far < 0.0f)
+        {
+            inter.t = -1;
+            return inter;
+        }
+    }
+    
+    inter.t = near;
+    glm::vec3 nearPoint = E + ((float)inter.t*ray.dir);
+    
+    
+    return inter;
 }
