@@ -11,10 +11,10 @@
 
 #include <iostream>
 #include "Mesh.h"
-//#include "voro++.hh"
+#include "voro++.hh"
 
 //using namespace std;
-//using namespace voro;
+using namespace voro;
 
 class VoronoiTest{
 public:
