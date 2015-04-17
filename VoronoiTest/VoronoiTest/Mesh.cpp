@@ -18,9 +18,7 @@
 
 
 #include "Mesh.h"
-#include "Ray.h"
 #include "nearlyEqual.h"
-#include "Intersection.h"
 #include <BulletDynamics/btBulletDynamicsCommon.h>
 #include <BulletCollision/CollisionShapes/btConvexHullShape.h>
 
@@ -29,8 +27,7 @@
 int myEnds[NUM_ENDS][2];       /* array of 2D points */
 
 Mesh::Mesh(){
-    
-    
+    //numOfIntersections = 0;
 }
 
 void Mesh::DrawWireframe(){
@@ -48,9 +45,9 @@ void Cube::DrawRandomPoints(){
     glVertex3f(0.0f, 0.0f, 0.0f);
     std::vector<float> point;
     int i = 0;
-    std::cout<<myRandomPoints.size()<<std::endl;
-    for(i = 0; i < numRandomPoints; i++){ //FOR SOME REASON .SIZE() WASN'T WORKING
-        point = myRandomPoints.at(i);
+    std::cout<<numInternalPoints<<std::endl;
+    for(i = 0; i < numInternalPoints; i++){ //FOR SOME REASON .SIZE() WASN'T WORKING
+        point = myInternalPoints.at(i);
         glVertex3f(0.0f, 0.0f, 0.0f);
         glVertex3f(point.at(0), point.at(1), point.at(2));
     }
@@ -112,6 +109,7 @@ Cube::Cube(){
     maxY = 1;
     maxZ = 1;
     
+    numOfIntersections = 0;
     
 }
 
@@ -222,47 +220,69 @@ void Cube::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
     btConvexHullShape convexMesh;
     convexMesh = btConvexHullShape();
     
+    std::vector<float> cubeCenter;
+    cubeCenter.push_back(0.0f);
+    cubeCenter.push_back(0.0f);
+    cubeCenter.push_back(0.0f);
+    
     for(int i = 0; i < numPoints; i++){
         
         //http://stackoverflow.com/questions/686353/c-random-float-number-generation
-        float randomX = impactPt[0] + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[0] + 0.25) - (impactPt[0] - 0.25))));
-        float randomY = impactPt[1] + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[1] + 0.25) - (impactPt[1] - 0.25))));
-        float randomZ = impactPt[2]+ static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[2] + 0.25) - (impactPt[2] - 0.25))));
+        float randomX = impactPt[0] + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[0] + 0.5) - (impactPt[0] - 0.5))));
+        float randomY = impactPt[1] + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[1] + 0.5) - (impactPt[1] - 0.5))));
+        float randomZ = impactPt[2]+ static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[2] + 0.5) - (impactPt[2] - 0.5))));
         
+        //randomX = 0.0f;
+        //randomY = 2.0f;
+        //randomZ = 0.0f;
         vector<float> randomPoint;
         randomPoint.push_back(randomX);
         randomPoint.push_back(randomY);
         randomPoint.push_back(randomZ);
         
         myRandomPoints.push_back(randomPoint);
-        std::vector<float> cubeCenter;
-        cubeCenter.push_back(0.0f);
-        cubeCenter.push_back(0.0f);
-        cubeCenter.push_back(0.0f);
-        
-        //generate points within the mesh
-        for(int j = 0; j < myRandomPoints.size(); j++) {
-            //raycast from each point in myRandomPoints in the direction of center of mesh
-            std::vector<float> direction;
-            direction.push_back(cubeCenter[0] - myRandomPoints[j][0]);
-            direction.push_back(cubeCenter[1] - myRandomPoints[j][1]);
-            direction.push_back(cubeCenter[2] - myRandomPoints[j][2]);
-            
-        }
         
         
         const btVector3 newPoint(randomX, randomY, randomZ);
-        
         convexMesh.addPoint(newPoint);
+        }
+    
+    
+        //generate points within the mesh
+        for(int j = 0; j < numRandomPoints; j++) {
+            numOfIntersections = 0;
+            
+            //raycast from each point in myRandomPoints in the direction of center of mesh
+            float x = cubeCenter[0] - myRandomPoints[j][0];
+            float y = cubeCenter[1] - myRandomPoints[j][1];
+            float z = cubeCenter[2] - myRandomPoints[j][2];
+        
+            glm::vec3 d = glm::vec3(x, y, z);
+            glm::vec3 o = glm::vec3(myRandomPoints[j][0], myRandomPoints[j][1], myRandomPoints[j][2]);
+            Ray ray;
+            ray.orig = o;
+            ray.dir = d;
+        
+            intersectImpl(ray);
+        
+            //if the number of intersections is odd, add to internal points.
+            if(numOfIntersections %2 == 1) {
+                myInternalPoints.push_back(myRandomPoints[j]);
+                numInternalPoints++;
+            }
     }
     convexHulls.push_back(convexMesh);
 }
 
-Intersection Cube::intersectImpl(const Ray &ray) const
+
+Intersection Cube::intersectImpl(const Ray &ray) 
 {
     Intersection inter;
-    glm::vec3 min = glm::vec3(-0.5f, -0.5f, -0.5f);
-    glm::vec3 max = glm::vec3(0.5f, 0.5f, 0.5f);
+    //glm::vec3 min = glm::vec3(-0.5f, -0.5f, -0.5f);
+    //glm::vec3 max = glm::vec3(0.5f, 0.5f, 0.5f);
+    glm::vec3 min = glm::vec3(-1.0f, -1.0f, -1.0f);
+    glm::vec3 max = glm::vec3(1.0f, 1.0f, 1.0f);
+    
     glm::vec3 E = ray.orig;
     float near = -FLT_MAX;
     float far = FLT_MAX;
@@ -277,7 +297,10 @@ Intersection Cube::intersectImpl(const Ray &ray) const
         float a = ((min[0] - E[0]) / ray.dir[0]);
         float b = ((max[0] - E[0]) / ray.dir[0]);
         if (a > b) std::swap(a, b);
-        if (a > near) near = a;
+        if (a > near) {
+            near = a;
+            //numOfIntersections++;
+        }
         if (b < far) far = b;
         if (near > far)
         {
@@ -289,8 +312,19 @@ Intersection Cube::intersectImpl(const Ray &ray) const
             inter.t = -1;
             return inter;
         }
+        if( near < far && far >= 0.0f) {
+            //numOfIntersections++;
+        }
+        if(near >= 0.0f && near < 10000.0f) {
+            numOfIntersections++;
+        }
+        if(far >= 0.0f && far < 10000.0f) {
+            numOfIntersections++;
+        }
     }
     
+    near = -FLT_MAX;
+    far = FLT_MAX;
     if (nearlyEqual(ray.dir[1], 0.0f) && (E[1]  < min[1] || E[1]  > max[1]))
     {
         inter.t = -1;
@@ -301,7 +335,10 @@ Intersection Cube::intersectImpl(const Ray &ray) const
         float a = ((min[1] - E[1]) / ray.dir[1]);
         float b = ((max[1] - E[1]) / ray.dir[1]);
         if (a > b) std::swap(a, b);
-        if (a > near) near = a;
+        if (a > near) {
+            near = a;
+            //numOfIntersections++;
+        }
         if (b < far) far = b;
         if (near > far)
         {
@@ -313,8 +350,19 @@ Intersection Cube::intersectImpl(const Ray &ray) const
             inter.t = -1;
             return inter;
         }
+        if( near < far && far >= 0.0f) {
+            //numOfIntersections++;
+        }
+        if(near >= 0.0f && near < 10000.0f) {
+            numOfIntersections++;
+        }
+        if(far >= 0.0f && far < 10000.0f) {
+            numOfIntersections++;
+        }
     }
     
+    near = -FLT_MAX;
+    far = FLT_MAX;
     if (nearlyEqual(ray.dir[2], 0.0f) && (E[2] < min[2] || E[2] > max[2]))
     {
         inter.t = -1;
@@ -325,7 +373,10 @@ Intersection Cube::intersectImpl(const Ray &ray) const
         float a = ((min[2] - E[2]) / ray.dir[2]);
         float b = ((max[2] - E[2]) / ray.dir[2]);
         if (a > b) std::swap(a, b);
-        if (a > near) near = a;
+        if (a > near) {
+            near = a;
+            //numOfIntersections++;
+        }
         if (b < far) far = b;
         if (near > far)
         {
@@ -337,11 +388,22 @@ Intersection Cube::intersectImpl(const Ray &ray) const
             inter.t = -1;
             return inter;
         }
+        if( near < far && far >= 0.0f) {
+            //numOfIntersections++;
+        }
+        if(near >= 0.0f && near < 10000.0f) {
+            numOfIntersections++;
+        }
+        if(far >= 0.0f && far < 10000.0f) {
+            numOfIntersections++;
+        }
     }
     
     inter.t = near;
-    glm::vec3 nearPoint = E + ((float)inter.t*ray.dir);
+    //numOfIntersections++;
+    //glm::vec3 nearPoint = E + ((float)inter.t * ray.dir);
     
     
     return inter;
 }
+
