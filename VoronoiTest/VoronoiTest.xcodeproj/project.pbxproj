@@ -403,10 +403,10 @@
 		6DE5270E1AE156BC0048DA82 /* vec4.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = vec4.hpp; sourceTree = "<group>"; };
 		6DE5270F1AE156BC0048DA82 /* vector_relational.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = vector_relational.hpp; sourceTree = "<group>"; };
 		6DE527111AE156BC0048DA82 /* xstream.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = xstream.hpp; sourceTree = "<group>"; };
-		6DE527121AE157050048DA82 /* Intersection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Intersection.h; path = ../../../../../usr/local/lib/Intersection.h; sourceTree = "<group>"; };
-		6DE527131AE157050048DA82 /* Ray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Ray.h; path = ../../../../../usr/local/lib/Ray.h; sourceTree = "<group>"; };
-		6DE527141AE157FC0048DA82 /* nearlyEqual.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = nearlyEqual.cpp; path = ../../../../../usr/local/lib/nearlyEqual.cpp; sourceTree = "<group>"; };
-		6DE527151AE157FC0048DA82 /* nearlyEqual.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = nearlyEqual.h; path = ../../../../../usr/local/lib/nearlyEqual.h; sourceTree = "<group>"; };
+		6DE527121AE157050048DA82 /* Intersection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Intersection.h; path = VoronoiTest/Intersection.h; sourceTree = SOURCE_ROOT; };
+		6DE527131AE157050048DA82 /* Ray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Ray.h; path = VoronoiTest/Ray.h; sourceTree = SOURCE_ROOT; };
+		6DE527141AE157FC0048DA82 /* nearlyEqual.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nearlyEqual.cpp; sourceTree = "<group>"; };
+		6DE527151AE157FC0048DA82 /* nearlyEqual.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nearlyEqual.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
