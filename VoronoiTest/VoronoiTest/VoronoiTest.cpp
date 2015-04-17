@@ -15,7 +15,7 @@ VoronoiTest::VoronoiTest(){
 //number of blocks that the container is divided into:
 const int numX=6,numY=6,numZ=6;
 
-void VoronoiTest::ComputeVoronoiDecompCube(Cube hitCube, std::vector<std::vector<float>> internalRandomPoints){
+void VoronoiTest::ComputeVoronoiDecompCube(Cube hitCube, vector<glm::vec3> internalRandomPoints){
 
     double maxX = hitCube.maxX;
     double maxY = hitCube.maxY;

@@ -106,13 +106,12 @@ int	main(int argc, char **argv)
     pot.push_back(0.5f);
     pot.push_back(0.5f);
     //myCube.GenerateRandomInternalPoints(500, pot);
-    myCube.DebugGenerateRandomPts(50);
+    vector<glm::vec3> randomDebugPoints = myCube.DebugGenerateRandomPts(10);
     
     
     //Voronoi Decomp
-    //VoronoiTest voroTester = VoronoiTest();
-    //voroTester.ComputeVoronoiDecompCube(, <#std::vector<std::vector<float> > internalRandomPoints#>)
-    
+    VoronoiTest voroTester = VoronoiTest();
+    voroTester.ComputeVoronoiDecompCube(myCube, randomDebugPoints);
     
     /* Creation of the window */
     glutInit(&argc, argv);
