@@ -22,6 +22,7 @@
 		3E4F4D411ADC796200EDBF9A /* libBulletSoftBodySolvers_OpenCL_Mini.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4F4D391ADC796200EDBF9A /* libBulletSoftBodySolvers_OpenCL_Mini.a */; };
 		3E4F4D421ADC796200EDBF9A /* libLinearMath.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4F4D3A1ADC796200EDBF9A /* libLinearMath.a */; };
 		3E4F4D431ADC796200EDBF9A /* libMiniCL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4F4D3B1ADC796200EDBF9A /* libMiniCL.a */; };
+		3E4F4D9E1AE18CE900EDBF9A /* glm in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4F4D9D1AE18CE900EDBF9A /* glm */; };
 		6DE527161AE157FC0048DA82 /* nearlyEqual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DE527141AE157FC0048DA82 /* nearlyEqual.cpp */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +58,7 @@
 		3E4F4D391ADC796200EDBF9A /* libBulletSoftBodySolvers_OpenCL_Mini.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletSoftBodySolvers_OpenCL_Mini.a; path = ../../../../usr/local/lib/libBulletSoftBodySolvers_OpenCL_Mini.a; sourceTree = "<group>"; };
 		3E4F4D3A1ADC796200EDBF9A /* libLinearMath.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLinearMath.a; path = ../../../../usr/local/lib/libLinearMath.a; sourceTree = "<group>"; };
 		3E4F4D3B1ADC796200EDBF9A /* libMiniCL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMiniCL.a; path = ../../../../usr/local/lib/libMiniCL.a; sourceTree = "<group>"; };
+		3E4F4D9D1AE18CE900EDBF9A /* glm */ = {isa = PBXFileReference; lastKnownFileType = folder; name = glm; path = ../../Desktop/glm; sourceTree = "<group>"; };
 		6DE525B31AE156BC0048DA82 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		6DE525B41AE156BC0048DA82 /* common.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = common.hpp; sourceTree = "<group>"; };
 		6DE525B61AE156BC0048DA82 /* _detail.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = _detail.hpp; sourceTree = "<group>"; };
@@ -414,6 +416,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E4F4D9E1AE18CE900EDBF9A /* glm in Frameworks */,
 				3E4F4D3C1ADC796200EDBF9A /* libBulletCollision.a in Frameworks */,
 				3E4F4D3D1ADC796200EDBF9A /* libBulletDynamics.a in Frameworks */,
 				3E4F4D3E1ADC796200EDBF9A /* libBulletMultiThreaded.a in Frameworks */,
@@ -434,6 +437,7 @@
 		0427B9651ADA4026009CC475 = {
 			isa = PBXGroup;
 			children = (
+				3E4F4D9D1AE18CE900EDBF9A /* glm */,
 				6DE525B21AE156BC0048DA82 /* glm */,
 				3E4F4D341ADC796200EDBF9A /* libBulletCollision.a */,
 				3E4F4D351ADC796200EDBF9A /* libBulletDynamics.a */,

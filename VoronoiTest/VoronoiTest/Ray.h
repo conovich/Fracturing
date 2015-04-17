@@ -2,13 +2,14 @@
 #define RAY_H
 
 #define GLM_FORCE_RADIANS
-#include "glm.hpp"
+#include "glm/glm.hpp"
 
 using namespace std;
 
 struct Ray
 {
 public:
+    
     glm::vec3 orig;
     glm::vec3 dir;
     
