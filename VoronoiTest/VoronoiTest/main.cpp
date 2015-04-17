@@ -28,6 +28,7 @@
 #include	<math.h>
 
 #include "Mesh.h"
+#include "VoronoiTest.h"
 
 
 Cube myCube;
@@ -105,6 +106,13 @@ int	main(int argc, char **argv)
     pot.push_back(0.5f);
     pot.push_back(0.5f);
     myCube.GenerateRandomInternalPoints(500, pot);
+    
+    
+    
+    //Voronoi Decomp
+    VoronoiTest voroTester = VoronoiTest();
+    //voroTester.ComputeVoronoiDecompCube(, <#std::vector<std::vector<float> > internalRandomPoints#>)
+    
     
     /* Creation of the window */
     glutInit(&argc, argv);
