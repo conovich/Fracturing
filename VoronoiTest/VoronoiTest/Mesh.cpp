@@ -110,7 +110,36 @@ Cube::Cube(){
     maxZ = 1;
     
     numOfIntersections = 0;
+    //myVertices = GetComponent<MeshFilter>().mesh.vertices;
     
+}
+
+//create a cube using the
+Cube::Cube(std::vector<glm::vec3> vertices) {
+    minX = 10000;
+    minY = 10000;
+    minZ = 10000;
+    maxX = -10000;
+    maxY = -10000;
+    maxZ = -10000;
+    
+    for(int i = 0; i < vertices.size(); i++) {
+        //myVertices.push_back(vertices[i]);
+        std::vector<float> nv;
+        nv.push_back((vertices[i][0]));
+        nv.push_back((vertices[i][1]));
+        nv.push_back((vertices[i][2]));
+        myPoints.push_back(nv);
+        
+        //get the minx's and max's when creating custom cube
+        if(vertices[i][0] < minX) minX = vertices[i][0];
+        if(vertices[i][1] < minY) minY = vertices[i][1];
+        if(vertices[i][2] < minZ) minZ = vertices[i][2];
+        if(vertices[i][0] > maxX) maxX = vertices[i][0];
+        if(vertices[i][1] > maxY) maxY = vertices[i][1];
+        if(vertices[i][2] > maxZ) maxZ = vertices[i][2];
+    }
+    numOfIntersections = 0;
 }
 
 void Cube::DrawWireframe(){
@@ -211,6 +240,50 @@ void Cube::DrawWireframe(){
     
 }
 
+std::vector<glm::vec3> Cube::DebugGenerateRandomPts(int numberOfPts) {
+    //convex hull stuff
+    vector<btConvexHullShape> convexHulls;
+    //convexHull = btConvexHullShape();
+    btConvexHullShape convexMesh;
+    convexMesh = btConvexHullShape();
+    
+    //clear internal points
+    myInternalPoints.clear();
+    
+    //vector of new random points
+    std::vector<glm::vec3> newRandomPts;
+    std::vector<float> cubeCenter;
+    cubeCenter.push_back((minX+maxX)/2.0f);
+    cubeCenter.push_back((minX+maxX)/2.0f);
+    cubeCenter.push_back((minX+maxX)/2.0f);
+    
+    for(int i = 0; i < numberOfPts; i++) {
+        
+        //http://stackoverflow.com/questions/686353/c-random-float-number-generation
+        float randomX = minX + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(maxX - minX)));
+        float randomY = minY  + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(maxY - minY)));
+        float randomZ = minZ + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(maxZ - minZ)));
+        
+        //randomX = 0.0f;
+        //randomY = 2.0f;
+        //randomZ = 0.0f;
+        vector<float> randomPoint;
+        randomPoint.push_back(randomX);
+        randomPoint.push_back(randomY);
+        randomPoint.push_back(randomZ);
+        
+        myInternalPoints.push_back(randomPoint);
+        numInternalPoints++;
+        newRandomPts.push_back(glm::vec3(randomX, randomY, randomZ));
+        
+        const btVector3 newPoint(randomX, randomY, randomZ);
+        convexMesh.addPoint(newPoint);
+    }
+    
+    
+    return newRandomPts;
+}
+
 void Cube::GenerateRandomInternalPoints(int numPoints, std::vector<float> impactPt){
     numRandomPoints = numPoints;
     
@@ -221,9 +294,9 @@ void Cube::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
     convexMesh = btConvexHullShape();
     
     std::vector<float> cubeCenter;
-    cubeCenter.push_back(0.0f);
-    cubeCenter.push_back(0.0f);
-    cubeCenter.push_back(0.0f);
+    cubeCenter.push_back((minX+maxX)/2.0f);
+    cubeCenter.push_back((minX+maxX)/2.0f);
+    cubeCenter.push_back((minX+maxX)/2.0f);
     
     for(int i = 0; i < numPoints; i++){
         

@@ -28,7 +28,7 @@
 #include	<math.h>
 
 #include "Mesh.h"
-
+#include "VoronoiTest.h"
 
 
 Cube myCube;
@@ -96,15 +96,22 @@ void		KeyboardFunc(unsigned char key, int x, int y)
 }
 
 
-int		main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-    
+    std::vector<glm::vec3> listOfVerts;
+    //listOfVerts.push_back(glm::vec3(-2)
     myCube = Cube();
     std::vector<float> pot;
     pot.push_back(0.5f);
     pot.push_back(0.5f);
     pot.push_back(0.5f);
-    myCube.GenerateRandomInternalPoints(100, pot);
+    //myCube.GenerateRandomInternalPoints(500, pot);
+    vector<glm::vec3> randomDebugPoints = myCube.DebugGenerateRandomPts(10);
+    
+    
+    //Voronoi Decomp
+    VoronoiTest voroTester = VoronoiTest();
+    voroTester.ComputeVoronoiDecompCube(myCube, randomDebugPoints);
     
     /* Creation of the window */
     glutInit(&argc, argv);
