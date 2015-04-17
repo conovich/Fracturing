@@ -104,7 +104,7 @@ int		main(int argc, char **argv)
     pot.push_back(0.5f);
     pot.push_back(0.5f);
     pot.push_back(0.5f);
-    myCube.GenerateRandomInternalPoints(50, pot);
+    myCube.GenerateRandomInternalPoints(100, pot);
     
     /* Creation of the window */
     glutInit(&argc, argv);

@@ -263,13 +263,24 @@ void Cube::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
             ray.orig = o;
             ray.dir = d;
         
-            intersectImpl(ray);
+            //intersectImpl(ray);
+            
+            if(myRandomPoints[j][0] <= 1.0f && myRandomPoints[j][0] >= -1.0f) {
+                if(myRandomPoints[j][1] <= 1.0f && myRandomPoints[j][1] >= -1.0f) {
+                    if(myRandomPoints[j][2] <= 1.0f && myRandomPoints[j][2] >= -1.0f) {
+                        myInternalPoints.push_back(myRandomPoints[j]);
+                        numInternalPoints++;
+                    }
+                }
+            }
         
+            /**
             //if the number of intersections is odd, add to internal points.
             if(numOfIntersections %2 == 1) {
                 myInternalPoints.push_back(myRandomPoints[j]);
                 numInternalPoints++;
             }
+             */
     }
     convexHulls.push_back(convexMesh);
 }
