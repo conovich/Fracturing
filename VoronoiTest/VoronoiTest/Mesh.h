@@ -19,7 +19,7 @@ using namespace std;
 
 
 
-class Mesh{
+class Mesh {
 public:
     Mesh();
     virtual void DrawWireframe();
@@ -34,6 +34,7 @@ class Cube : public Mesh
 {
 public:
     Cube();
+    Cube(std::vector<glm::vec3> v);
     virtual void  DrawWireframe();
     
     std::vector<std::vector<float>> myRandomPoints;
@@ -65,6 +66,7 @@ public:
     float maxZ;
     
     int numOfIntersections;
+    std::vector<glm::vec3> myVertices;
     
 };
 

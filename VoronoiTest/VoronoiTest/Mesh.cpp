@@ -110,7 +110,36 @@ Cube::Cube(){
     maxZ = 1;
     
     numOfIntersections = 0;
+    //myVertices = GetComponent<MeshFilter>().mesh.vertices;
     
+}
+
+//create a cube using the
+Cube::Cube(std::vector<glm::vec3> vertices) {
+    minX = 10000;
+    minY = 10000;
+    minZ = 10000;
+    maxX = -10000;
+    maxY = -10000;
+    maxZ = -10000;
+    
+    for(int i = 0; i < vertices.size(); i++) {
+        //myVertices.push_back(vertices[i]);
+        std::vector<float> nv;
+        nv.push_back((vertices[i][0]));
+        nv.push_back((vertices[i][1]));
+        nv.push_back((vertices[i][2]));
+        myPoints.push_back(nv);
+        
+        //get the minx's and max's when creating custom cube
+        if(vertices[i][0] < minX) minX = vertices[i][0];
+        if(vertices[i][1] < minY) minY = vertices[i][1];
+        if(vertices[i][2] < minZ) minZ = vertices[i][2];
+        if(vertices[i][0] > maxX) maxX = vertices[i][0];
+        if(vertices[i][1] > maxY) maxY = vertices[i][1];
+        if(vertices[i][2] > maxZ) maxZ = vertices[i][2];
+    }
+    numOfIntersections = 0;
 }
 
 void Cube::DrawWireframe(){
@@ -221,9 +250,9 @@ void Cube::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
     convexMesh = btConvexHullShape();
     
     std::vector<float> cubeCenter;
-    cubeCenter.push_back(0.0f);
-    cubeCenter.push_back(0.0f);
-    cubeCenter.push_back(0.0f);
+    cubeCenter.push_back((minX+maxX)/2.0f);
+    cubeCenter.push_back((minX+maxX)/2.0f);
+    cubeCenter.push_back((minX+maxX)/2.0f);
     
     for(int i = 0; i < numPoints; i++){
         
