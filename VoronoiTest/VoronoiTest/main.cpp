@@ -26,6 +26,7 @@
 #include <GL/glut.h>
 #endif
 #include	<math.h>
+
 #include "Mesh.h"
 
 
@@ -99,8 +100,11 @@ int		main(int argc, char **argv)
 {
     
     myCube = Cube();
-    myCube.GenerateRandomInternalPoints(10);
-    
+    std::vector<float> pot;
+    pot.push_back(0.5f);
+    pot.push_back(0.5f);
+    pot.push_back(0.5f);
+    myCube.GenerateRandomInternalPoints(50, pot);
     
     /* Creation of the window */
     glutInit(&argc, argv);

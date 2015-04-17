@@ -11,7 +11,10 @@
 
 #include <iostream>
 #include <vector>
-#include <BulletCollision/CollisionShapes/btConvexHullShape.h>
+
+#include "Intersection.h"
+#include "Ray.h"
+
 using namespace std;
 
 
@@ -23,6 +26,7 @@ public:
     virtual void DrawRandomPoints();
     std::vector<std::vector<float>> myRandomPoints;
     //virtual void GenerateRandomInternalPoints(int numPoints);
+    //int numOfIntersections;
     
 };
 
@@ -33,10 +37,14 @@ public:
     virtual void  DrawWireframe();
     
     std::vector<std::vector<float>> myRandomPoints;
+    std::vector<std::vector<float>> myInternalPoints;
     int numRandomPoints;
-    vector<btConvexHullShape> GenerateRandomInternalPoints(int numPoints);
+    int numInternalPoints;
+    void GenerateRandomInternalPoints(int numPoints, std::vector<float> impactPoint);
     virtual void DrawRandomPoints();
     
+    Intersection intersectImpl(const Ray &ray);
+    //Intersection intersect(const glm::mat4 &T, Ray ray_world);
     
     std::vector<std::vector<float>> myPoints;
     std::vector<float> p1;
@@ -56,6 +64,7 @@ public:
     float maxY;
     float maxZ;
     
+    int numOfIntersections;
     
 };
 
