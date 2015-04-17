@@ -845,7 +845,7 @@
 				6D82CDA91AE192A9002F78ED /* src */,
 			);
 			name = "voro++-0.4.6";
-			path = "../../Downloads/voro++-0.4.6";
+			path = "VoronoiTest/voro++-0.4.6";
 			sourceTree = "<group>";
 		};
 		6D82CC6E1AE192A9002F78ED /* examples */ = {
