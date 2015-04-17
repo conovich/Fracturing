@@ -210,7 +210,7 @@ void Cube::DrawWireframe(){
     
 }
 
-void Cube::GenerateRandomInternalPoints(int numPoints){
+vector<btConvexHullShape> Cube::GenerateRandomInternalPoints(int numPoints){
     numRandomPoints = numPoints;
     
     myRandomPoints.clear();
@@ -218,7 +218,9 @@ void Cube::GenerateRandomInternalPoints(int numPoints){
     //convexHull = btConvexHullShape();
     btConvexHullShape convexMesh;
     convexMesh = btConvexHullShape();
-    
+    //btConvexHullComputer* convexhc = new btConvexHullComputer();
+    //btAlignedObjectArray<btVector3> convexMesh;
+    //convexMesh.resize(10);
     for(int i = 0; i < numPoints; i++){
         
         //http://stackoverflow.com/questions/686353/c-random-float-number-generation
@@ -238,5 +240,9 @@ void Cube::GenerateRandomInternalPoints(int numPoints){
         
         convexMesh.addPoint(newPoint);
     }
+    
     convexHulls.push_back(convexMesh);
+    
+    
+    return convexHulls;
 }

@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include <vector>
-
+#include <BulletCollision/CollisionShapes/btConvexHullShape.h>
 using namespace std;
 
 
@@ -34,7 +34,7 @@ public:
     
     std::vector<std::vector<float>> myRandomPoints;
     int numRandomPoints;
-    void GenerateRandomInternalPoints(int numPoints);
+    vector<btConvexHullShape> GenerateRandomInternalPoints(int numPoints);
     virtual void DrawRandomPoints();
     
     
