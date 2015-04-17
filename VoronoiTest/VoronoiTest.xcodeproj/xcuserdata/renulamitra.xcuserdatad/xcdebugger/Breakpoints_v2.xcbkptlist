@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VoronoiTest/Mesh.cpp"
-            timestampString = "450995103.289261"
+            timestampString = "450997706.702689"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "432"
-            endingLineNumber = "432"
+            startingLineNumber = "471"
+            endingLineNumber = "471"
             landmarkName = "Cube::intersectImpl(const Ray &amp;ray)"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VoronoiTest/Mesh.cpp"
-            timestampString = "450995103.289261"
+            timestampString = "450997706.702689"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "442"
-            endingLineNumber = "442"
+            startingLineNumber = "481"
+            endingLineNumber = "481"
             landmarkName = "Cube::intersectImpl(const Ray &amp;ray)"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,27 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VoronoiTest/Mesh.cpp"
-            timestampString = "450995103.289261"
+            timestampString = "450997706.702689"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "320"
-            endingLineNumber = "320"
-            landmarkName = "Cube::intersectImpl(const Ray &amp;ray)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VoronoiTest/Mesh.cpp"
-            timestampString = "450995103.289261"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "244"
-            endingLineNumber = "244"
+            startingLineNumber = "359"
+            endingLineNumber = "359"
             landmarkName = "Cube::GenerateRandomInternalPoints(int numPoints, std::vector&lt;float&gt; impactPt)"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,11 +58,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VoronoiTest/Mesh.cpp"
-            timestampString = "450995103.289261"
+            timestampString = "450997616.581581"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "296"
-            endingLineNumber = "296"
+            startingLineNumber = "255"
+            endingLineNumber = "255"
+            landmarkName = "Cube::DebugGenerateRandomPts(int numberOfPts)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VoronoiTest/Mesh.cpp"
+            timestampString = "450997706.702689"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "335"
+            endingLineNumber = "335"
             landmarkName = "Cube::GenerateRandomInternalPoints(int numPoints, std::vector&lt;float&gt; impactPt)"
             landmarkType = "5">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VoronoiTest/Mesh.cpp"
-            timestampString = "450995103.289261"
+            timestampString = "450997706.702689"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "443"
-            endingLineNumber = "443"
+            startingLineNumber = "482"
+            endingLineNumber = "482"
             landmarkName = "Cube::intersectImpl(const Ray &amp;ray)"
             landmarkType = "5">
          </BreakpointContent>

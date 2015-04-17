@@ -240,6 +240,50 @@ void Cube::DrawWireframe(){
     
 }
 
+std::vector<glm::vec3> Cube::DebugGenerateRandomPts(int numberOfPts) {
+    //convex hull stuff
+    vector<btConvexHullShape> convexHulls;
+    //convexHull = btConvexHullShape();
+    btConvexHullShape convexMesh;
+    convexMesh = btConvexHullShape();
+    
+    //clear internal points
+    myInternalPoints.clear();
+    
+    //vector of new random points
+    std::vector<glm::vec3> newRandomPts;
+    std::vector<float> cubeCenter;
+    cubeCenter.push_back((minX+maxX)/2.0f);
+    cubeCenter.push_back((minX+maxX)/2.0f);
+    cubeCenter.push_back((minX+maxX)/2.0f);
+    
+    for(int i = 0; i < numberOfPts; i++) {
+        
+        //http://stackoverflow.com/questions/686353/c-random-float-number-generation
+        float randomX = minX + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(maxX - minX)));
+        float randomY = minY  + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(maxY - minY)));
+        float randomZ = minZ + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(maxZ - minZ)));
+        
+        //randomX = 0.0f;
+        //randomY = 2.0f;
+        //randomZ = 0.0f;
+        vector<float> randomPoint;
+        randomPoint.push_back(randomX);
+        randomPoint.push_back(randomY);
+        randomPoint.push_back(randomZ);
+        
+        myInternalPoints.push_back(randomPoint);
+        numInternalPoints++;
+        newRandomPts.push_back(glm::vec3(randomX, randomY, randomZ));
+        
+        const btVector3 newPoint(randomX, randomY, randomZ);
+        convexMesh.addPoint(newPoint);
+    }
+    
+    
+    return newRandomPts;
+}
+
 void Cube::GenerateRandomInternalPoints(int numPoints, std::vector<float> impactPt){
     numRandomPoints = numPoints;
     

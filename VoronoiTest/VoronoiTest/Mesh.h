@@ -43,6 +43,7 @@ public:
     int numInternalPoints;
     void GenerateRandomInternalPoints(int numPoints, std::vector<float> impactPoint);
     virtual void DrawRandomPoints();
+    std::vector<glm::vec3> DebugGenerateRandomPts(int numberOfPts);
     
     Intersection intersectImpl(const Ray &ray);
     //Intersection intersect(const glm::mat4 &T, Ray ray_world);

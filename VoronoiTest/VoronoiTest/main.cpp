@@ -105,12 +105,12 @@ int	main(int argc, char **argv)
     pot.push_back(0.5f);
     pot.push_back(0.5f);
     pot.push_back(0.5f);
-    myCube.GenerateRandomInternalPoints(500, pot);
-    
+    //myCube.GenerateRandomInternalPoints(500, pot);
+    myCube.DebugGenerateRandomPts(50);
     
     
     //Voronoi Decomp
-    VoronoiTest voroTester = VoronoiTest();
+    //VoronoiTest voroTester = VoronoiTest();
     //voroTester.ComputeVoronoiDecompCube(, <#std::vector<std::vector<float> > internalRandomPoints#>)
     
     
