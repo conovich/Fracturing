@@ -82,6 +82,84 @@ void Cube::DrawInternalPoints(){
     glEnd();
 }
 
+int Mesh::intersectImpl(const Ray &ray)
+{
+    Intersection inter;
+    Intersection smallest_inter;
+    smallest_inter.t = -1;
+    
+    //clear the number of intersections
+    numOfIntersections = 0;
+    
+    //loop through the indices
+    for(int i = 0; i < myIndices.size(); i+=3)
+    {
+        glm::vec3 p0 = myVertices[myIndices[i]];
+        glm::vec3 p1 = myVertices[myIndices[i+1]];
+        glm::vec3 p2 = myVertices[myIndices[i+2]];
+        
+        inter = triangleIntersect(p0, p1, p2, ray); //check every face
+        if(smallest_inter.t == -1) smallest_inter = inter; //set smallest_inter to the first intersection
+        else if((inter.t < smallest_inter.t) && inter.t != -1) {
+            smallest_inter = inter;
+            numOfIntersections++;  //only add to numOfIntersections if t != -1
+        }
+        
+    }
+    return numOfIntersections;
+}
+
+Intersection Mesh::triangleIntersect(glm::vec3 v0, glm::vec3 v1, glm::vec3 v2, const Ray &ray)
+{
+    
+    Intersection inter;
+    glm::vec3 xc = glm::cross((v1 - v0), (v2 - v0));
+    glm::vec3 p = glm::cross(ray.dir, v2 - v0);
+    glm::vec3 norm = glm::normalize(xc);
+    
+    if (abs(norm[0]) < .0001f && abs(norm[1]) < .0001f && abs(norm[2]) < .0001){
+        inter.t = -1;
+        return inter;;
+    }
+    
+    float t;
+    float a = glm::dot(v1 - v0, p);
+    
+    if (a < .00001 && a > -.00001){
+        inter.t = -1;
+        return inter;
+    }
+    else{
+        float f = 1.0f/a;
+        glm::vec3 s = ray.orig - v0;
+        float u = f*(glm::dot(s, p));
+        if ( u < 0.0f || u > 1.0f){
+            inter.t = -1;
+            return inter;
+        }
+        
+        glm::vec3 q = glm::cross(s, v1 - v0);
+        float v = f*glm::dot(ray.dir, q);
+        
+        if (v < 0.0f || u + v > 1.0f){
+            inter.t = -1;
+            return inter;
+        }
+        
+        t = f*glm::dot(v2 - v0, q); //set t
+        
+        if (t < 0){
+            inter.t = -1;
+            return inter;
+        }
+    }
+    
+    inter.t = t;
+    inter.normal = xc;
+    
+    return inter;
+}
+
 Cube::Cube(){
     //top face
     /**

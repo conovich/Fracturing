@@ -35,7 +35,7 @@ public:
     int numRandomPoints;
     int numInternalPoints;
     
-    Intersection intersectImpl(const Ray &ray);
+    int intersectImpl(const Ray &ray);
     Intersection triangleIntersect(glm::vec3 v0, glm::vec3 v1, glm::vec3 v2, const Ray &ray);
 
     
