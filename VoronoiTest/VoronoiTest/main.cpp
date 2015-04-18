@@ -53,7 +53,7 @@ void		DisplayFunc(void)
     
     
     myCube.DrawWireframe();
-    myCube.DrawRandomPoints();
+    myCube.DrawInternalPoints();
     
     
     
@@ -99,19 +99,27 @@ void		KeyboardFunc(unsigned char key, int x, int y)
 int	main(int argc, char **argv)
 {
     std::vector<glm::vec3> listOfVerts;
-    //listOfVerts.push_back(glm::vec3(-2)
-    myCube = Cube();
+    listOfVerts.push_back(glm::vec3(-1, 1, -1));
+    listOfVerts.push_back(glm::vec3(1, 1, -1));
+    listOfVerts.push_back(glm::vec3(1, 1, 1));
+    listOfVerts.push_back(glm::vec3(-1, 1, 1));
+    listOfVerts.push_back(glm::vec3(-1, -1, -1));
+    listOfVerts.push_back(glm::vec3(1, -1, -1));
+    listOfVerts.push_back(glm::vec3(1, -1, 1));
+    listOfVerts.push_back(glm::vec3(-1, -1, 1));
+    myCube = Cube(listOfVerts);
+    //myCube = Cube();
     std::vector<float> pot;
     pot.push_back(0.5f);
     pot.push_back(0.5f);
     pot.push_back(0.5f);
-    //myCube.GenerateRandomInternalPoints(500, pot);
-    vector<glm::vec3> randomDebugPoints = myCube.DebugGenerateRandomPts(10);
+    myCube.GenerateRandomInternalPoints(500, pot);
     
     
     //Voronoi Decomp
-    VoronoiTest voroTester = VoronoiTest();
-    voroTester.ComputeVoronoiDecompCube(myCube, randomDebugPoints);
+    //VoronoiTest voroTester = VoronoiTest();
+    //vector<glm::vec3> randomDebugPoints = myCube.DebugGenerateRandomPts(10);
+    //voroTester.ComputeVoronoiDecompCube(myCube, randomDebugPoints);
     
     /* Creation of the window */
     glutInit(&argc, argv);

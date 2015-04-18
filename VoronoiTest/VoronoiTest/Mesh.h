@@ -22,11 +22,22 @@ using namespace std;
 class Mesh {
 public:
     Mesh();
+    Mesh(std::vector<glm::vec3> vert, std::vector<int> indices);
     virtual void DrawWireframe();
-    virtual void DrawRandomPoints();
+    virtual void DrawInternalPoints();
+    
     std::vector<std::vector<float>> myRandomPoints;
+    std::vector<std::vector<float>>myInternalPoints;
+    std::vector<glm::vec3> myVertices;
+    std::vector<int> myIndices;
     //virtual void GenerateRandomInternalPoints(int numPoints);
-    //int numOfIntersections;
+    int numOfIntersections;
+    int numRandomPoints;
+    int numInternalPoints;
+    
+    int intersectImpl(const Ray &ray);
+    Intersection triangleIntersect(glm::vec3 v0, glm::vec3 v1, glm::vec3 v2, const Ray &ray);
+
     
 };
 
@@ -42,13 +53,15 @@ public:
     int numRandomPoints;
     int numInternalPoints;
     void GenerateRandomInternalPoints(int numPoints, std::vector<float> impactPoint);
-    virtual void DrawRandomPoints();
+    virtual void DrawInternalPoints();
     std::vector<glm::vec3> DebugGenerateRandomPts(int numberOfPts);
     
     Intersection intersectImpl(const Ray &ray);
     //Intersection intersect(const glm::mat4 &T, Ray ray_world);
     
     std::vector<std::vector<float>> myPoints;
+    
+    /**
     std::vector<float> p1;
     std::vector<float> p2;
     std::vector<float> p3;
@@ -57,6 +70,15 @@ public:
     std::vector<float> p6;
     std::vector<float> p7;
     std::vector<float> p8;
+    */
+    glm::vec3 p1;
+    glm::vec3 p2;
+    glm::vec3 p3;
+    glm::vec3 p4;
+    glm::vec3 p5;
+    glm::vec3 p6;
+    glm::vec3 p7;
+    glm::vec3 p8;
     
     float minX;
     float minY;

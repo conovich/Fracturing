@@ -30,16 +30,43 @@ Mesh::Mesh(){
     //numOfIntersections = 0;
 }
 
+Mesh::Mesh(std::vector<glm::vec3> vertices, std::vector<int> indices) {
+    numOfIntersections = 0;
+    
+    //add vertices from mesh to myVertices
+    for(int i = 0; i < vertices.size(); i++) {
+        myVertices.push_back(vertices[i]);
+    }
+    
+    //add triangle indices to myIndices
+    for(int j = 0; j < indices.size(); j++) {
+        myIndices.push_back(indices[j]);
+    }
+    
+}
+
 void Mesh::DrawWireframe(){
     
     
 }
 
-void Mesh::DrawRandomPoints(){
+void Mesh::DrawInternalPoints(){
+    glBegin(GL_POINTS);
+    glColor3f(1, 0, 0);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    std::vector<float> point;
+    int i = 0;
+    std::cout<<numInternalPoints<<std::endl;
+    for(i = 0; i < numInternalPoints; i++){ //FOR SOME REASON .SIZE() WASN'T WORKING
+        point = myInternalPoints.at(i);
+        glVertex3f(0.0f, 0.0f, 0.0f);
+        glVertex3f(point.at(0), point.at(1), point.at(2));
+    }
     
+    glEnd();
 }
 
-void Cube::DrawRandomPoints(){
+void Cube::DrawInternalPoints(){
     glBegin(GL_POINTS);
     glColor3f(1, 0, 0);
     glVertex3f(0.0f, 0.0f, 0.0f);
@@ -55,8 +82,87 @@ void Cube::DrawRandomPoints(){
     glEnd();
 }
 
+int Mesh::intersectImpl(const Ray &ray)
+{
+    Intersection inter;
+    Intersection smallest_inter;
+    smallest_inter.t = -1;
+    
+    //clear the number of intersections
+    numOfIntersections = 0;
+    
+    //loop through the indices
+    for(int i = 0; i < myIndices.size(); i+=3)
+    {
+        glm::vec3 p0 = myVertices[myIndices[i]];
+        glm::vec3 p1 = myVertices[myIndices[i+1]];
+        glm::vec3 p2 = myVertices[myIndices[i+2]];
+        
+        inter = triangleIntersect(p0, p1, p2, ray); //check every face
+        if(smallest_inter.t == -1) smallest_inter = inter; //set smallest_inter to the first intersection
+        else if((inter.t < smallest_inter.t) && inter.t != -1) {
+            smallest_inter = inter;
+            numOfIntersections++;  //only add to numOfIntersections if t != -1
+        }
+        
+    }
+    return numOfIntersections;
+}
+
+Intersection Mesh::triangleIntersect(glm::vec3 v0, glm::vec3 v1, glm::vec3 v2, const Ray &ray)
+{
+    
+    Intersection inter;
+    glm::vec3 xc = glm::cross((v1 - v0), (v2 - v0));
+    glm::vec3 p = glm::cross(ray.dir, v2 - v0);
+    glm::vec3 norm = glm::normalize(xc);
+    
+    if (abs(norm[0]) < .0001f && abs(norm[1]) < .0001f && abs(norm[2]) < .0001){
+        inter.t = -1;
+        return inter;;
+    }
+    
+    float t;
+    float a = glm::dot(v1 - v0, p);
+    
+    if (a < .00001 && a > -.00001){
+        inter.t = -1;
+        return inter;
+    }
+    else{
+        float f = 1.0f/a;
+        glm::vec3 s = ray.orig - v0;
+        float u = f*(glm::dot(s, p));
+        if ( u < 0.0f || u > 1.0f){
+            inter.t = -1;
+            return inter;
+        }
+        
+        glm::vec3 q = glm::cross(s, v1 - v0);
+        float v = f*glm::dot(ray.dir, q);
+        
+        if (v < 0.0f || u + v > 1.0f){
+            inter.t = -1;
+            return inter;
+        }
+        
+        t = f*glm::dot(v2 - v0, q); //set t
+        
+        if (t < 0){
+            inter.t = -1;
+            return inter;
+        }
+    }
+    
+    inter.t = t;
+    inter.normal = xc;
+    
+    return inter;
+}
+
 Cube::Cube(){
     //top face
+    /**
     p1.push_back(-1);
     p1.push_back(1);
     p1.push_back(-1);
@@ -111,10 +217,10 @@ Cube::Cube(){
     
     numOfIntersections = 0;
     //myVertices = GetComponent<MeshFilter>().mesh.vertices;
-    
+    */
 }
 
-//create a cube using the
+//create a cube using the array of vertices
 Cube::Cube(std::vector<glm::vec3> vertices) {
     minX = 10000;
     minY = 10000;
@@ -140,6 +246,15 @@ Cube::Cube(std::vector<glm::vec3> vertices) {
         if(vertices[i][2] > maxZ) maxZ = vertices[i][2];
     }
     numOfIntersections = 0;
+    
+    p1 = vertices[0];
+    p2 = vertices[1];
+    p3 = vertices[2];
+    p4 = vertices[3];
+    p5 = vertices[4];
+    p6 = vertices[5];
+    p7 = vertices[6];
+    p8 = vertices[7];
 }
 
 void Cube::DrawWireframe(){
@@ -286,8 +401,10 @@ std::vector<glm::vec3> Cube::DebugGenerateRandomPts(int numberOfPts) {
 
 void Cube::GenerateRandomInternalPoints(int numPoints, std::vector<float> impactPt){
     numRandomPoints = numPoints;
-    
+    myInternalPoints.clear();
     myRandomPoints.clear();
+    numInternalPoints = 0;
+    
     vector<btConvexHullShape> convexHulls;
     //convexHull = btConvexHullShape();
     btConvexHullShape convexMesh;
@@ -315,7 +432,6 @@ void Cube::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
         
         myRandomPoints.push_back(randomPoint);
         
-        
         const btVector3 newPoint(randomX, randomY, randomZ);
         convexMesh.addPoint(newPoint);
         }
@@ -337,10 +453,10 @@ void Cube::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
             ray.dir = d;
         
             //intersectImpl(ray);
-            
-            if(myRandomPoints[j][0] <= 1.0f && myRandomPoints[j][0] >= -1.0f) {
-                if(myRandomPoints[j][1] <= 1.0f && myRandomPoints[j][1] >= -1.0f) {
-                    if(myRandomPoints[j][2] <= 1.0f && myRandomPoints[j][2] >= -1.0f) {
+        
+            if(myRandomPoints[j][0] <= maxX && myRandomPoints[j][0] >= minX) {
+                if(myRandomPoints[j][1] <= maxY && myRandomPoints[j][1] >= minY) {
+                    if(myRandomPoints[j][2] <= maxZ && myRandomPoints[j][2] >= minZ) {
                         myInternalPoints.push_back(myRandomPoints[j]);
                         numInternalPoints++;
                     }
@@ -359,135 +475,4 @@ void Cube::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
 }
 
 
-Intersection Cube::intersectImpl(const Ray &ray) 
-{
-    Intersection inter;
-    //glm::vec3 min = glm::vec3(-0.5f, -0.5f, -0.5f);
-    //glm::vec3 max = glm::vec3(0.5f, 0.5f, 0.5f);
-    glm::vec3 min = glm::vec3(-1.0f, -1.0f, -1.0f);
-    glm::vec3 max = glm::vec3(1.0f, 1.0f, 1.0f);
-    
-    glm::vec3 E = ray.orig;
-    float near = -FLT_MAX;
-    float far = FLT_MAX;
-    
-    if (nearlyEqual(ray.dir[0], 0.0f) && (E[0] < min[0] || E[0] > max[0]))
-    {
-        inter.t  = -1;
-        return inter;
-    }
-    else
-    {
-        float a = ((min[0] - E[0]) / ray.dir[0]);
-        float b = ((max[0] - E[0]) / ray.dir[0]);
-        if (a > b) std::swap(a, b);
-        if (a > near) {
-            near = a;
-            //numOfIntersections++;
-        }
-        if (b < far) far = b;
-        if (near > far)
-        {
-            inter.t = -1;
-            return inter;
-        }
-        if (far < 0.0f)
-        {
-            inter.t = -1;
-            return inter;
-        }
-        if( near < far && far >= 0.0f) {
-            //numOfIntersections++;
-        }
-        if(near >= 0.0f && near < 10000.0f) {
-            numOfIntersections++;
-        }
-        if(far >= 0.0f && far < 10000.0f) {
-            numOfIntersections++;
-        }
-    }
-    
-    near = -FLT_MAX;
-    far = FLT_MAX;
-    if (nearlyEqual(ray.dir[1], 0.0f) && (E[1]  < min[1] || E[1]  > max[1]))
-    {
-        inter.t = -1;
-        return inter;
-    }
-    else
-    {
-        float a = ((min[1] - E[1]) / ray.dir[1]);
-        float b = ((max[1] - E[1]) / ray.dir[1]);
-        if (a > b) std::swap(a, b);
-        if (a > near) {
-            near = a;
-            //numOfIntersections++;
-        }
-        if (b < far) far = b;
-        if (near > far)
-        {
-            inter.t = -1;
-            return inter;
-        }
-        if (far < 0.0f)
-        {
-            inter.t = -1;
-            return inter;
-        }
-        if( near < far && far >= 0.0f) {
-            //numOfIntersections++;
-        }
-        if(near >= 0.0f && near < 10000.0f) {
-            numOfIntersections++;
-        }
-        if(far >= 0.0f && far < 10000.0f) {
-            numOfIntersections++;
-        }
-    }
-    
-    near = -FLT_MAX;
-    far = FLT_MAX;
-    if (nearlyEqual(ray.dir[2], 0.0f) && (E[2] < min[2] || E[2] > max[2]))
-    {
-        inter.t = -1;
-        return inter;
-    }
-    else
-    {
-        float a = ((min[2] - E[2]) / ray.dir[2]);
-        float b = ((max[2] - E[2]) / ray.dir[2]);
-        if (a > b) std::swap(a, b);
-        if (a > near) {
-            near = a;
-            //numOfIntersections++;
-        }
-        if (b < far) far = b;
-        if (near > far)
-        {
-            inter.t = -1;
-            return inter;
-        }
-        if (far < 0.0f)
-        {
-            inter.t = -1;
-            return inter;
-        }
-        if( near < far && far >= 0.0f) {
-            //numOfIntersections++;
-        }
-        if(near >= 0.0f && near < 10000.0f) {
-            numOfIntersections++;
-        }
-        if(far >= 0.0f && far < 10000.0f) {
-            numOfIntersections++;
-        }
-    }
-    
-    inter.t = near;
-    //numOfIntersections++;
-    //glm::vec3 nearPoint = E + ((float)inter.t * ray.dir);
-    
-    
-    return inter;
-}
 
