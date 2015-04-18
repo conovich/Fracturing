@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VoronoiTest/main.cpp"
-            timestampString = "450579862.554512"
+            timestampString = "450997007.477131"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
             landmarkName = "DisplayFunc(void)"
             landmarkType = "7">
          </BreakpointContent>
@@ -48,6 +48,38 @@
             startingLineNumber = "46"
             endingLineNumber = "46"
             landmarkName = "Cube::DrawRandomPoints()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VoronoiTest/VoronoiTest.cpp"
+            timestampString = "451026833.691591"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "VoronoiTest::ComputeVoronoiDecompCube(Cube hitCube, vector&lt;glm::vec3&gt; internalRandomPoints)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VoronoiTest/voro++-0.4.6/src/container.cc"
+            timestampString = "451027043.088543"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "399"
+            endingLineNumber = "399"
+            landmarkName = "container::print_custom(const char *format,FILE *fp)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
