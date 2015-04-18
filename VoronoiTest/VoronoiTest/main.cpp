@@ -32,7 +32,7 @@
 
 
 Cube myCube;
-Mesh myMesh;
+
 
 
 /*
@@ -54,8 +54,6 @@ void		DisplayFunc(void)
     
     myCube.DrawWireframe();
     myCube.DrawInternalPoints();
-    //myMesh.DrawWireframe();
-    //myMesh.DrawInternalPoints();
     
     
     
@@ -116,40 +114,11 @@ int	main(int argc, char **argv)
     pot.push_back(0.5f);
     pot.push_back(0.5f);
     myCube.GenerateRandomInternalPoints(500, pot);
-    //vector<glm::vec3> randomDebugPoints = myCube.DebugGenerateRandomPts(10);
-    
-    /**
-    std::vector<int> listOfTriangles;
-    listOfTriangles.push_back(0);
-    listOfTriangles.push_back(1);
-    listOfTriangles.push_back(2);
-    
-    listOfTriangles.push_back(2);
-    listOfTriangles.push_back(3);
-    listOfTriangles.push_back(1);
-    
-    listOfTriangles.push_back(0);
-    listOfTriangles.push_back(3);
-    listOfTriangles.push_back(2);
-    
-    listOfTriangles.push_back(0);
-    listOfTriangles.push_back(3);
-    listOfTriangles.push_back(1);
-    
-    std::vector<glm::vec3> tetraVerts;
-    tetraVerts.push_back(glm::vec3(0, 0, 0));
-    tetraVerts.push_back(glm::vec3(2, 0, 0));
-    tetraVerts.push_back(glm::vec3(2*0.5f, 0, 2*glm::sqrt(0.75f)));
-    tetraVerts.push_back(glm::vec3(2*0.5f, 2*glm::sqrt(0.75f),2*glm::sqrt(0.75f)/3.0f));
-    
-    
-    //myMesh = Mesh(tetraVerts, listOfTriangles, glm::vec3(0, 0, 0));
-    //myMesh.GenerateRandomInternalPoints(500, pot);
-    */
     
     
     //Voronoi Decomp
     //VoronoiTest voroTester = VoronoiTest();
+    //vector<glm::vec3> randomDebugPoints = myCube.DebugGenerateRandomPts(10);
     //voroTester.ComputeVoronoiDecompCube(myCube, randomDebugPoints);
     
     /* Creation of the window */

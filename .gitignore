@@ -25,3 +25,11 @@ VoronoiTest/VoronoiTest.xcodeproj/project.xcworkspace/xcuserdata/Corey.xcuserdat
 *.xcuserstate
 
 *.xcuserstate
+
+*.pbxproj
+
+*.xcbkptlist
+
+*.pbxproj
+
+VoronoiTest/VoronoiTest/glm/detail/type_int.hpp

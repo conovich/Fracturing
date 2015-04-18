@@ -32,6 +32,13 @@ public:
     
     void DrawVoronoi();
     
+    vector<voronoicell> GetCells(container myContainer);
+    
+    vector<vector<glm::vec3>> GetCellFaces(voronoicell myCell);
+    
+    void testFunction();
+    
+    
 };
 
 #endif /* defined(__VoronoiTest__VoronoiTest__) */
