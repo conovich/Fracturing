@@ -13,38 +13,6 @@
             timestampString = "451062510.268888"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "482"
-            endingLineNumber = "482"
-            landmarkName = "Cube::intersectImpl(const Ray &amp;ray)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VoronoiTest/Mesh.cpp"
-            timestampString = "451062510.268888"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "492"
-            endingLineNumber = "492"
-            landmarkName = "Cube::intersectImpl(const Ray &amp;ray)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VoronoiTest/Mesh.cpp"
-            timestampString = "451062510.268888"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
             startingLineNumber = "370"
             endingLineNumber = "370"
             landmarkName = "Cube::GenerateRandomInternalPoints(int numPoints, std::vector&lt;float&gt; impactPt)"
@@ -80,22 +48,6 @@
             startingLineNumber = "346"
             endingLineNumber = "346"
             landmarkName = "Cube::GenerateRandomInternalPoints(int numPoints, std::vector&lt;float&gt; impactPt)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VoronoiTest/Mesh.cpp"
-            timestampString = "451062510.268888"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "493"
-            endingLineNumber = "493"
-            landmarkName = "Cube::intersectImpl(const Ray &amp;ray)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -171,7 +123,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "43"
             endingLineNumber = "43"
-            landmarkName = "Cube::DrawRandomPoints()"
+            landmarkName = "Cube::DrawInternalPoints()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -204,6 +156,22 @@
             startingLineNumber = "298"
             endingLineNumber = "298"
             landmarkName = "Cube::GenerateRandomInternalPoints(int numPoints, std::vector&lt;float&gt; impactPt)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VoronoiTest/Mesh.cpp"
+            timestampString = "451070842.176234"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "Mesh::DrawInternalPoints()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -22,13 +22,22 @@ using namespace std;
 class Mesh {
 public:
     Mesh();
-    Mesh(std::vector<glm::vec3> vert);
+    Mesh(std::vector<glm::vec3> vert, std::vector<int> indices);
     virtual void DrawWireframe();
-    virtual void DrawRandomPoints();
-    std::vector<glm::vec3> myRandomPoints;
-    std::vector<glm::vec3> myInternalPoints;
+    virtual void DrawInternalPoints();
+    
+    std::vector<std::vector<float>> myRandomPoints;
+    std::vector<std::vector<float>>myInternalPoints;
+    std::vector<glm::vec3> myVertices;
+    std::vector<int> myIndices;
     //virtual void GenerateRandomInternalPoints(int numPoints);
-    //int numOfIntersections;
+    int numOfIntersections;
+    int numRandomPoints;
+    int numInternalPoints;
+    
+    Intersection intersectImpl(const Ray &ray);
+    Intersection triangleIntersect(glm::vec3 v0, glm::vec3 v1, glm::vec3 v2, const Ray &ray);
+
     
 };
 
@@ -44,7 +53,7 @@ public:
     int numRandomPoints;
     int numInternalPoints;
     void GenerateRandomInternalPoints(int numPoints, std::vector<float> impactPoint);
-    virtual void DrawRandomPoints();
+    virtual void DrawInternalPoints();
     std::vector<glm::vec3> DebugGenerateRandomPts(int numberOfPts);
     
     Intersection intersectImpl(const Ray &ray);

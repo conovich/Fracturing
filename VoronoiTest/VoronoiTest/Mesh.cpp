@@ -30,16 +30,43 @@ Mesh::Mesh(){
     //numOfIntersections = 0;
 }
 
+Mesh::Mesh(std::vector<glm::vec3> vertices, std::vector<int> indices) {
+    numOfIntersections = 0;
+    
+    //add vertices from mesh to myVertices
+    for(int i = 0; i < vertices.size(); i++) {
+        myVertices.push_back(vertices[i]);
+    }
+    
+    //add triangle indices to myIndices
+    for(int j = 0; j < indices.size(); j++) {
+        myIndices.push_back(indices[j]);
+    }
+    
+}
+
 void Mesh::DrawWireframe(){
     
     
 }
 
-void Mesh::DrawRandomPoints(){
+void Mesh::DrawInternalPoints(){
+    glBegin(GL_POINTS);
+    glColor3f(1, 0, 0);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    std::vector<float> point;
+    int i = 0;
+    std::cout<<numInternalPoints<<std::endl;
+    for(i = 0; i < numInternalPoints; i++){ //FOR SOME REASON .SIZE() WASN'T WORKING
+        point = myInternalPoints.at(i);
+        glVertex3f(0.0f, 0.0f, 0.0f);
+        glVertex3f(point.at(0), point.at(1), point.at(2));
+    }
     
+    glEnd();
 }
 
-void Cube::DrawRandomPoints(){
+void Cube::DrawInternalPoints(){
     glBegin(GL_POINTS);
     glColor3f(1, 0, 0);
     glVertex3f(0.0f, 0.0f, 0.0f);
@@ -370,135 +397,4 @@ void Cube::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
 }
 
 
-Intersection Cube::intersectImpl(const Ray &ray) 
-{
-    Intersection inter;
-    //glm::vec3 min = glm::vec3(-0.5f, -0.5f, -0.5f);
-    //glm::vec3 max = glm::vec3(0.5f, 0.5f, 0.5f);
-    glm::vec3 min = glm::vec3(-1.0f, -1.0f, -1.0f);
-    glm::vec3 max = glm::vec3(1.0f, 1.0f, 1.0f);
-    
-    glm::vec3 E = ray.orig;
-    float near = -FLT_MAX;
-    float far = FLT_MAX;
-    
-    if (nearlyEqual(ray.dir[0], 0.0f) && (E[0] < min[0] || E[0] > max[0]))
-    {
-        inter.t  = -1;
-        return inter;
-    }
-    else
-    {
-        float a = ((min[0] - E[0]) / ray.dir[0]);
-        float b = ((max[0] - E[0]) / ray.dir[0]);
-        if (a > b) std::swap(a, b);
-        if (a > near) {
-            near = a;
-            //numOfIntersections++;
-        }
-        if (b < far) far = b;
-        if (near > far)
-        {
-            inter.t = -1;
-            return inter;
-        }
-        if (far < 0.0f)
-        {
-            inter.t = -1;
-            return inter;
-        }
-        if( near < far && far >= 0.0f) {
-            //numOfIntersections++;
-        }
-        if(near >= 0.0f && near < 10000.0f) {
-            numOfIntersections++;
-        }
-        if(far >= 0.0f && far < 10000.0f) {
-            numOfIntersections++;
-        }
-    }
-    
-    near = -FLT_MAX;
-    far = FLT_MAX;
-    if (nearlyEqual(ray.dir[1], 0.0f) && (E[1]  < min[1] || E[1]  > max[1]))
-    {
-        inter.t = -1;
-        return inter;
-    }
-    else
-    {
-        float a = ((min[1] - E[1]) / ray.dir[1]);
-        float b = ((max[1] - E[1]) / ray.dir[1]);
-        if (a > b) std::swap(a, b);
-        if (a > near) {
-            near = a;
-            //numOfIntersections++;
-        }
-        if (b < far) far = b;
-        if (near > far)
-        {
-            inter.t = -1;
-            return inter;
-        }
-        if (far < 0.0f)
-        {
-            inter.t = -1;
-            return inter;
-        }
-        if( near < far && far >= 0.0f) {
-            //numOfIntersections++;
-        }
-        if(near >= 0.0f && near < 10000.0f) {
-            numOfIntersections++;
-        }
-        if(far >= 0.0f && far < 10000.0f) {
-            numOfIntersections++;
-        }
-    }
-    
-    near = -FLT_MAX;
-    far = FLT_MAX;
-    if (nearlyEqual(ray.dir[2], 0.0f) && (E[2] < min[2] || E[2] > max[2]))
-    {
-        inter.t = -1;
-        return inter;
-    }
-    else
-    {
-        float a = ((min[2] - E[2]) / ray.dir[2]);
-        float b = ((max[2] - E[2]) / ray.dir[2]);
-        if (a > b) std::swap(a, b);
-        if (a > near) {
-            near = a;
-            //numOfIntersections++;
-        }
-        if (b < far) far = b;
-        if (near > far)
-        {
-            inter.t = -1;
-            return inter;
-        }
-        if (far < 0.0f)
-        {
-            inter.t = -1;
-            return inter;
-        }
-        if( near < far && far >= 0.0f) {
-            //numOfIntersections++;
-        }
-        if(near >= 0.0f && near < 10000.0f) {
-            numOfIntersections++;
-        }
-        if(far >= 0.0f && far < 10000.0f) {
-            numOfIntersections++;
-        }
-    }
-    
-    inter.t = near;
-    //numOfIntersections++;
-    //glm::vec3 nearPoint = E + ((float)inter.t * ray.dir);
-    
-    
-    return inter;
-}
 
