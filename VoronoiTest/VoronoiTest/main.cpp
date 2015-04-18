@@ -53,7 +53,7 @@ void		DisplayFunc(void)
     
     
     myCube.DrawWireframe();
-    myCube.DrawRandomPoints();
+    myCube.DrawInternalPoints();
     
     
     
@@ -114,11 +114,11 @@ int	main(int argc, char **argv)
     pot.push_back(0.5f);
     pot.push_back(0.5f);
     myCube.GenerateRandomInternalPoints(500, pot);
-    //vector<glm::vec3> randomDebugPoints = myCube.DebugGenerateRandomPts(10);
     
     
     //Voronoi Decomp
     //VoronoiTest voroTester = VoronoiTest();
+    //vector<glm::vec3> randomDebugPoints = myCube.DebugGenerateRandomPts(10);
     //voroTester.ComputeVoronoiDecompCube(myCube, randomDebugPoints);
     
     /* Creation of the window */
