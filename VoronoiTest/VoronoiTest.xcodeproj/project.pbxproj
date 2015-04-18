@@ -14,6 +14,7 @@
 		0427B97F1ADA42B3009CC475 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0427B97E1ADA42B3009CC475 /* Cocoa.framework */; };
 		0427B9821ADB001B009CC475 /* VoronoiTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0427B9801ADB001B009CC475 /* VoronoiTest.cpp */; };
 		0427B9851ADB004A009CC475 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0427B9831ADB004A009CC475 /* Mesh.cpp */; };
+		047FC9841AE1B19700622DFC /* libvoro++.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D82CDBC1AE192A9002F78ED /* libvoro++.a */; };
 		3E4F4D3C1ADC796200EDBF9A /* libBulletCollision.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4F4D341ADC796200EDBF9A /* libBulletCollision.a */; };
 		3E4F4D3D1ADC796200EDBF9A /* libBulletDynamics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4F4D351ADC796200EDBF9A /* libBulletDynamics.a */; };
 		3E4F4D3E1ADC796200EDBF9A /* libBulletMultiThreaded.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4F4D361ADC796200EDBF9A /* libBulletMultiThreaded.a */; };
@@ -765,6 +766,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				047FC9841AE1B19700622DFC /* libvoro++.a in Frameworks */,
 				3E4F4D9E1AE18CE900EDBF9A /* glm in Frameworks */,
 				3E4F4D3C1ADC796200EDBF9A /* libBulletCollision.a in Frameworks */,
 				3E4F4D3D1ADC796200EDBF9A /* libBulletDynamics.a in Frameworks */,
@@ -1743,7 +1745,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LIBRARY = "libstdc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -1781,7 +1783,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LIBRARY = "libstdc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -1821,6 +1823,7 @@
 					"$(inherited)",
 					/usr/local/lib,
 					"$(SDKROOT)/usr/lib/system",
+					"$(PROJECT_DIR)/VoronoiTest/voro++-0.4.6/src",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1839,6 +1842,7 @@
 					"$(inherited)",
 					/usr/local/lib,
 					"$(SDKROOT)/usr/lib/system",
+					"$(PROJECT_DIR)/VoronoiTest/voro++-0.4.6/src",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

@@ -15,7 +15,7 @@ VoronoiTest::VoronoiTest(){
 //number of blocks that the container is divided into:
 const int numX=6,numY=6,numZ=6;
 
-void VoronoiTest::ComputeVoronoiDecompCube(Cube hitCube, std::vector<std::vector<float>> internalRandomPoints){
+void VoronoiTest::ComputeVoronoiDecompCube(Cube hitCube, vector<glm::vec3> internalRandomPoints){
 
     double maxX = hitCube.maxX;
     double maxY = hitCube.maxY;
@@ -38,24 +38,19 @@ void VoronoiTest::ComputeVoronoiDecompCube(Cube hitCube, std::vector<std::vector
 	// non-periodic in each of the three coordinates. Allocate space for
 	// eight particles within each computational block
 	
-    //container con(minX,maxX,minY,maxY,minZ,maxZ,numX,numY,numZ,false,false,false,8);
+    container con(minX,maxX,minY,maxY,minZ,maxZ,numX,numY,numZ,false,false,false,8);
     
-    /*// Add particles into the container
+    // Add particles into the container
     for(i = 0; i < internalRandomPoints.size(); i++){
-        std::vector<float> currentPoint = internalRandomPoints.at(i);
+        glm::vec3 currentPoint = internalRandomPoints[i];
         con.put(i,currentPoint[0],currentPoint[1],currentPoint[2]);
-    }*/
-    // Add random cube particles into the container
-    for(i = 0; i < hitCube.myRandomPoints.size(); i++){
-        std::vector<float> currentPoint = hitCube.myRandomPoints.at(i);
-        //con.put(i,currentPoint[0],currentPoint[1],currentPoint[2]);
     }
     
-    /*double voronoiVolume = con.sum_cell_volumes();
+    double voronoiVolume = con.sum_cell_volumes();
 	printf("Container volume : %g\n"
 	       "Voronoi volume   : %g\n"
 	       "Difference       : %g\n",cubeVolume,voronoiVolume,voronoiVolume-cubeVolume);
     
     con.print_custom("ID=%i, pos=(%x,%y,%z), vertices=%w, edges=%g, faces=%s","packing.custom1");
-    */
+    
 }
