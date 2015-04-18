@@ -57,6 +57,7 @@ void Cube::DrawRandomPoints(){
 
 Cube::Cube(){
     //top face
+    /**
     p1.push_back(-1);
     p1.push_back(1);
     p1.push_back(-1);
@@ -111,10 +112,10 @@ Cube::Cube(){
     
     numOfIntersections = 0;
     //myVertices = GetComponent<MeshFilter>().mesh.vertices;
-    
+    */
 }
 
-//create a cube using the
+//create a cube using the array of vertices
 Cube::Cube(std::vector<glm::vec3> vertices) {
     minX = 10000;
     minY = 10000;
@@ -140,6 +141,15 @@ Cube::Cube(std::vector<glm::vec3> vertices) {
         if(vertices[i][2] > maxZ) maxZ = vertices[i][2];
     }
     numOfIntersections = 0;
+    
+    p1 = vertices[0];
+    p2 = vertices[1];
+    p3 = vertices[2];
+    p4 = vertices[3];
+    p5 = vertices[4];
+    p6 = vertices[5];
+    p7 = vertices[6];
+    p8 = vertices[7];
 }
 
 void Cube::DrawWireframe(){
@@ -286,8 +296,10 @@ std::vector<glm::vec3> Cube::DebugGenerateRandomPts(int numberOfPts) {
 
 void Cube::GenerateRandomInternalPoints(int numPoints, std::vector<float> impactPt){
     numRandomPoints = numPoints;
-    
+    myInternalPoints.clear();
     myRandomPoints.clear();
+    numInternalPoints = 0;
+    
     vector<btConvexHullShape> convexHulls;
     //convexHull = btConvexHullShape();
     btConvexHullShape convexMesh;
@@ -315,7 +327,6 @@ void Cube::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
         
         myRandomPoints.push_back(randomPoint);
         
-        
         const btVector3 newPoint(randomX, randomY, randomZ);
         convexMesh.addPoint(newPoint);
         }
@@ -337,10 +348,10 @@ void Cube::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
             ray.dir = d;
         
             //intersectImpl(ray);
-            
-            if(myRandomPoints[j][0] <= 1.0f && myRandomPoints[j][0] >= -1.0f) {
-                if(myRandomPoints[j][1] <= 1.0f && myRandomPoints[j][1] >= -1.0f) {
-                    if(myRandomPoints[j][2] <= 1.0f && myRandomPoints[j][2] >= -1.0f) {
+        
+            if(myRandomPoints[j][0] <= maxX && myRandomPoints[j][0] >= minX) {
+                if(myRandomPoints[j][1] <= maxY && myRandomPoints[j][1] >= minY) {
+                    if(myRandomPoints[j][2] <= maxZ && myRandomPoints[j][2] >= minZ) {
                         myInternalPoints.push_back(myRandomPoints[j]);
                         numInternalPoints++;
                     }

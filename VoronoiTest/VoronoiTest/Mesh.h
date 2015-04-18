@@ -49,6 +49,8 @@ public:
     //Intersection intersect(const glm::mat4 &T, Ray ray_world);
     
     std::vector<std::vector<float>> myPoints;
+    
+    /**
     std::vector<float> p1;
     std::vector<float> p2;
     std::vector<float> p3;
@@ -57,6 +59,15 @@ public:
     std::vector<float> p6;
     std::vector<float> p7;
     std::vector<float> p8;
+    */
+    glm::vec3 p1;
+    glm::vec3 p2;
+    glm::vec3 p3;
+    glm::vec3 p4;
+    glm::vec3 p5;
+    glm::vec3 p6;
+    glm::vec3 p7;
+    glm::vec3 p8;
     
     float minX;
     float minY;
