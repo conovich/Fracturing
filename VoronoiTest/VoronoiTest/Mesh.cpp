@@ -30,7 +30,7 @@ Mesh::Mesh(){
     //numOfIntersections = 0;
 }
 
-Mesh::Mesh(std::vector<glm::vec3> vertices, std::vector<int> indices) {
+Mesh::Mesh(std::vector<glm::vec3> vertices, std::vector<int> indices, glm::vec3 center) {
     numOfIntersections = 0;
     
     //add vertices from mesh to myVertices
@@ -43,10 +43,38 @@ Mesh::Mesh(std::vector<glm::vec3> vertices, std::vector<int> indices) {
         myIndices.push_back(indices[j]);
     }
     
+    myCenter = center; //center of bounding box of the mesh
+    
 }
 
 void Mesh::DrawWireframe(){
+    /* We tell we want to draw lines */
+    glBegin(GL_LINES);
     
+    //top face
+    glColor3f(0, 0, 0); glVertex3f(myVertices[myIndices[0]][0], myVertices[myIndices[0]][1], myVertices[myIndices[0]][2]);
+    glColor3f(0, 0, 1); glVertex3f(myVertices[myIndices[1]][0], myVertices[myIndices[1]][1],  myVertices[myIndices[1]][2]);
+    
+    glColor3f(0, 1, 1); glVertex3f(myVertices[myIndices[1]][0], myVertices[myIndices[1]][1],  myVertices[myIndices[1]][2]);
+    glColor3f(0, 1, 0); glVertex3f(myVertices[myIndices[2]][0], myVertices[myIndices[2]][1],  myVertices[myIndices[2]][2]);
+    
+    glColor3f(1, 0, 0); glVertex3f(myVertices[myIndices[3]][0], myVertices[myIndices[3]][1],  myVertices[myIndices[3]][2]);
+    glColor3f(1, 0, 1); glVertex3f(myVertices[myIndices[4]][0], myVertices[myIndices[4]][1],  myVertices[myIndices[4]][2]);
+    
+    glColor3f(1, 1, 1); glVertex3f(myVertices[myIndices[4]][0], myVertices[myIndices[4]][1],  myVertices[myIndices[4]][2]);
+    glColor3f(1, 1, 0); glVertex3f(myVertices[myIndices[5]][0], myVertices[myIndices[5]][1],  myVertices[myIndices[5]][2]);
+    
+    glColor3f(1, 1, 1); glVertex3f(myVertices[myIndices[6]][0], myVertices[myIndices[6]][1],  myVertices[myIndices[6]][2]);
+    glColor3f(1, 1, 0); glVertex3f(myVertices[myIndices[7]][0], myVertices[myIndices[7]][1],  myVertices[myIndices[7]][2]);
+    glColor3f(1, 1, 1); glVertex3f(myVertices[myIndices[7]][0], myVertices[myIndices[7]][1],  myVertices[myIndices[7]][2]);
+    glColor3f(1, 1, 0); glVertex3f(myVertices[myIndices[8]][0], myVertices[myIndices[8]][1],  myVertices[myIndices[8]][2]);
+    
+    glColor3f(1, 1, 1); glVertex3f(myVertices[myIndices[9]][0], myVertices[myIndices[9]][1],  myVertices[myIndices[9]][2]);
+    glColor3f(1, 1, 0); glVertex3f(myVertices[myIndices[10]][0], myVertices[myIndices[10]][1],  myVertices[myIndices[10]][2]);
+    glColor3f(1, 1, 1); glVertex3f(myVertices[myIndices[10]][0], myVertices[myIndices[10]][1],  myVertices[myIndices[10]][2]);
+    glColor3f(1, 1, 0); glVertex3f(myVertices[myIndices[11]][0], myVertices[myIndices[11]][1],  myVertices[myIndices[11]][2]);
+    
+    glEnd();
     
 }
 
@@ -56,30 +84,73 @@ void Mesh::DrawInternalPoints(){
     glVertex3f(0.0f, 0.0f, 0.0f);
     std::vector<float> point;
     int i = 0;
-    std::cout<<numInternalPoints<<std::endl;
-    for(i = 0; i < numInternalPoints; i++){ //FOR SOME REASON .SIZE() WASN'T WORKING
-        point = myInternalPoints.at(i);
-        glVertex3f(0.0f, 0.0f, 0.0f);
+    std::cout<<numRandomPoints<<std::endl;
+    for(i = 0; i < numRandomPoints; i++){ //FOR SOME REASON .SIZE() WASN'T WORKING
+        point = myRandomPoints.at(i);
+        //glVertex3f(0.0f, 0.0f, 0.0f);
         glVertex3f(point.at(0), point.at(1), point.at(2));
     }
     
     glEnd();
 }
 
-void Cube::DrawInternalPoints(){
-    glBegin(GL_POINTS);
-    glColor3f(1, 0, 0);
-    glVertex3f(0.0f, 0.0f, 0.0f);
-    std::vector<float> point;
-    int i = 0;
-    std::cout<<numInternalPoints<<std::endl;
-    for(i = 0; i < numInternalPoints; i++){ //FOR SOME REASON .SIZE() WASN'T WORKING
-        point = myInternalPoints.at(i);
-        glVertex3f(0.0f, 0.0f, 0.0f);
-        glVertex3f(point.at(0), point.at(1), point.at(2));
+void Mesh::GenerateRandomInternalPoints(int numPoints, std::vector<float> impactPt){
+    numRandomPoints = numPoints;
+    myInternalPoints.clear();
+    myRandomPoints.clear();
+    numInternalPoints = 0;
+    
+    vector<btConvexHullShape> convexHulls;
+    //convexHull = btConvexHullShape();
+    btConvexHullShape convexMesh;
+    convexMesh = btConvexHullShape();
+    
+    for(int i = 0; i < numPoints; i++){
+        
+        //http://stackoverflow.com/questions/686353/c-random-float-number-generation
+        float randomX = impactPt[0] + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[0] + 0.5) - (impactPt[0] - 0.5))));
+        float randomY = impactPt[1] + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[1] + 0.5) - (impactPt[1] - 0.5))));
+        float randomZ = impactPt[2]+ static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[2] + 0.5) - (impactPt[2] - 0.5))));
+        
+        //randomX = 0.0f;
+        //randomY = 2.0f;
+        //randomZ = 0.0f;
+        vector<float> randomPoint;
+        randomPoint.push_back(randomX);
+        randomPoint.push_back(randomY);
+        randomPoint.push_back(randomZ);
+        
+        myRandomPoints.push_back(randomPoint);
+        
+        const btVector3 newPoint(randomX, randomY, randomZ);
+        convexMesh.addPoint(newPoint);
     }
-
-    glEnd();
+    
+    
+    //generate points within the mesh
+    for(int j = 0; j < numRandomPoints; j++) {
+        numOfIntersections = 0;
+        
+        //raycast from each point in myRandomPoints in the direction of center of mesh
+        float x = myCenter[0] - myRandomPoints[j][0];
+        float y = myCenter[1] - myRandomPoints[j][1];
+        float z = myCenter[2] - myRandomPoints[j][2];
+        
+        glm::vec3 d = glm::vec3(x, y, z);
+        glm::vec3 o = glm::vec3(myRandomPoints[j][0], myRandomPoints[j][1], myRandomPoints[j][2]);
+        Ray ray;
+        ray.orig = o;
+        ray.dir = d;
+        
+        intersectImpl(ray);
+        
+         //if the number of intersections is odd, add to internal points.
+         if(numOfIntersections %2 == 1) {
+             myInternalPoints.push_back(myRandomPoints[j]);
+             numInternalPoints++;
+         }
+    }
+    convexHulls.push_back(convexMesh);
 }
 
 int Mesh::intersectImpl(const Ray &ray)
@@ -353,6 +424,22 @@ void Cube::DrawWireframe(){
     /* No more quads */
     glEnd();
     
+}
+
+void Cube::DrawInternalPoints(){
+    glBegin(GL_POINTS);
+    glColor3f(1, 0, 0);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    std::vector<float> point;
+    int i = 0;
+    std::cout<<numInternalPoints<<std::endl;
+    for(i = 0; i < numInternalPoints; i++){ //FOR SOME REASON .SIZE() WASN'T WORKING
+        point = myInternalPoints.at(i);
+        glVertex3f(0.0f, 0.0f, 0.0f);
+        glVertex3f(point.at(0), point.at(1), point.at(2));
+    }
+    
+    glEnd();
 }
 
 std::vector<glm::vec3> Cube::DebugGenerateRandomPts(int numberOfPts) {
