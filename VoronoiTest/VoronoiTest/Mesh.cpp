@@ -40,6 +40,7 @@ Mesh::Mesh(std::vector<glm::vec3> vertices, std::vector<int> indices, glm::vec3 
     
     //add triangle indices to myIndices
     for(int j = 0; j < indices.size(); j++) {
+        //REMEMBER TO CHANGE THIS TO NOT "- 1"
         myIndices.push_back(indices[j] - 1);
     }
     

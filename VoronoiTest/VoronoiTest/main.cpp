@@ -166,7 +166,7 @@ int	main(int argc, char **argv)
     listOfIndices.push_back(6);
     listOfIndices.push_back(7);
     
-    
+    // USE PASSED IN ARGUMENTS
     myMesh = Mesh(listOfVerts, listOfIndices, glm::vec3(0, 0, 0));
     myMesh.GenerateRandomInternalPoints(500, pot); 
     
