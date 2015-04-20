@@ -8,12 +8,131 @@
 
 #include "VoronoiTest.h"
 
+#if defined(__APPLE__)
+#include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
+
 VoronoiTest::VoronoiTest(){
     
 }
 
 //number of blocks that the container is divided into:
 const int numX=6,numY=6,numZ=6;
+
+// This function returns a random double between 0 and 1
+double rnd() {return double(rand())/RAND_MAX;}
+
+void VoronoiTest::CubeExample(){
+    const double x_min=-1,x_max=1;
+    const double y_min=-1,y_max=1;
+    const double z_min=-1,z_max=1;
+    const double cvol=(x_max-x_min)*(y_max-y_min)*(x_max-x_min);
+    
+    // Set up the number of blocks that the container is divided into
+    const int n_x=6,n_y=6,n_z=6;
+    
+    // Set the number of particles that are going to be randomly introduced
+    const int particles=12;
+    
+    
+    
+    int i;
+	double x,y,z;
+    
+	// Create a container with the geometry given above, and make it
+	// non-periodic in each of the three coordinates. Allocate space for
+	// eight particles within each computational block
+	container con(x_min,x_max,y_min,y_max,z_min,z_max,n_x,n_y,n_z,
+                  false,false,false,8);
+    
+	// Randomly add particles into the container
+	for(i=0;i<particles;i++) {
+		x=x_min+rnd()*(x_max-x_min);
+		y=y_min+rnd()*(y_max-y_min);
+		z=z_min+rnd()*(z_max-z_min);
+		con.put(i,x,y,z);
+	}
+    
+    /*con.put(0,0.1,0.7,0.7);
+    con.put(1,0.2,-0.4,0.2);
+    con.put(2,-0.4,0.2,0.2);
+    con.put(3,-0.8,-0.9,0.5);
+    
+    con.put(4,0.3,0.9,-0.4);
+    con.put(5,0.5,-0.7,-0.3);
+    con.put(6,-0.8,-0.2,-0.6);
+    con.put(7,-0.1,0.4,-0.9);
+    
+    con.put(8,0.5,0.3,-0.3);
+    con.put(9,0.6,-0.1,-0.5);
+    con.put(10,-0.7,-0.4,-0.6);
+    con.put(11,-0.7,0.5,-0.6);*/
+    
+	// Sum up the volumes, and check that this matches the container volume
+	double vvol=con.sum_cell_volumes();
+	printf("Container volume : %g\n"
+	       "Voronoi volume   : %g\n"
+	       "Difference       : %g\n",cvol,vvol,vvol-cvol);
+    
+    
+    
+    
+    
+    
+    
+    allCellFaces.clear();
+    allCellVerticesToDraw.clear();
+    
+    voronoicell c;
+    double vol=0;
+    int numCells = 0;
+    c_loop_all vl(con);
+    
+    if(vl.start()){
+        while(vl.inc()){
+            if(con.compute_cell(c,vl)){
+                vol+=c.volume();
+                numCells++;
+                //cellFaces = GetCellFaces(c);
+                
+                std::vector<int> edgesPerFace;
+                c.face_orders(edgesPerFace);
+                
+                std::vector<int> faceVertexIndices;
+                c.face_vertices(faceVertexIndices);
+                
+                std::vector<double> vertexVector;
+                c.vertices(vertexVector); //global verts stored in x,y,z order
+                
+                
+                
+                
+                
+                //AHHHHHH//
+                cellVerticesToDraw = vertexVector;
+                allCellVerticesToDraw.push_back(cellVerticesToDraw);
+                
+                
+                
+                
+                
+                
+                int numFaces = c.number_of_faces();
+                
+                vector<vector<glm::vec3>> currentCellFaces;
+                
+                currentCellFaces = GetFaceVertices(edgesPerFace, faceVertexIndices, vertexVector, numFaces);
+                allCellFaces.push_back(currentCellFaces);
+            }
+        }
+    }
+    
+    std::cout<<"numcells: "<<std::endl;
+    std::cout<<numCells<<std::endl;
+    
+}
 
 void VoronoiTest::ComputeVoronoiDecompCube(Cube hitCube, vector<glm::vec3> internalRandomPoints){
 
@@ -53,48 +172,68 @@ void VoronoiTest::ComputeVoronoiDecompCube(Cube hitCube, vector<glm::vec3> inter
     
     
     //vector<voronoicell> myCells = GetCells(myContainer);
+    //GetCells(myContainer);
     
     //for each cell...
     /*for( int i = 0; i < myCells.size(); i++){
         GetCellFaces(myCells.at(i));
     }*/
     
-    //con.print_custom("ID=%i, pos=(%x,%y,%z), vertices=%w, edges=%g, faces=%s","packing.custom1");
-}
-
-vector<voronoicell> VoronoiTest::GetCells(container myContainer){
-    vector<voronoicell> myCells;
     
-    vector<vector<glm::vec3>> cellFaces;
+    
+    //vector<voronoicell> myCells;
+    
+    //a vector of cells where...
+        //...each cell has a vector of faces...
+            //...which has a vector of vertices.
+    allCellFaces.clear();
     
     voronoicell c;
-	double vol=0;
+    double vol=0;
+    int numCells = 0;
     c_loop_all vl(myContainer);
-    
-	if(vl.start()){
+     
+    if(vl.start()){
         while(vl.inc()){
             if(myContainer.compute_cell(c,vl)){
                 vol+=c.volume();
-                testFunction();
-                //voronoicell newCell = c;
-                //myCells.push_back(newCell);
+                numCells++;
                 //cellFaces = GetCellFaces(c);
+                 
+                std::vector<int> edgesPerFace;
+                c.face_orders(edgesPerFace);
+                 
+                std::vector<int> faceVertexIndices;
+                c.face_vertices(faceVertexIndices);
+                 
+                std::vector<double> vertexVector;
+                c.vertices(vertexVector); //global verts stored in x,y,z order
+                 
+                 
+                int numFaces = c.number_of_faces();
+                
+                vector<vector<glm::vec3>> currentCellFaces;
+                
+                currentCellFaces = GetFaceVertices(edgesPerFace, faceVertexIndices, vertexVector, numFaces);
+                allCellFaces.push_back(currentCellFaces);
             }
         }
     }
     
-    return myCells;
+    std::cout<<"numcells: "<<std::endl;
+    std::cout<<numCells<<std::endl;
+    
+    
+    //con.print_custom("ID=%i, pos=(%x,%y,%z), vertices=%w, edges=%g, faces=%s","packing.custom1");
+    //con.draw_cells_gnuplot("test.gnu");
 }
 
-void VoronoiTest::testFunction(){
-    std::cout<<"BLARG"<<std::endl;
-}
 
-vector<vector<glm::vec3>> VoronoiTest::GetCellFaces(voronoicell myCell){ //returns a vector of vertices for each face
+vector<vector<glm::vec3>> VoronoiTest::GetFaceVertices(std::vector<int> edgesPerFace, std::vector<int> faceVertexIndices, std::vector<double> vertexVector, int numFaces){ //returns a vector of vertices for each face
     vector<vector<glm::vec3>> cellFaces;
     
         
-    std::vector<int> edgesPerFace;
+    /*std::vector<int> edgesPerFace;
     myCell.face_orders(edgesPerFace);
     
     std::vector<int> faceVertexIndices;
@@ -104,7 +243,7 @@ vector<vector<glm::vec3>> VoronoiTest::GetCellFaces(voronoicell myCell){ //retur
     myCell.vertices(vertexVector); //global verts stored in x,y,z order
     
     
-    int numFaces = myCell.number_of_faces();
+    int numFaces = myCell.number_of_faces();*/
 
     //for each face in the cell
     for(int j = 0; j < numFaces; j++){
@@ -122,9 +261,9 @@ vector<vector<glm::vec3>> VoronoiTest::GetCellFaces(voronoicell myCell){ //retur
             double startY = vertexVector.at(startVertIndex + 1);
             double startZ = vertexVector.at(startVertIndex + 2);
             
-            double endX = vertexVector.at(startVertIndex);
-            double endY = vertexVector.at(startVertIndex + 1);
-            double endZ = vertexVector.at(startVertIndex + 2);
+            double endX = vertexVector.at(endVertIndex);
+            double endY = vertexVector.at(endVertIndex + 1);
+            double endZ = vertexVector.at(endVertIndex + 2);
             
             
             glm::vec3 startVertex = glm::vec3(startX, startY, startZ);
@@ -137,4 +276,342 @@ vector<vector<glm::vec3>> VoronoiTest::GetCellFaces(voronoicell myCell){ //retur
     }
     
     return cellFaces;
+}
+
+
+void VoronoiTest::DrawVoronoiEdges(){
+    
+    /* We tell we want to draw lines */
+    glBegin(GL_LINES);
+    
+    unsigned long numCells = allCellFaces.size();
+    for(int i = 0; i < numCells; i++){
+        
+        vector<vector<glm::vec3>> currentCellFaces = allCellFaces.at(i);
+        unsigned long numFaces = currentCellFaces.size();
+        for(int j = 0; j < numFaces; j++){
+            
+            vector<glm::vec3> currentFace = currentCellFaces.at(j);
+            unsigned long numVerts = currentFace.size();
+            for(int k = 0; k < numVerts; k+=2){
+                
+                //DRAW EACH EDGE HERE
+                glm::vec3 startVert = currentFace.at(k);
+                glm::vec3 endVert = currentFace.at(k+1);
+                
+                //top face
+                glColor3f(0, 1, 0); glVertex3f(startVert[0], startVert[1], startVert[2]);
+                glColor3f(0, 1, 0); glVertex3f(endVert[0], endVert[1],  endVert[2]);
+                
+                
+            }
+            
+        }
+        
+    }
+    
+    //end drawing//
+    glEnd();
+}
+
+void VoronoiTest::DrawVertices(std::vector<double> vertexVector, int R, int G, int B){
+    glBegin(GL_POINTS);
+    
+    for(int i = 0; i < vertexVector.size(); i+=3){
+        double X = vertexVector.at(i);
+        double Y = vertexVector.at(i + 1);
+        double Z = vertexVector.at(i + 2);
+
+        glColor3f(R, G, B); glVertex3f(X, Y, Z);
+        
+    }
+    
+    
+    //end drawing//
+    glEnd();
+}
+
+void VoronoiTest::DrawAllVertices(vector<std::vector<double>> vertexVectors){
+    glBegin(GL_POINTS);
+    
+    int R = 0;
+    int G = 0;
+    int B = 0;
+    
+    for(int j = 0; j < vertexVectors.size(); j++){
+        
+        switch (j){
+            case 0:
+                R = 1;
+                G = 0;
+                B = 0;
+                break;
+            case 1:
+                R = 0;
+                G = 1;
+                B = 0;
+                break;
+            case 2:
+                R = 1;
+                G = 1;
+                B = 0;
+                break;
+            case 3:
+                R = 0;
+                G = 0;
+                B = 1;
+                break;
+            case 4:
+                R = 1;
+                G = 0;
+                B = 1;
+                break;
+            case 5:
+                R = 0;
+                G = 1;
+                B = 1;
+                break;
+            case 6:
+                R = 1;
+                G = 1;
+                B = 1;
+                break;
+            case 7:
+                R = 0.5;
+                G = 0;
+                B = 1;
+                break;
+            case 8:
+                R = 0;
+                G = 0.5;
+                B = 1;
+                break;
+            case 9:
+                R = 0.5;
+                G = 1;
+                B = 0;
+                break;
+            case 10:
+                R = 1;
+                G = 0.5;
+                B = 0;
+                break;
+            case 11:
+                R = 1;
+                G = 0;
+                B = 0.5;
+                break;
+            case 12:
+                R = 0;
+                G = 1;
+                B = 0.5;
+                break;
+            case 13:
+                R = 0.5;
+                G = 1;
+                B = 0.5;
+                break;
+            case 14:
+                R = 0.5;
+                G = 0.5;
+                B = 1;
+                break;
+            case 15:
+                R = 1;
+                G = 0.5;
+                B = 0.5;
+                break;
+            case 16:
+                R = 0.2;
+                G = 0.5;
+                B = 0.8;
+                break;
+            case 17:
+                R = 0.8;
+                G = 0.5;
+                B = 0.2;
+                break;
+            case 18:
+                R = 0.8;
+                G = 0.2;
+                B = 0.5;
+                break;
+        }
+        
+        
+        
+        vector<double> vertexVector = vertexVectors.at(j);
+        for(int i = 0; i < vertexVector.size(); i+=3){
+            double X = vertexVector.at(i);
+            double Y = vertexVector.at(i + 1);
+            double Z = vertexVector.at(i + 2);
+            
+            glColor3f(R, G, B); glVertex3f(X, Y, Z);
+            
+        }
+    }
+    
+    
+    //end drawing//
+    glEnd();
+}
+
+void VoronoiTest::DrawVoronoiVertices(){
+    
+    /* We tell we want to draw lines */
+    glBegin(GL_POINTS);
+    
+    float R = 0.1f;
+    float G = 0.1f;
+    float B = 0.1f;
+    
+    unsigned long numCells = allCellFaces.size();
+    for(int i = 0; i < numCells; i++){
+        
+        if(i == 0){
+            R = 0;
+            G = 0;
+            B = 0;
+        }
+        switch (i){
+            case 0:
+                R = 1;
+                G = 0;
+                B = 0;
+                break;
+            case 1:
+                R = 0;
+                G = 1;
+                B = 0;
+                break;
+            case 2:
+                R = 1;
+                G = 1;
+                B = 0;
+                break;
+            case 3:
+                R = 0;
+                G = 0;
+                B = 1;
+                break;
+            case 4:
+                R = 1;
+                G = 0;
+                B = 1;
+                break;
+            case 5:
+                R = 0;
+                G = 1;
+                B = 1;
+                break;
+            case 6:
+                R = 1;
+                G = 1;
+                B = 1;
+                break;
+            case 7:
+                R = 0.5;
+                G = 0;
+                B = 1;
+                break;
+            case 8:
+                R = 0;
+                G = 0.5;
+                B = 1;
+                break;
+            case 9:
+                R = 0.5;
+                G = 1;
+                B = 0;
+                break;
+            case 10:
+                R = 1;
+                G = 0.5;
+                B = 0;
+                break;
+            case 11:
+                R = 1;
+                G = 0;
+                B = 0.5;
+                break;
+            case 12:
+                R = 0;
+                G = 1;
+                B = 0.5;
+                break;
+            case 13:
+                R = 0.5;
+                G = 1;
+                B = 0.5;
+                break;
+            case 14:
+                R = 0.5;
+                G = 0.5;
+                B = 1;
+                break;
+            case 15:
+                R = 1;
+                G = 0.5;
+                B = 0.5;
+                break;
+            case 16:
+                R = 0.2;
+                G = 0.5;
+                B = 0.8;
+                break;
+            case 17:
+                R = 0.8;
+                G = 0.5;
+                B = 0.2;
+                break;
+            case 18:
+                R = 0.8;
+                G = 0.2;
+                B = 0.5;
+                break;
+        }
+        
+        vector<vector<glm::vec3>> currentCellFaces = allCellFaces.at(i);
+        unsigned long numFaces = currentCellFaces.size();
+        for(int j = 0; j < numFaces; j++){
+            
+            vector<glm::vec3> currentFace = currentCellFaces.at(j);
+            unsigned long numVerts = currentFace.size();
+            for(int k = 0; k < numVerts; k+=2){
+                
+                //DRAW EACH EDGE HERE
+                glm::vec3 startVert = currentFace.at(k);
+                glm::vec3 endVert = currentFace.at(k+1);
+                
+                //top face
+                glColor3f(R, G, B); glVertex3f(startVert[0], startVert[1], startVert[2]);
+                glColor3f(R, G, B); glVertex3f(endVert[0], endVert[1],  endVert[2]);
+                
+                
+            }
+            
+        }
+        
+        
+        if(i == 0){
+            R = 0;
+            G = 0;
+            B = 0;
+        }
+        if(R >= 1.0f){
+            if(G >= 1.0f){
+                B += 0.1f;
+            }
+            else{
+                G += 0.1f;
+            }
+        }
+        else{
+            R += 0.1f;
+        }
+        
+    }
+    
+    //end drawing//
+    glEnd();
 }

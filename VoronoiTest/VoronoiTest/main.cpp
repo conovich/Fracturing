@@ -33,7 +33,7 @@
 
 Cube myCube;
 Mesh myMesh;
-
+VoronoiTest voroTester;
 
 /*
  ** Function called to update rendering
@@ -57,6 +57,10 @@ void		DisplayFunc(void)
     myMesh.DrawWireframe();
     myMesh.DrawInternalPoints();
     
+    //voroTester.DrawVoronoiEdges();
+    //voroTester.DrawVoronoiVertices();
+    //voroTester.DrawVertices(voroTester.cellVerticesToDraw, 1, 1, 1);
+    //voroTester.DrawAllVertices(voroTester.allCellVerticesToDraw);
     
     
     /* Rotate a bit more */
@@ -171,9 +175,10 @@ int	main(int argc, char **argv)
     myMesh.GenerateRandomInternalPoints(500, pot); 
     
     //Voronoi Decomp
-    //VoronoiTest voroTester = VoronoiTest();
-    //vector<glm::vec3> randomDebugPoints = myCube.DebugGenerateRandomPts(10);
+    voroTester = VoronoiTest();
+    //vector<glm::vec3> randomDebugPoints = myCube.DebugGenerateRandomPts(4);
     //voroTester.ComputeVoronoiDecompCube(myCube, randomDebugPoints);
+    voroTester.CubeExample();
     
     /* Creation of the window */
     glutInit(&argc, argv);

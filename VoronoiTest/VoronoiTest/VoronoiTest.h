@@ -28,15 +28,25 @@ public:
     //%P
     //A list of the vertices of the Voronoi cell in the format (x,y,z), relative to the global coordinate system.
     
+    void CubeExample();
+    
     void ComputeVoronoiDecompCube(Cube hitCube, vector<glm::vec3> internalRandomPoints);
     
-    void DrawVoronoi();
+    vector<vector<glm::vec3>> GetFaceVertices(std::vector<int> edgesPerFace, std::vector<int> faceVertexIndices, std::vector<double> vertexVector, int numFaces);
     
-    vector<voronoicell> GetCells(container myContainer);
     
-    vector<vector<glm::vec3>> GetCellFaces(voronoicell myCell);
+    vector<vector<vector<glm::vec3>>> allCellFaces;
+
     
-    void testFunction();
+    
+    //OPEN GL DRAW FUNCTION
+    void DrawVoronoiEdges();
+    void DrawVoronoiVertices();
+    void DrawVertices(std::vector<double> vertexVector, int R, int G, int B);
+    void DrawAllVertices(vector<std::vector<double>> vertexVectors);
+    void DrawEdges(std::vector<double> vertexVector, int R, int G, int B);
+    vector<double> cellVerticesToDraw;
+    vector<vector<double>> allCellVerticesToDraw;
     
     
 };
