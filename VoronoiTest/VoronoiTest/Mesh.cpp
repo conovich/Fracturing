@@ -40,7 +40,7 @@ Mesh::Mesh(std::vector<glm::vec3> vertices, std::vector<int> indices, glm::vec3 
     
     //add triangle indices to myIndices
     for(int j = 0; j < indices.size(); j++) {
-        myIndices.push_back(indices[j]);
+        myIndices.push_back(indices[j] - 1);
     }
     
     myCenter = center; //center of bounding box of the mesh
@@ -186,8 +186,8 @@ void Mesh::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
 int Mesh::intersectImpl(const Ray &ray)
 {
     Intersection inter;
-    Intersection smallest_inter;
-    smallest_inter.t = -1;
+    //Intersection smallest_inter;
+    //smallest_inter.t = -1;
     
     //clear the number of intersections
     numOfIntersections = 0;
@@ -200,9 +200,9 @@ int Mesh::intersectImpl(const Ray &ray)
         glm::vec3 p2 = myVertices[myIndices[i+2]];
         
         inter = triangleIntersect(p0, p1, p2, ray); //check every face
-        if(smallest_inter.t == -1) smallest_inter = inter; //set smallest_inter to the first intersection
-        else if((inter.t < smallest_inter.t) && inter.t != -1) {
-            smallest_inter = inter;
+        //if(smallest_inter.t == -1) smallest_inter = inter; //set smallest_inter to the first intersection
+        if(inter.t != -1) {
+            //smallest_inter = inter;
             numOfIntersections++;  //only add to numOfIntersections if t != -1
         }
         
