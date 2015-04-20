@@ -38,6 +38,15 @@ public:
     
     int intersectImpl(const Ray &ray);
     Intersection triangleIntersect(glm::vec3 v0, glm::vec3 v1, glm::vec3 v2, const Ray &ray);
+    
+    glm::vec3 p1;
+    glm::vec3 p2;
+    glm::vec3 p3;
+    glm::vec3 p4;
+    glm::vec3 p5;
+    glm::vec3 p6;
+    glm::vec3 p7;
+    glm::vec3 p8;
 
     
 };

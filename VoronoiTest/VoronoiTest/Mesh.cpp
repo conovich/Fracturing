@@ -44,6 +44,14 @@ Mesh::Mesh(std::vector<glm::vec3> vertices, std::vector<int> indices, glm::vec3 
     }
     
     myCenter = center; //center of bounding box of the mesh
+    p1 = vertices[0];
+    p2 = vertices[1];
+    p3 = vertices[2];
+    p4 = vertices[3];
+    p5 = vertices[4];
+    p6 = vertices[5];
+    p7 = vertices[6];
+    p8 = vertices[7];
     
 }
 
@@ -52,27 +60,46 @@ void Mesh::DrawWireframe(){
     glBegin(GL_LINES);
     
     //top face
-    glColor3f(0, 0, 0); glVertex3f(myVertices[myIndices[0]][0], myVertices[myIndices[0]][1], myVertices[myIndices[0]][2]);
-    glColor3f(0, 0, 1); glVertex3f(myVertices[myIndices[1]][0], myVertices[myIndices[1]][1],  myVertices[myIndices[1]][2]);
+    glColor3f(0, 0, 0); glVertex3f(p1[0], p1[1], p1[2]);
+    glColor3f(0, 0, 1); glVertex3f(p2[0], p2[1],  p2[2]);
     
-    glColor3f(0, 1, 1); glVertex3f(myVertices[myIndices[1]][0], myVertices[myIndices[1]][1],  myVertices[myIndices[1]][2]);
-    glColor3f(0, 1, 0); glVertex3f(myVertices[myIndices[2]][0], myVertices[myIndices[2]][1],  myVertices[myIndices[2]][2]);
+    glColor3f(0, 1, 1); glVertex3f(p2[0], p2[1], p2[2]);
+    glColor3f(0, 1, 0); glVertex3f(p3[0], p3[1], p3[2]);
     
-    glColor3f(1, 0, 0); glVertex3f(myVertices[myIndices[3]][0], myVertices[myIndices[3]][1],  myVertices[myIndices[3]][2]);
-    glColor3f(1, 0, 1); glVertex3f(myVertices[myIndices[4]][0], myVertices[myIndices[4]][1],  myVertices[myIndices[4]][2]);
+    glColor3f(1, 0, 0); glVertex3f(p3[0], p3[1], p3[2]);
+    glColor3f(1, 0, 1); glVertex3f(p4[0], p4[1], p4[2]);
     
-    glColor3f(1, 1, 1); glVertex3f(myVertices[myIndices[4]][0], myVertices[myIndices[4]][1],  myVertices[myIndices[4]][2]);
-    glColor3f(1, 1, 0); glVertex3f(myVertices[myIndices[5]][0], myVertices[myIndices[5]][1],  myVertices[myIndices[5]][2]);
+    glColor3f(1, 1, 1); glVertex3f(p4[0], p4[1], p4[2]);
+    glColor3f(1, 1, 0); glVertex3f(p1[0], p1[1], p1[2]);
     
-    glColor3f(1, 1, 1); glVertex3f(myVertices[myIndices[6]][0], myVertices[myIndices[6]][1],  myVertices[myIndices[6]][2]);
-    glColor3f(1, 1, 0); glVertex3f(myVertices[myIndices[7]][0], myVertices[myIndices[7]][1],  myVertices[myIndices[7]][2]);
-    glColor3f(1, 1, 1); glVertex3f(myVertices[myIndices[7]][0], myVertices[myIndices[7]][1],  myVertices[myIndices[7]][2]);
-    glColor3f(1, 1, 0); glVertex3f(myVertices[myIndices[8]][0], myVertices[myIndices[8]][1],  myVertices[myIndices[8]][2]);
     
-    glColor3f(1, 1, 1); glVertex3f(myVertices[myIndices[9]][0], myVertices[myIndices[9]][1],  myVertices[myIndices[9]][2]);
-    glColor3f(1, 1, 0); glVertex3f(myVertices[myIndices[10]][0], myVertices[myIndices[10]][1],  myVertices[myIndices[10]][2]);
-    glColor3f(1, 1, 1); glVertex3f(myVertices[myIndices[10]][0], myVertices[myIndices[10]][1],  myVertices[myIndices[10]][2]);
-    glColor3f(1, 1, 0); glVertex3f(myVertices[myIndices[11]][0], myVertices[myIndices[11]][1],  myVertices[myIndices[11]][2]);
+    //bottom face
+    glColor3f(0, 0, 0); glVertex3f(p5[0], p5[1], p5[2]);
+    glColor3f(0, 0, 1); glVertex3f(p6[0], p6[1], p6[2]);
+    
+    glColor3f(1, 0, 1); glVertex3f(p6[0], p6[1], p6[2]);
+    glColor3f(1, 0, 0); glVertex3f(p7[0], p7[1], p7[2]);
+    
+    glColor3f(0, 1, 0); glVertex3f(p7[0], p7[1], p7[2]);
+    glColor3f(0, 1, 1); glVertex3f(p8[0], p8[1], p8[2]);
+    
+    glColor3f(1, 1, 1); glVertex3f(p8[0], p8[1], p8[2]);
+    glColor3f(1, 1, 0); glVertex3f(p5[0], p5[1], p5[2]);
+    
+    
+    //sides!
+    glColor3f(0, 0, 0); glVertex3f(p1[0], p1[1], p1[2]);
+    glColor3f(0, 1, 0); glVertex3f(p5[0], p5[1], p5[2]);
+    
+    glColor3f(1, 1, 0); glVertex3f(p2[0], p2[1], p2[2]);
+    glColor3f(1, 0, 0); glVertex3f(p6[0], p6[1], p6[2]);
+    
+    glColor3f(0, 0, 1); glVertex3f(p3[0], p3[1], p3[2]);
+    glColor3f(0, 1, 1); glVertex3f(p7[0], p7[1], p7[2]);
+    
+    glColor3f(1, 1, 1); glVertex3f(p4[0], p4[1], p4[2]);
+    glColor3f(1, 0, 1); glVertex3f(p8[0], p8[1], p8[2]);
+
     
     glEnd();
     
@@ -84,11 +111,14 @@ void Mesh::DrawInternalPoints(){
     glVertex3f(0.0f, 0.0f, 0.0f);
     std::vector<float> point;
     int i = 0;
-    std::cout<<numRandomPoints<<std::endl;
-    for(i = 0; i < numRandomPoints; i++){ //FOR SOME REASON .SIZE() WASN'T WORKING
-        point = myRandomPoints.at(i);
+    std::cout<<numInternalPoints<<std::endl;
+    for(i = 0; i < numInternalPoints; i++){ //FOR SOME REASON .SIZE() WASN'T WORKING
+        point = myInternalPoints.at(i);
         //glVertex3f(0.0f, 0.0f, 0.0f);
-        glVertex3f(point.at(0), point.at(1), point.at(2));
+        float x = point[0];
+        float y = point[1];
+        float z = point[2];
+        glVertex3f(x, y, z);
     }
     
     glEnd();
