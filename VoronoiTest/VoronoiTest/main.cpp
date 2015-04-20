@@ -32,7 +32,7 @@
 
 
 Cube myCube;
-
+Mesh myMesh;
 
 
 /*
@@ -52,8 +52,10 @@ void		DisplayFunc(void)
     //glRotatef(alpha, 0, 1, 0);
     
     
-    myCube.DrawWireframe();
-    myCube.DrawInternalPoints();
+    //myCube.DrawWireframe();
+    //myCube.DrawInternalPoints();
+    myMesh.DrawWireframe();
+    myMesh.DrawInternalPoints();
     
     
     
@@ -107,14 +109,66 @@ int	main(int argc, char **argv)
     listOfVerts.push_back(glm::vec3(1, -1, -1));
     listOfVerts.push_back(glm::vec3(1, -1, 1));
     listOfVerts.push_back(glm::vec3(-1, -1, 1));
-    myCube = Cube(listOfVerts);
+    //myCube = Cube(listOfVerts);
     //myCube = Cube();
     std::vector<float> pot;
     pot.push_back(0.5f);
     pot.push_back(0.5f);
     pot.push_back(0.5f);
-    myCube.GenerateRandomInternalPoints(500, pot);
+    //myCube.GenerateRandomInternalPoints(500, pot);
     
+    std::vector<int> listOfIndices;
+    listOfIndices.push_back(1);
+    listOfIndices.push_back(2);
+    listOfIndices.push_back(6);
+    
+    listOfIndices.push_back(1);
+    listOfIndices.push_back(5);
+    listOfIndices.push_back(6);
+    
+    listOfIndices.push_back(2);
+    listOfIndices.push_back(7);
+    listOfIndices.push_back(6);
+    
+    listOfIndices.push_back(3);
+    listOfIndices.push_back(7);
+    listOfIndices.push_back(6);
+    
+    listOfIndices.push_back(3);
+    listOfIndices.push_back(7);
+    listOfIndices.push_back(8);
+    
+    listOfIndices.push_back(3);
+    listOfIndices.push_back(4);
+    listOfIndices.push_back(8);
+    
+    listOfIndices.push_back(1);
+    listOfIndices.push_back(5);
+    listOfIndices.push_back(8);
+    
+    listOfIndices.push_back(4);
+    listOfIndices.push_back(5);
+    listOfIndices.push_back(8);
+
+    listOfIndices.push_back(1);
+    listOfIndices.push_back(4);
+    listOfIndices.push_back(3);
+    
+    listOfIndices.push_back(1);
+    listOfIndices.push_back(2);
+    listOfIndices.push_back(3);
+    
+    listOfIndices.push_back(5);
+    listOfIndices.push_back(8);
+    listOfIndices.push_back(7);
+    
+    listOfIndices.push_back(5);
+    listOfIndices.push_back(6);
+    listOfIndices.push_back(7);
+    
+    
+    myMesh = Mesh(listOfVerts, listOfIndices, glm::vec3(0, 0, 0));
+    myMesh.GenerateRandomInternalPoints(500, pot); 
     
     //Voronoi Decomp
     //VoronoiTest voroTester = VoronoiTest();
