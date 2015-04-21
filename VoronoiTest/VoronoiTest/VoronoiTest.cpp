@@ -34,7 +34,7 @@ void VoronoiTest::CubeExample(){
     const int n_x=6,n_y=6,n_z=6;
     
     // Set the number of particles that are going to be randomly introduced
-    const int particles=12;
+    const int particles=20;
     
     
     
@@ -49,6 +49,7 @@ void VoronoiTest::CubeExample(){
     
 	// Randomly add particles into the container
 	for(i=0;i<particles;i++) {
+        
 		x=x_min+rnd()*(x_max-x_min);
 		y=y_min+rnd()*(y_max-y_min);
 		z=z_min+rnd()*(z_max-z_min);
@@ -76,8 +77,7 @@ void VoronoiTest::CubeExample(){
 	       "Voronoi volume   : %g\n"
 	       "Difference       : %g\n",cvol,vvol,vvol-cvol);
     
-    
-    
+
     
     
     
@@ -105,7 +105,10 @@ void VoronoiTest::CubeExample(){
                 
                 std::vector<double> vertexVector;
                 c.vertices(vertexVector); //global verts stored in x,y,z order
-                
+                for (i = 0 ; i < vertexVector.size(); i++) {
+                    if (vertexVector[i] > 1.0f) vertexVector[i] = 1.0f;
+                    if (vertexVector[i] < -1.0f) vertexVector[i] = -1.0f;
+                }
                 
                 
                 
@@ -129,6 +132,11 @@ void VoronoiTest::CubeExample(){
         }
     }
     
+    FILE * pFile;
+    
+    pFile = fopen ("myfile.txt","w");
+    con.print_custom("List of Vertices: %p", pFile);
+    fclose(pFile);
     std::cout<<"numcells: "<<std::endl;
     std::cout<<numCells<<std::endl;
     
@@ -285,7 +293,7 @@ void VoronoiTest::DrawVoronoiEdges(){
     glBegin(GL_LINES);
     
     unsigned long numCells = allCellFaces.size();
-    for(int i = 0; i < numCells; i++){
+    for(int i = numCells - 1; i < numCells; i++){
         
         vector<vector<glm::vec3>> currentCellFaces = allCellFaces.at(i);
         unsigned long numFaces = currentCellFaces.size();

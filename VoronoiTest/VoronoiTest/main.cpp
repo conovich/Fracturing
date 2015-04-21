@@ -49,7 +49,7 @@ void		DisplayFunc(void)
     /* A step backward, then spin the cube */
     glTranslatef(0, 0, -10);
     //glRotatef(30, 1, 0, 0);
-    //glRotatef(alpha, 0, 1, 0);
+    glRotatef(alpha, 0, 1, 0);
     
     
     //myCube.DrawWireframe();
@@ -59,12 +59,12 @@ void		DisplayFunc(void)
     
     //voroTester.DrawVoronoiEdges();
     //voroTester.DrawVoronoiVertices();
-    //voroTester.DrawVertices(voroTester.cellVerticesToDraw, 1, 1, 1);
-    //voroTester.DrawAllVertices(voroTester.allCellVerticesToDraw);
+    voroTester.DrawVertices(voroTester.cellVerticesToDraw, 1, 1, 1);
+    voroTester.DrawAllVertices(voroTester.allCellVerticesToDraw);
     
     
     /* Rotate a bit more */
-    //alpha = alpha + 0.1;
+    alpha = alpha + 0.1;
     
     /* End */
     glFlush();
