@@ -57,14 +57,14 @@ void		DisplayFunc(void)
     myMesh.DrawWireframe();
     myMesh.DrawInternalPoints();
     
-    //voroTester.DrawVoronoiEdges();
+    voroTester.DrawVoronoiEdges();
     //voroTester.DrawVoronoiVertices();
     voroTester.DrawVertices(voroTester.cellVerticesToDraw, 1, 1, 1);
-    voroTester.DrawAllVertices(voroTester.allCellVerticesToDraw);
+    //voroTester.DrawAllVertices(voroTester.allCellVerticesToDraw);
     
     
     /* Rotate a bit more */
-    alpha = alpha + 0.1;
+    alpha = alpha + 0.01;
     
     /* End */
     glFlush();
@@ -179,7 +179,12 @@ int	main(int argc, char **argv)
     //vector<glm::vec3> randomDebugPoints = myCube.DebugGenerateRandomPts(4);
     //voroTester.ComputeVoronoiDecompCube(myCube, randomDebugPoints);
     voroTester.CubeExample();
-    
+    int num = voroTester.numCells;
+    int m = 0;
+    int numVerts = 0;
+    for (int j = 0; j < voroTester.allCellFaces[1].size(); j++) {
+        numVerts += voroTester.allCellFaces[1][j].size();
+    }
     /* Creation of the window */
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);

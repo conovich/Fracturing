@@ -36,6 +36,10 @@ public:
     
     
     vector<vector<vector<glm::vec3>>> allCellFaces;
+    int numCells; //number of cells computed in voronoi decomp or cube example
+    int numCellVerts;
+    int numFaceVerts;//number of verts of all of the faces --> ex: a cube has 4 verts per face, 24 verts total
+    vector<vector<glm::vec3>> currentCellFaces;
 
     
     

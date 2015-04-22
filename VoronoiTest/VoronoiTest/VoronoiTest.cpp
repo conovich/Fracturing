@@ -34,7 +34,7 @@ void VoronoiTest::CubeExample(){
     const int n_x=6,n_y=6,n_z=6;
     
     // Set the number of particles that are going to be randomly introduced
-    const int particles=20;
+    const int particles=3;
     
     
     
@@ -87,34 +87,65 @@ void VoronoiTest::CubeExample(){
     
     voronoicell c;
     double vol=0;
-    int numCells = 0;
+    numCells = 0;
     c_loop_all vl(con);
-    
+    std::vector<int> faceVertexIndices;
+    std::vector<int> newFaceIndex;
+    std::vector<int> edgesPerFace;
     if(vl.start()){
-        while(vl.inc()){
+        do{
             if(con.compute_cell(c,vl)){
                 vol+=c.volume();
                 numCells++;
                 //cellFaces = GetCellFaces(c);
                 
-                std::vector<int> edgesPerFace;
+                edgesPerFace;
                 c.face_orders(edgesPerFace);
                 
-                std::vector<int> faceVertexIndices;
+                faceVertexIndices;
                 c.face_vertices(faceVertexIndices);
                 
                 std::vector<double> vertexVector;
-                c.vertices(vertexVector); //global verts stored in x,y,z order
+                double posCx;
+                double posCy;
+                double posCz;
+                vl.pos(posCx, posCy, posCz);
+                //c_loop_base.pos(posC.x, posC.y, posC.z);
+                c.vertices(posCx, posCy, posCz, vertexVector); //global verts stored in x,y,z order
+                
+              
+                
+                /*
                 for (i = 0 ; i < vertexVector.size(); i++) {
                     if (vertexVector[i] > 1.0f) vertexVector[i] = 1.0f;
                     if (vertexVector[i] < -1.0f) vertexVector[i] = -1.0f;
                 }
-                
+                */
                 
                 
                 
                 //AHHHHHH//
-                cellVerticesToDraw = vertexVector;
+                //currentCellFaces;
+                
+                i = 0;
+                cellVerticesToDraw.clear();
+                currentCellFaces.clear();
+                while (i < faceVertexIndices.size()) {
+                    int numVerts = faceVertexIndices[i];
+                    vector<glm::vec3> vertsInFace;
+                    for (int m = 0; m < numVerts; m++) {
+                        i++;
+                        glm::vec3 vertexVec(vertexVector[faceVertexIndices[i]*3], vertexVector[faceVertexIndices[i]*3 + 1], vertexVector[faceVertexIndices[i]*3 + 2]);
+                        vertsInFace.push_back(vertexVec);
+                        newFaceIndex.push_back(faceVertexIndices[i]);
+                        cellVerticesToDraw.push_back(vertexVector[faceVertexIndices[i]*3]);
+                        cellVerticesToDraw.push_back(vertexVector[faceVertexIndices[i]*3 + 1]);
+                        cellVerticesToDraw.push_back(vertexVector[faceVertexIndices[i]*3 + 2]);
+                    }
+                    currentCellFaces.push_back(vertsInFace);
+                    i++;
+                }
+                //cellVerticesToDraw = vertexVector;
                 allCellVerticesToDraw.push_back(cellVerticesToDraw);
                 
                 
@@ -122,20 +153,20 @@ void VoronoiTest::CubeExample(){
                 
                 
                 
-                int numFaces = c.number_of_faces();
+                //int numFaces = c.number_of_faces();
                 
-                vector<vector<glm::vec3>> currentCellFaces;
+                //vector<vector<glm::vec3>> currentCellFaces;
                 
-                currentCellFaces = GetFaceVertices(edgesPerFace, faceVertexIndices, vertexVector, numFaces);
+                //currentCellFaces = GetFaceVertices(edgesPerFace, newFaceIndex, vertexVector, numFaces);
                 allCellFaces.push_back(currentCellFaces);
             }
-        }
+        }while(vl.inc());
     }
     
     FILE * pFile;
     
     pFile = fopen ("myfile.txt","w");
-    con.print_custom("List of Vertices: %p", pFile);
+    con.print_custom("List of Vertices: %t \n  Next: %p", pFile);
     fclose(pFile);
     std::cout<<"numcells: "<<std::endl;
     std::cout<<numCells<<std::endl;
@@ -216,8 +247,9 @@ void VoronoiTest::ComputeVoronoiDecompCube(Cube hitCube, vector<glm::vec3> inter
                  
                 std::vector<double> vertexVector;
                 c.vertices(vertexVector); //global verts stored in x,y,z order
-                 
-                 
+                std::vector<int> vertexOrder;
+                c.vertex_orders(vertexOrder);
+                
                 int numFaces = c.number_of_faces();
                 
                 vector<vector<glm::vec3>> currentCellFaces;
@@ -262,6 +294,7 @@ vector<vector<glm::vec3>> VoronoiTest::GetFaceVertices(std::vector<int> edgesPer
         
         //for each edge, add two vertices to the current face's list of verts
         for(int k = 0; k < currentNumEdgesInFace; k++){
+            
             int startVertIndex = faceVertexIndices[k*2];
             int endVertIndex = faceVertexIndices[(k*2)+1];
             
@@ -279,6 +312,9 @@ vector<vector<glm::vec3>> VoronoiTest::GetFaceVertices(std::vector<int> edgesPer
             
             currentFaceVertices.push_back(startVertex);
             currentFaceVertices.push_back(endVertex);
+             
+            
+            
         }
         cellFaces.push_back(currentFaceVertices);
     }
@@ -293,7 +329,7 @@ void VoronoiTest::DrawVoronoiEdges(){
     glBegin(GL_LINES);
     
     unsigned long numCells = allCellFaces.size();
-    for(int i = numCells - 1; i < numCells; i++){
+    for(int i = 0; i < numCells; i++){
         
         vector<vector<glm::vec3>> currentCellFaces = allCellFaces.at(i);
         unsigned long numFaces = currentCellFaces.size();
@@ -305,12 +341,23 @@ void VoronoiTest::DrawVoronoiEdges(){
                 
                 //DRAW EACH EDGE HERE
                 glm::vec3 startVert = currentFace.at(k);
-                glm::vec3 endVert = currentFace.at(k+1);
-                
+                glm::vec3 endVert;
+                if (k+1 != numVerts) {
+                    endVert = currentFace.at(k+1);
+                }
+                else {
+                    endVert = currentFace.at(0);
+                }
                 //top face
-                glColor3f(0, 1, 0); glVertex3f(startVert[0], startVert[1], startVert[2]);
-                glColor3f(0, 1, 0); glVertex3f(endVert[0], endVert[1],  endVert[2]);
-                
+                if (i == 0){
+                    glColor3f(0, 1, 0); glVertex3f(startVert[0], startVert[1], startVert[2]);
+                    glColor3f(0, 1, 0); glVertex3f(endVert[0], endVert[1],  endVert[2]);
+                }
+                else {
+                    glColor3f(0, 0, 1); glVertex3f(startVert[0], startVert[1], startVert[2]);
+                    glColor3f(0, 0, 1); glVertex3f(endVert[0], endVert[1],  endVert[2]);
+
+                }
                 
             }
             
