@@ -51,7 +51,7 @@ public:
     void DrawEdges(std::vector<double> vertexVector, int R, int G, int B);
     vector<double> cellVerticesToDraw;
     vector<vector<double>> allCellVerticesToDraw;
-    
+    double GetMin(string, vector<glm::vec3>);
     
 };
 

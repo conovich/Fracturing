@@ -116,9 +116,9 @@ int	main(int argc, char **argv)
     //myCube = Cube(listOfVerts);
     //myCube = Cube();
     std::vector<float> pot;
-    pot.push_back(0.5f);
-    pot.push_back(0.5f);
-    pot.push_back(0.5f);
+    pot.push_back(1.0f);
+    pot.push_back(0.0f);
+    pot.push_back(-1.0f);
     //myCube.GenerateRandomInternalPoints(500, pot);
     
     std::vector<int> listOfIndices;
@@ -182,9 +182,12 @@ int	main(int argc, char **argv)
     int num = voroTester.numCells;
     int m = 0;
     int numVerts = 0;
-    for (int j = 0; j < voroTester.allCellFaces[1].size(); j++) {
-        numVerts += voroTester.allCellFaces[1][j].size();
-    }
+    int* indices[3];
+    *indices[0] = 1;
+    *indices[1] = 1;
+    *indices[2] = 1;
+    
+    int newNum = sizeof(*indices); ///sizeof(indices[0]);
     /* Creation of the window */
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);

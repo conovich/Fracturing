@@ -47,12 +47,86 @@ void VoronoiTest::CubeExample(){
 	container con(x_min,x_max,y_min,y_max,z_min,z_max,n_x,n_y,n_z,
                   false,false,false,8);
     
+    std::vector<glm::vec3> listOfVerts;
+    listOfVerts.push_back(glm::vec3(-1, 1, -1));
+    listOfVerts.push_back(glm::vec3(1, 1, -1));
+    listOfVerts.push_back(glm::vec3(1, 1, 1));
+    listOfVerts.push_back(glm::vec3(-1, 1, 1));
+    listOfVerts.push_back(glm::vec3(-1, -1, -1));
+    listOfVerts.push_back(glm::vec3(1, -1, -1));
+    listOfVerts.push_back(glm::vec3(1, -1, 1));
+    listOfVerts.push_back(glm::vec3(-1, -1, 1));
+    //myCube = Cube(listOfVerts);
+    //myCube = Cube();
+    std::vector<float> pot;
+    pot.push_back(.7f);
+    pot.push_back(.1f);
+    pot.push_back(.1f);
+    //myCube.GenerateRandomInternalPoints(500, pot);
+    
+    std::vector<int> listOfIndices;
+    listOfIndices.push_back(1);
+    listOfIndices.push_back(2);
+    listOfIndices.push_back(6);
+    
+    listOfIndices.push_back(1);
+    listOfIndices.push_back(5);
+    listOfIndices.push_back(6);
+    
+    listOfIndices.push_back(2);
+    listOfIndices.push_back(7);
+    listOfIndices.push_back(6);
+    
+    listOfIndices.push_back(3);
+    listOfIndices.push_back(7);
+    listOfIndices.push_back(6);
+    
+    listOfIndices.push_back(3);
+    listOfIndices.push_back(7);
+    listOfIndices.push_back(8);
+    
+    listOfIndices.push_back(3);
+    listOfIndices.push_back(4);
+    listOfIndices.push_back(8);
+    
+    listOfIndices.push_back(1);
+    listOfIndices.push_back(5);
+    listOfIndices.push_back(8);
+    
+    listOfIndices.push_back(4);
+    listOfIndices.push_back(5);
+    listOfIndices.push_back(8);
+    
+    listOfIndices.push_back(1);
+    listOfIndices.push_back(4);
+    listOfIndices.push_back(3);
+    
+    listOfIndices.push_back(1);
+    listOfIndices.push_back(2);
+    listOfIndices.push_back(3);
+    
+    listOfIndices.push_back(5);
+    listOfIndices.push_back(8);
+    listOfIndices.push_back(7);
+    
+    listOfIndices.push_back(5);
+    listOfIndices.push_back(6);
+    listOfIndices.push_back(7);
+    
+    // USE PASSED IN ARGUMENTS
+    Mesh myMesh = Mesh(listOfVerts, listOfIndices, glm::vec3(0, 0, 0));
+    myMesh.GenerateRandomInternalPoints(500, pot);
+    //double x_guy = GetMin("x", listOfVerts);
+    
 	// Randomly add particles into the container
 	for(i=0;i<particles;i++) {
+        x = myMesh.myInternalPoints[i][0];
+        y = myMesh.myInternalPoints[i][1];
+        z = myMesh.myInternalPoints[i][2];
         
-		x=x_min+rnd()*(x_max-x_min);
-		y=y_min+rnd()*(y_max-y_min);
-		z=z_min+rnd()*(z_max-z_min);
+		//x=x_min+rnd()*(x_max-x_min);
+		//y=y_min+rnd()*(y_max-y_min);
+		//z=z_min+rnd()*(z_max-z_min);
 		con.put(i,x,y,z);
 	}
     
@@ -171,6 +245,54 @@ void VoronoiTest::CubeExample(){
     std::cout<<"numcells: "<<std::endl;
     std::cout<<numCells<<std::endl;
     
+}
+double VoronoiTest::GetMin(string coordinate, vector<glm::vec3> meshVerts){
+    double min = 0;
+    
+    if(coordinate == "X" || coordinate == "x"){
+        for(int i = 0; i < meshVerts.size(); i++){
+            glm::vec3 currentVert = meshVerts.at(i);
+            if(i == 0){
+                min = currentVert[0];
+            }
+            else{
+                if(currentVert[0] < min){
+                    min = currentVert[0];
+                }
+            }
+        }
+        return min;
+    }
+    else if(coordinate == "Y" || coordinate == "y"){
+        for(int i = 0; i < meshVerts.size(); i++){
+            glm::vec3 currentVert = meshVerts.at(i);
+            if(i == 0){
+                min = currentVert[1];
+            }
+            else{
+                if(currentVert[1] < min){
+                    min = currentVert[1];
+                }
+            }
+        }
+        return min;
+    }
+    else if(coordinate == "Z" || coordinate == "z"){
+        for(int i = 0; i < meshVerts.size(); i++){
+            glm::vec3 currentVert = meshVerts.at(i);
+            if(i == 0){
+                min = currentVert[2];
+            }
+            else{
+                if(currentVert[2] < min){
+                    min = currentVert[2];
+                }
+            }
+        }
+        return min;
+    }
+    
+    else return -1; //MAYDAY.
 }
 
 void VoronoiTest::ComputeVoronoiDecompCube(Cube hitCube, vector<glm::vec3> internalRandomPoints){

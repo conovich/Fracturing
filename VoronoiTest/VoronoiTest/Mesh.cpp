@@ -131,17 +131,17 @@ void Mesh::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
     myRandomPoints.clear();
     numInternalPoints = 0;
     
-    vector<btConvexHullShape> convexHulls;
+    //vector<btConvexHullShape> convexHulls;
     //convexHull = btConvexHullShape();
-    btConvexHullShape convexMesh;
-    convexMesh = btConvexHullShape();
+    //btConvexHullShape convexMesh;
+    //convexMesh = btConvexHullShape();
     
     for(int i = 0; i < numPoints; i++){
         
         //http://stackoverflow.com/questions/686353/c-random-float-number-generation
-        float randomX = impactPt[0] + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[0] + 0.5) - (impactPt[0] - 0.5))));
-        float randomY = impactPt[1] + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[1] + 0.5) - (impactPt[1] - 0.5))));
-        float randomZ = impactPt[2]+ static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[2] + 0.5) - (impactPt[2] - 0.5))));
+        float randomX = (impactPt[0] - .5) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[0] + 0.5) - (impactPt[0] - 0.5))));
+        float randomY = (impactPt[1] - .5) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[1] + 0.5) - (impactPt[1] - 0.5))));
+        float randomZ = (impactPt[2] - .5) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[2] + 0.5) - (impactPt[2] - 0.5))));
         
         //randomX = 0.0f;
         //randomY = 2.0f;
@@ -153,8 +153,8 @@ void Mesh::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
         
         myRandomPoints.push_back(randomPoint);
         
-        const btVector3 newPoint(randomX, randomY, randomZ);
-        convexMesh.addPoint(newPoint);
+        //const btVector3 newPoint(randomX, randomY, randomZ);
+        //convexMesh.addPoint(newPoint);
     }
     
     
@@ -181,7 +181,7 @@ void Mesh::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
              numInternalPoints++;
          }
     }
-    convexHulls.push_back(convexMesh);
+    //convexHulls.push_back(convexMesh);
 }
 
 int Mesh::intersectImpl(const Ray &ray)
