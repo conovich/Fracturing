@@ -135,6 +135,10 @@ void VoronoiTest::ConvexGeoDecomp(vector<glm::vec3> meshVerts, glm::vec3 POI, st
                 i = 0;
                 cellVerticesToDraw.clear();
                 currentCellFaces.clear();
+                
+                vector<glm::vec3> currentCellVertsVec3;
+                currentCellVertsVec3.clear();
+                
                 while (i < faceVertexIndices.size()) {
                     int numVerts = faceVertexIndices[i];
                     vector<glm::vec3> vertsInFace;
@@ -146,15 +150,36 @@ void VoronoiTest::ConvexGeoDecomp(vector<glm::vec3> meshVerts, glm::vec3 POI, st
                         cellVerticesToDraw.push_back(vertexVector[faceVertexIndices[i]*3]);
                         cellVerticesToDraw.push_back(vertexVector[faceVertexIndices[i]*3 + 1]);
                         cellVerticesToDraw.push_back(vertexVector[faceVertexIndices[i]*3 + 2]);
+                        
+                        //getting vertices in glm::vec3 format... redundant...
+                        glm::vec3 currentVert = glm::vec3(vertexVector[faceVertexIndices[i]*3],
+                                                          vertexVector[faceVertexIndices[i]*3 + 1],
+                                                          vertexVector[faceVertexIndices[i]*3 + 2]);
+                        currentCellVertsVec3.push_back(currentVert);
                     }
                     currentCellFaces.push_back(vertsInFace);
                     i++;
                 }
-                //cellVerticesToDraw = vertexVector;
-                allCellVerticesToDraw.push_back(cellVerticesToDraw);
                 
                 
-                allCellFaces.push_back(currentCellFaces);
+                vector<glm::vec3> cellVertsInMesh; //will be filled with the verts that are in the mesh
+                bool isEntirelyInMesh = CheckCellWithinMesh(currentCellVertsVec3, minXYZ, maxXYZ, cellVertsInMesh);
+                
+                if(isEntirelyInMesh){
+            
+                    //cellVerticesToDraw = vertexVector;
+                    allCellVerticesToDraw.push_back(cellVerticesToDraw);
+                    
+                    
+                    allCellFaces.push_back(currentCellFaces);
+                    
+                }
+                else{
+                    
+                    int a = 0;
+                    
+                }
+            
             }
         }while(vl.inc());
     }
