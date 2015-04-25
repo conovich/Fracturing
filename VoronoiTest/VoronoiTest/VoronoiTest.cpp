@@ -23,6 +23,274 @@ const int numX=6,numY=6,numZ=6;
 
 // This function returns a random double between 0 and 1
 double rnd() {return double(rand())/RAND_MAX;}
+void VoronoiTest::ConvexGeoDecomp(vector<glm::vec3> meshVerts, glm::vec3 POI, std::vector<int> listOfIndices){
+    
+    double x_min = GetMin("x", meshVerts);
+    double y_min = GetMin("y", meshVerts);
+    double z_min = GetMin("z", meshVerts);
+    
+    double x_max = GetMax("x", meshVerts);
+    double y_max = GetMax("y", meshVerts);
+    double z_max = GetMax("z", meshVerts);
+    
+    double cvol=(x_max-x_min)*(y_max-y_min)*(z_max-z_min);
+    numCells = POI.x;
+    
+    // Set up the number of blocks that the container is divided into
+    const int n_x=6,n_y=6,n_z=6;
+    
+    // Set the number of particles that are going to be randomly introduced
+    //const int particles=2;
+    
+    
+    
+    int i;
+    double x,y,z;
+    
+    // Create a container with the geometry given above, and make it
+    // non-periodic in each of the three coordinates. Allocate space for
+    // eight particles within each computational block
+    container con(x_min,x_max,y_min,y_max,z_min,z_max,n_x,n_y,n_z,
+                  false,false,false,8);
+    
+    
+    std::vector<float> pot;
+    pot.push_back(POI.x);
+    pot.push_back(POI.y);
+    pot.push_back(POI.z);
+    
+    // USE PASSED IN ARGUMENTS
+    Mesh myMesh = Mesh(meshVerts, listOfIndices, glm::vec3(0, 0, 0));
+    myMesh.GenerateRandomInternalPoints(100, pot);
+    // Randomly add particles into the container
+    //for(i=0;i<particles;i++) {
+    for (int i = 0; i < myMesh.numInternalPoints; i++) {
+        x = myMesh.myInternalPoints[i][0];
+        y = myMesh.myInternalPoints[i][1];
+        z = myMesh.myInternalPoints[i][2];
+        
+        //x=x_min+rnd()*(x_max-x_min);
+        //y=y_min+rnd()*(y_max-y_min);
+        //z=z_min+rnd()*(z_max-z_min);
+        con.put(i,x,y,z);
+    }
+    
+    // Sum up the volumes, and check that this matches the container volume
+    double vvol=con.sum_cell_volumes();
+    printf("Container volume : %g\n"
+           "Voronoi volume   : %g\n"
+           "Difference       : %g\n",cvol,vvol,vvol-cvol);
+    
+    
+    
+    
+    
+    
+    allCellFaces.clear();
+    allCellVerticesToDraw.clear();
+    
+    voronoicell c;
+    double vol=0;
+    numCells = 0;
+    c_loop_all vl(con);
+    std::vector<int> faceVertexIndices;
+    std::vector<int> newFaceIndex;
+    std::vector<int> edgesPerFace;
+    if(vl.start()){
+        //numCells = 1;
+        do{
+            //numCells = 2;
+            if(con.compute_cell(c,vl)){
+                //numCells = 3;
+                vol+=c.volume();
+                numCells++;
+                //cellFaces = GetCellFaces(c);
+                
+                edgesPerFace;
+                c.face_orders(edgesPerFace);
+                
+                faceVertexIndices;
+                c.face_vertices(faceVertexIndices);
+                
+                std::vector<double> vertexVector;
+                double posCx;
+                double posCy;
+                double posCz;
+                vl.pos(posCx, posCy, posCz);
+                //c_loop_base.pos(posC.x, posC.y, posC.z);
+                c.vertices(posCx, posCy, posCz, vertexVector);
+                //c.vertices(vertexVector); //global verts stored in x,y,z order
+                
+                
+                
+                /*
+                 for (i = 0 ; i < vertexVector.size(); i++) {
+                 if (vertexVector[i] > 1.0f) vertexVector[i] = 1.0f;
+                 if (vertexVector[i] < -1.0f) vertexVector[i] = -1.0f;
+                 }*/
+                
+                i = 0;
+                cellVerticesToDraw.clear();
+                currentCellFaces.clear();
+                while (i < faceVertexIndices.size()) {
+                    int numVerts = faceVertexIndices[i];
+                    vector<glm::vec3> vertsInFace;
+                    for (int m = 0; m < numVerts; m++) {
+                        i++;
+                        glm::vec3 vertexVec(vertexVector[faceVertexIndices[i]*3], vertexVector[faceVertexIndices[i]*3 + 1], vertexVector[faceVertexIndices[i]*3 + 2]);
+                        vertsInFace.push_back(vertexVec);
+                        newFaceIndex.push_back(faceVertexIndices[i]);
+                        cellVerticesToDraw.push_back(vertexVector[faceVertexIndices[i]*3]);
+                        cellVerticesToDraw.push_back(vertexVector[faceVertexIndices[i]*3 + 1]);
+                        cellVerticesToDraw.push_back(vertexVector[faceVertexIndices[i]*3 + 2]);
+                    }
+                    currentCellFaces.push_back(vertsInFace);
+                    i++;
+                }
+                //cellVerticesToDraw = vertexVector;
+                allCellVerticesToDraw.push_back(cellVerticesToDraw);
+                
+                
+                allCellFaces.push_back(currentCellFaces);
+            }
+        }while(vl.inc());
+    }
+    
+    FILE * pFile;
+    //numCells++;
+    pFile = fopen ("myfile.txt","w");
+    con.print_custom("List of Vertices: %t \n  Next: %p", pFile);
+    fclose(pFile);
+    std::cout<<"numcells: "<<std::endl;
+    std::cout<<numCells<<std::endl;
+    
+}
+
+bool VoronoiTest::CheckCellWithinMesh(vector<glm::vec3> cellVerts, glm::vec3 minXYZ, glm::vec3 maxXYZ){
+    
+    return false;
+}
+
+vector<glm::vec3> VoronoiTest::GetMeshVertsInCell(vector<glm::vec3> cellVerts, vector<glm::vec3> meshVerts){
+    vector<glm::vec3> meshVertsInCell;
+    
+    return meshVertsInCell;
+}
+
+vector<glm::vec3> VoronoiTest::GetCellVertsInMesh(vector<glm::vec3> cellVerts, vector<glm::vec3> meshVerts){
+    vector<glm::vec3> cellVertsInMesh;
+    
+    return cellVertsInMesh;
+    
+}
+
+vector<glm::vec3> VoronoiTest::GetCellMeshIntersectionPoints(vector<glm::vec3> cellVerts, vector<glm::vec3> meshVerts){
+    vector<glm::vec3> intersectionVerts;
+    
+    return intersectionVerts;
+}
+
+
+
+double VoronoiTest::GetMin(string coordinate, vector<glm::vec3> meshVerts){
+    double min = 0;
+    
+    if(coordinate == "X" || coordinate == "x"){
+        for(int i = 0; i < meshVerts.size(); i++){
+            glm::vec3 currentVert = meshVerts.at(i);
+            if(i == 0){
+                min = (double)currentVert[0];
+            }
+            else{
+                if(currentVert[0] < min){
+                    min = (double)currentVert[0];
+                }
+            }
+        }
+        return min;
+    }
+    else if(coordinate == "Y" || coordinate == "y"){
+        for(int i = 0; i < meshVerts.size(); i++){
+            glm::vec3 currentVert = meshVerts.at(i);
+            if(i == 0){
+                min = (double)currentVert[1];
+            }
+            else{
+                if(currentVert[1] < min){
+                    min = (double)currentVert[1];
+                }
+            }
+        }
+        return min;
+    }
+    else if(coordinate == "Z" || coordinate == "z"){
+        for(int i = 0; i < meshVerts.size(); i++){
+            glm::vec3 currentVert = meshVerts.at(i);
+            if(i == 0){
+                min = (double)currentVert[2];
+            }
+            else{
+                if(currentVert[2] < min){
+                    min = (double)currentVert[2];
+                }
+            }
+        }
+        return min;
+    }
+    
+    else return -1; //MAYDAY.
+}
+
+double VoronoiTest::GetMax(string coordinate, vector<glm::vec3> meshVerts){
+    double max = 0;
+    
+    if(coordinate == "X" || coordinate == "x"){
+        for(int i = 0; i < meshVerts.size(); i++){
+            glm::vec3 currentVert = meshVerts.at(i);
+            if(i == 0){
+                max = (double)currentVert[0];
+            }
+            else{
+                if(currentVert[0] > max){
+                    max = (double)currentVert[0];
+                }
+            }
+        }
+        return max;
+    }
+    else if(coordinate == "Y" || coordinate == "y"){
+        for(int i = 0; i < meshVerts.size(); i++){
+            glm::vec3 currentVert = meshVerts.at(i);
+            if(i == 0){
+                max = (double)currentVert[1];
+            }
+            else{
+                if(currentVert[1] > max){
+                    max = (double)currentVert[1];
+                }
+            }
+        }
+        return max;
+    }
+    else if(coordinate == "Z" || coordinate == "z"){
+        for(int i = 0; i < meshVerts.size(); i++){
+            glm::vec3 currentVert = meshVerts.at(i);
+            if(i == 0){
+                max = (double)currentVert[2];
+            }
+            else{
+                if(currentVert[2] < max){
+                    max = (double)currentVert[2];
+                }
+            }
+        }
+        return max;
+    }
+    
+    else return -1; //MAYDAY.
+}
+
+
 
 void VoronoiTest::CubeExample(){
     const double x_min=-1,x_max=1;
@@ -246,54 +514,7 @@ void VoronoiTest::CubeExample(){
     std::cout<<numCells<<std::endl;
     
 }
-double VoronoiTest::GetMin(string coordinate, vector<glm::vec3> meshVerts){
-    double min = 0;
-    
-    if(coordinate == "X" || coordinate == "x"){
-        for(int i = 0; i < meshVerts.size(); i++){
-            glm::vec3 currentVert = meshVerts.at(i);
-            if(i == 0){
-                min = currentVert[0];
-            }
-            else{
-                if(currentVert[0] < min){
-                    min = currentVert[0];
-                }
-            }
-        }
-        return min;
-    }
-    else if(coordinate == "Y" || coordinate == "y"){
-        for(int i = 0; i < meshVerts.size(); i++){
-            glm::vec3 currentVert = meshVerts.at(i);
-            if(i == 0){
-                min = currentVert[1];
-            }
-            else{
-                if(currentVert[1] < min){
-                    min = currentVert[1];
-                }
-            }
-        }
-        return min;
-    }
-    else if(coordinate == "Z" || coordinate == "z"){
-        for(int i = 0; i < meshVerts.size(); i++){
-            glm::vec3 currentVert = meshVerts.at(i);
-            if(i == 0){
-                min = currentVert[2];
-            }
-            else{
-                if(currentVert[2] < min){
-                    min = currentVert[2];
-                }
-            }
-        }
-        return min;
-    }
-    
-    else return -1; //MAYDAY.
-}
+
 
 void VoronoiTest::ComputeVoronoiDecompCube(Cube hitCube, vector<glm::vec3> internalRandomPoints){
 

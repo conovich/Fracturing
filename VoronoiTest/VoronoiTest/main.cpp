@@ -119,6 +119,7 @@ int	main(int argc, char **argv)
     pot.push_back(1.0f);
     pot.push_back(0.0f);
     pot.push_back(-1.0f);
+    glm::vec3 POI(pot[0], pot[1], pot[2]);
     //myCube.GenerateRandomInternalPoints(500, pot);
     
     std::vector<int> listOfIndices;
@@ -174,20 +175,15 @@ int	main(int argc, char **argv)
     myMesh = Mesh(listOfVerts, listOfIndices, glm::vec3(0, 0, 0));
     myMesh.GenerateRandomInternalPoints(500, pot); 
     
+    glm::vec3 POI2 = glm::vec3(pot[0], pot[1], pot[2]);
     //Voronoi Decomp
     voroTester = VoronoiTest();
     //vector<glm::vec3> randomDebugPoints = myCube.DebugGenerateRandomPts(4);
-    //voroTester.ComputeVoronoiDecompCube(myCube, randomDebugPoints);
+    //voroTester.ConvexGeoDecomp(listOfVerts, POI2, listOfIndices);
     voroTester.CubeExample();
-    int num = voroTester.numCells;
-    int m = 0;
-    int numVerts = 0;
-    int* indices[3];
-    *indices[0] = 1;
-    *indices[1] = 1;
-    *indices[2] = 1;
     
-    int newNum = sizeof(*indices); ///sizeof(indices[0]);
+    double max = voroTester.GetMax("x", listOfVerts);
+    //int newNum = sizeof(*indices); ///sizeof(indices[0]);
     /* Creation of the window */
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);

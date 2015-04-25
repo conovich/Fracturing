@@ -29,9 +29,16 @@ public:
     //A list of the vertices of the Voronoi cell in the format (x,y,z), relative to the global coordinate system.
     
     void CubeExample();
+    double GetMin(string coordinate, vector<glm::vec3> meshVerts);
+    double GetMax(string coordinate, vector<glm::vec3> meshVerts);
     
+    
+    void ConvexGeoDecomp(vector<glm::vec3> meshVerts, glm::vec3 POI, std::vector<int> listOfIndices);
     void ComputeVoronoiDecompCube(Cube hitCube, vector<glm::vec3> internalRandomPoints);
-    
+    bool CheckCellWithinMesh(vector<glm::vec3> cellVerts, glm::vec3 minXYZ, glm::vec3 maxXYZ);
+    vector<glm::vec3> GetMeshVertsInCell(vector<glm::vec3> cellVerts, vector<glm::vec3> meshVerts);
+    vector<glm::vec3> GetCellVertsInMesh(vector<glm::vec3> cellVerts, vector<glm::vec3> meshVerts);
+    vector<glm::vec3> GetCellMeshIntersectionPoints(vector<glm::vec3> cellVerts, vector<glm::vec3> meshVerts);
     vector<vector<glm::vec3>> GetFaceVertices(std::vector<int> edgesPerFace, std::vector<int> faceVertexIndices, std::vector<double> vertexVector, int numFaces);
     
     
@@ -51,7 +58,7 @@ public:
     void DrawEdges(std::vector<double> vertexVector, int R, int G, int B);
     vector<double> cellVerticesToDraw;
     vector<vector<double>> allCellVerticesToDraw;
-    double GetMin(string, vector<glm::vec3>);
+    //double GetMin(string, vector<glm::vec3>);
     
 };
 
