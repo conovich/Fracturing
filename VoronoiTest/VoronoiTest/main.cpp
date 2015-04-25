@@ -179,10 +179,10 @@ int	main(int argc, char **argv)
     //Voronoi Decomp
     voroTester = VoronoiTest();
     //vector<glm::vec3> randomDebugPoints = myCube.DebugGenerateRandomPts(4);
-    //voroTester.ConvexGeoDecomp(listOfVerts, POI2, listOfIndices);
-    voroTester.CubeExample();
+    voroTester.ConvexGeoDecomp(listOfVerts, POI2, listOfIndices);
+    //voroTester.CubeExample(POI2);
     
-    double max = voroTester.GetMax("x", listOfVerts);
+
     //int newNum = sizeof(*indices); ///sizeof(indices[0]);
     /* Creation of the window */
     glutInit(&argc, argv);

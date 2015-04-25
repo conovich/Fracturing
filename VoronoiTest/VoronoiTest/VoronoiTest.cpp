@@ -25,13 +25,16 @@ const int numX=6,numY=6,numZ=6;
 double rnd() {return double(rand())/RAND_MAX;}
 void VoronoiTest::ConvexGeoDecomp(vector<glm::vec3> meshVerts, glm::vec3 POI, std::vector<int> listOfIndices){
     
-    double x_min = GetMin("x", meshVerts);
-    double y_min = GetMin("y", meshVerts);
-    double z_min = GetMin("z", meshVerts);
+    glm::vec3 minXYZ = GetMin(meshVerts);
+    glm::vec3 maxXYZ = GetMax(meshVerts);
     
-    double x_max = GetMax("x", meshVerts);
-    double y_max = GetMax("y", meshVerts);
-    double z_max = GetMax("z", meshVerts);
+    double x_min = minXYZ[0];//GetMin("x", meshVerts);
+    double y_min = minXYZ[1];//GetMin("y", meshVerts);
+    double z_min = minXYZ[2];//GetMin("z", meshVerts);
+    
+    double x_max = maxXYZ[0];//GetMax("x", meshVerts);
+    double y_max = maxXYZ[1];//GetMax("y", meshVerts);
+    double z_max = maxXYZ[2];//GetMax("z", meshVerts);
     
     double cvol=(x_max-x_min)*(y_max-y_min)*(z_max-z_min);
     numCells = POI.x;
@@ -166,23 +169,55 @@ void VoronoiTest::ConvexGeoDecomp(vector<glm::vec3> meshVerts, glm::vec3 POI, st
     
 }
 
-bool VoronoiTest::CheckCellWithinMesh(vector<glm::vec3> cellVerts, glm::vec3 minXYZ, glm::vec3 maxXYZ){
+//returns if true/false if the cell is entirely inside of the mesh
+//fills the cellVertsInMesh vector with the cells that *are* inside the mesh regardless of the cell being entirely contained in the mesh
+bool VoronoiTest::CheckCellWithinMesh(vector<glm::vec3> cellVerts, glm::vec3 minXYZ, glm::vec3 maxXYZ, vector<glm::vec3> &cellVertsInMesh){
+    cellVertsInMesh.clear();
     
-    return false;
+    bool isEntirelyInsideMesh = true;
+    for(int i = 0; i < cellVerts.size(); i++){
+        glm::vec3 currentCellVert = cellVerts[i];
+        //if outside the minXYZ bounds
+        if(currentCellVert[0] < minXYZ[0] || currentCellVert[1] < minXYZ[1] || currentCellVert[2] < minXYZ[2]){
+            isEntirelyInsideMesh = false;
+        }
+        //if outside maxXYZ bounds
+        else if(currentCellVert[0] > maxXYZ[0] || currentCellVert[1] > maxXYZ[1] || currentCellVert[2] > maxXYZ[2]){
+            isEntirelyInsideMesh = false;
+        }
+        else{ //inside the bounds!
+            cellVertsInMesh.push_back(currentCellVert);
+        }
+    }
+    
+    return isEntirelyInsideMesh;
 }
 
 vector<glm::vec3> VoronoiTest::GetMeshVertsInCell(vector<glm::vec3> cellVerts, vector<glm::vec3> meshVerts){
     vector<glm::vec3> meshVertsInCell;
     
+    glm::vec3 minXYZ = GetMin(cellVerts);
+    glm::vec3 maxXYZ = GetMax(cellVerts);
+    
+    
+    for(int i = 0; i < meshVerts.size(); i++){
+        glm::vec3 currentMeshVert = meshVerts[i];
+        
+        //if inside the minXYZ bounds
+        if(currentMeshVert[0] > minXYZ[0] && currentMeshVert[1] > minXYZ[1] && currentMeshVert[2] > minXYZ[2]){
+            //if inside the maxXYZ bounds
+            if(currentMeshVert[0] < maxXYZ[0] && currentMeshVert[1] < maxXYZ[1] && currentMeshVert[2] < maxXYZ[2]){
+                //inside the bounds!
+                meshVertsInCell.push_back(currentMeshVert);
+            }
+        }
+        
+        
+    }
+    
     return meshVertsInCell;
 }
 
-vector<glm::vec3> VoronoiTest::GetCellVertsInMesh(vector<glm::vec3> cellVerts, vector<glm::vec3> meshVerts){
-    vector<glm::vec3> cellVertsInMesh;
-    
-    return cellVertsInMesh;
-    
-}
 
 vector<glm::vec3> VoronoiTest::GetCellMeshIntersectionPoints(vector<glm::vec3> cellVerts, vector<glm::vec3> meshVerts){
     vector<glm::vec3> intersectionVerts;
@@ -191,108 +226,74 @@ vector<glm::vec3> VoronoiTest::GetCellMeshIntersectionPoints(vector<glm::vec3> c
 }
 
 
-
-double VoronoiTest::GetMin(string coordinate, vector<glm::vec3> meshVerts){
-    double min = 0;
+glm::vec3 VoronoiTest::GetMin(vector<glm::vec3> meshVerts){
+    double minX = 0;
+    double minY = 0;
+    double minZ = 0;
     
-    if(coordinate == "X" || coordinate == "x"){
-        for(int i = 0; i < meshVerts.size(); i++){
-            glm::vec3 currentVert = meshVerts.at(i);
-            if(i == 0){
-                min = (double)currentVert[0];
+    
+    for(int i = 0; i < meshVerts.size(); i++){
+        glm::vec3 currentVert = meshVerts.at(i);
+        if(i == 0){
+            minX = (double)currentVert[0];
+            minY = (double)currentVert[1];
+            minZ = (double)currentVert[2];
+        }
+        else{
+            if(currentVert[0] < minX){
+                minX = (double)currentVert[0];
             }
-            else{
-                if(currentVert[0] < min){
-                    min = (double)currentVert[0];
-                }
+            if(currentVert[1] < minY){
+                minY = (double)currentVert[1];
+            }
+            if(currentVert[2] < minZ){
+                minZ = (double)currentVert[2];
             }
         }
-        return min;
-    }
-    else if(coordinate == "Y" || coordinate == "y"){
-        for(int i = 0; i < meshVerts.size(); i++){
-            glm::vec3 currentVert = meshVerts.at(i);
-            if(i == 0){
-                min = (double)currentVert[1];
-            }
-            else{
-                if(currentVert[1] < min){
-                    min = (double)currentVert[1];
-                }
-            }
-        }
-        return min;
-    }
-    else if(coordinate == "Z" || coordinate == "z"){
-        for(int i = 0; i < meshVerts.size(); i++){
-            glm::vec3 currentVert = meshVerts.at(i);
-            if(i == 0){
-                min = (double)currentVert[2];
-            }
-            else{
-                if(currentVert[2] < min){
-                    min = (double)currentVert[2];
-                }
-            }
-        }
-        return min;
     }
     
-    else return -1; //MAYDAY.
+    
+    
+    glm::vec3 minXYZ = glm::vec3(minX, minY, minZ);
+    return minXYZ;
 }
 
-double VoronoiTest::GetMax(string coordinate, vector<glm::vec3> meshVerts){
-    double max = 0;
+glm::vec3 VoronoiTest::GetMax(vector<glm::vec3> meshVerts){
+    double maxX = 0;
+    double maxY = 0;
+    double maxZ = 0;
     
-    if(coordinate == "X" || coordinate == "x"){
-        for(int i = 0; i < meshVerts.size(); i++){
-            glm::vec3 currentVert = meshVerts.at(i);
-            if(i == 0){
-                max = (double)currentVert[0];
+    
+    for(int i = 0; i < meshVerts.size(); i++){
+        glm::vec3 currentVert = meshVerts.at(i);
+        if(i == 0){
+            maxX = (double)currentVert[0];
+            maxY = (double)currentVert[1];
+            maxZ = (double)currentVert[2];
+        }
+        else{
+            if(currentVert[0] > maxX){
+                maxX = (double)currentVert[0];
             }
-            else{
-                if(currentVert[0] > max){
-                    max = (double)currentVert[0];
-                }
+            if(currentVert[1] > maxY){
+                maxY = (double)currentVert[1];
+            }
+            if(currentVert[2] > maxZ){
+                maxZ = (double)currentVert[2];
             }
         }
-        return max;
-    }
-    else if(coordinate == "Y" || coordinate == "y"){
-        for(int i = 0; i < meshVerts.size(); i++){
-            glm::vec3 currentVert = meshVerts.at(i);
-            if(i == 0){
-                max = (double)currentVert[1];
-            }
-            else{
-                if(currentVert[1] > max){
-                    max = (double)currentVert[1];
-                }
-            }
-        }
-        return max;
-    }
-    else if(coordinate == "Z" || coordinate == "z"){
-        for(int i = 0; i < meshVerts.size(); i++){
-            glm::vec3 currentVert = meshVerts.at(i);
-            if(i == 0){
-                max = (double)currentVert[2];
-            }
-            else{
-                if(currentVert[2] < max){
-                    max = (double)currentVert[2];
-                }
-            }
-        }
-        return max;
     }
     
-    else return -1; //MAYDAY.
+    
+    
+    glm::vec3 maxXYZ = glm::vec3(maxX, maxY, maxZ);
+    return maxXYZ;
 }
 
 
 
-void VoronoiTest::CubeExample(){
+
+void VoronoiTest::CubeExample(glm::vec3 POI){
     const double x_min=-1,x_max=1;
     const double y_min=-1,y_max=1;
     const double z_min=-1,z_max=1;
@@ -327,9 +328,9 @@ void VoronoiTest::CubeExample(){
     //myCube = Cube(listOfVerts);
     //myCube = Cube();
     std::vector<float> pot;
-    pot.push_back(.7f);
-    pot.push_back(.1f);
-    pot.push_back(.1f);
+    pot.push_back(POI.x);
+    pot.push_back(POI.y);
+    pot.push_back(POI.z);
     //myCube.GenerateRandomInternalPoints(500, pot);
     
     std::vector<int> listOfIndices;
@@ -387,7 +388,7 @@ void VoronoiTest::CubeExample(){
     //double x_guy = GetMin("x", listOfVerts);
     
 	// Randomly add particles into the container
-	for(i=0;i<particles;i++) {
+	for(i=0;i<myMesh.numInternalPoints;i++) {
         x = myMesh.myInternalPoints[i][0];
         y = myMesh.myInternalPoints[i][1];
         z = myMesh.myInternalPoints[i][2];
@@ -453,21 +454,22 @@ void VoronoiTest::CubeExample(){
                 double posCz;
                 vl.pos(posCx, posCy, posCz);
                 //c_loop_base.pos(posC.x, posC.y, posC.z);
-                c.vertices(posCx, posCy, posCz, vertexVector); //global verts stored in x,y,z order
+                c.vertices(posCx, posCy, posCz, vertexVector);
+                //c.vertices(vertexVector); //global verts stored in x,y,z order
                 
-              
                 
-                /*
+                
+                
                 for (i = 0 ; i < vertexVector.size(); i++) {
                     if (vertexVector[i] > 1.0f) vertexVector[i] = 1.0f;
                     if (vertexVector[i] < -1.0f) vertexVector[i] = -1.0f;
                 }
-                */
+                
                 
                 
                 
                 //AHHHHHH//
-                //currentCellFaces;
+                //vector<vector<glm::vec3>> currentCellFaces;
                 
                 i = 0;
                 cellVerticesToDraw.clear();
