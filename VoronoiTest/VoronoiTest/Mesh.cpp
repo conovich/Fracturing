@@ -30,12 +30,22 @@ Mesh::Mesh(){
     //numOfIntersections = 0;
 }
 
-Mesh::Mesh(std::vector<glm::vec3> vertices, std::vector<int> indices, glm::vec3 center) {
+Mesh::Mesh(std::vector<glm::vec3> vertices, std::vector<int> indices, glm::vec3 center, string newType) {
+    myType = newType;
+    
     numOfIntersections = 0;
+    
+    float centerX = 0.0f;
+    float centerY = 0.0f;
+    float centerZ = 0.0f;
+    
     
     //add vertices from mesh to myVertices
     for(int i = 0; i < vertices.size(); i++) {
         myVertices.push_back(vertices[i]);
+        centerX += vertices[i].x;
+        centerY += vertices[i].y;
+        centerZ += vertices[i].z;
     }
     
     //add triangle indices to myIndices
@@ -44,63 +54,114 @@ Mesh::Mesh(std::vector<glm::vec3> vertices, std::vector<int> indices, glm::vec3 
         myIndices.push_back(indices[j] - 1);
     }
     
-    myCenter = center; //center of bounding box of the mesh
-    p1 = vertices[0];
-    p2 = vertices[1];
-    p3 = vertices[2];
-    p4 = vertices[3];
-    p5 = vertices[4];
-    p6 = vertices[5];
-    p7 = vertices[6];
-    p8 = vertices[7];
+     //center of bounding box of the mesh
+    //myCenter = center;
+    myCenter = glm::vec3(centerX/vertices.size(), centerY/vertices.size(), centerZ/vertices.size());
+    
+    
+    //JUST FOR DRAWING -- WILL HAVE NO EFFECT ON THE MESH FUNCTIONALITY.
+    if(myType == "cube"){
+        p1 = vertices[0];
+        p2 = vertices[1];
+        p3 = vertices[2];
+        p4 = vertices[3];
+        p5 = vertices[4];
+        p6 = vertices[5];
+        p7 = vertices[6];
+        p8 = vertices[7];
+    }
+    else if(myType == "tetrahedron"){
+        p1 = vertices[0]; //bottom point
+        p2 = vertices[1]; //bottom point
+        p3 = vertices[2]; //bottom point
+        p4 = vertices[3]; //top point
+    }
+    else if(myType == "other"){
+        //not drawing these currently!
+    }
     
 }
 
+glm::vec3 Mesh::CalculateCenter(){
+    //TODO: calculate center based on the vertices!!!
+    glm::vec3 center;
+    
+    return center;
+    
+}
+
+//should refactor to give each shape type its own drawing method, instead of using the mesh class for all meshes.
 void Mesh::DrawWireframe(){
     /* We tell we want to draw lines */
     glBegin(GL_LINES);
     
-    //top face
-    glColor3f(0, 0, 0); glVertex3f(p1[0], p1[1], p1[2]);
-    glColor3f(0, 0, 1); glVertex3f(p2[0], p2[1],  p2[2]);
+    if(myType == "cube"){
+        //top face
+        glColor3f(0, 0, 0); glVertex3f(p1[0], p1[1], p1[2]);
+        glColor3f(0, 0, 1); glVertex3f(p2[0], p2[1],  p2[2]);
+        
+        glColor3f(0, 1, 1); glVertex3f(p2[0], p2[1], p2[2]);
+        glColor3f(0, 1, 0); glVertex3f(p3[0], p3[1], p3[2]);
+        
+        glColor3f(1, 0, 0); glVertex3f(p3[0], p3[1], p3[2]);
+        glColor3f(1, 0, 1); glVertex3f(p4[0], p4[1], p4[2]);
+        
+        glColor3f(1, 1, 1); glVertex3f(p4[0], p4[1], p4[2]);
+        glColor3f(1, 1, 0); glVertex3f(p1[0], p1[1], p1[2]);
+        
+        
+        //bottom face
+        glColor3f(0, 0, 0); glVertex3f(p5[0], p5[1], p5[2]);
+        glColor3f(0, 0, 1); glVertex3f(p6[0], p6[1], p6[2]);
+        
+        glColor3f(1, 0, 1); glVertex3f(p6[0], p6[1], p6[2]);
+        glColor3f(1, 0, 0); glVertex3f(p7[0], p7[1], p7[2]);
+        
+        glColor3f(0, 1, 0); glVertex3f(p7[0], p7[1], p7[2]);
+        glColor3f(0, 1, 1); glVertex3f(p8[0], p8[1], p8[2]);
+        
+        glColor3f(1, 1, 1); glVertex3f(p8[0], p8[1], p8[2]);
+        glColor3f(1, 1, 0); glVertex3f(p5[0], p5[1], p5[2]);
+        
+        
+        //sides!
+        glColor3f(0, 0, 0); glVertex3f(p1[0], p1[1], p1[2]);
+        glColor3f(0, 1, 0); glVertex3f(p5[0], p5[1], p5[2]);
+        
+        glColor3f(1, 1, 0); glVertex3f(p2[0], p2[1], p2[2]);
+        glColor3f(1, 0, 0); glVertex3f(p6[0], p6[1], p6[2]);
+        
+        glColor3f(0, 0, 1); glVertex3f(p3[0], p3[1], p3[2]);
+        glColor3f(0, 1, 1); glVertex3f(p7[0], p7[1], p7[2]);
+        
+        glColor3f(1, 1, 1); glVertex3f(p4[0], p4[1], p4[2]);
+        glColor3f(1, 0, 1); glVertex3f(p8[0], p8[1], p8[2]);
+    }
     
-    glColor3f(0, 1, 1); glVertex3f(p2[0], p2[1], p2[2]);
-    glColor3f(0, 1, 0); glVertex3f(p3[0], p3[1], p3[2]);
+    else if (myType == "tetrahedron"){
+        //sides
+        glColor3f(1, 1, 1); glVertex3f(p4[0], p4[1], p4[2]);
+        glColor3f(1, 1, 1); glVertex3f(p1[0], p1[1],  p1[2]);
+        
+        glColor3f(1, 1, 1); glVertex3f(p4[0], p4[1], p4[2]);
+        glColor3f(1, 1, 1); glVertex3f(p2[0], p2[1], p2[2]);
+        
+        glColor3f(1, 1, 1); glVertex3f(p4[0], p4[1], p4[2]);
+        glColor3f(1, 1, 1); glVertex3f(p3[0], p3[1], p3[2]);
+        
+        //base
+        glColor3f(1, 1, 1); glVertex3f(p1[0], p1[1], p1[2]);
+        glColor3f(1, 1, 1); glVertex3f(p2[0], p2[1], p2[2]);
     
-    glColor3f(1, 0, 0); glVertex3f(p3[0], p3[1], p3[2]);
-    glColor3f(1, 0, 1); glVertex3f(p4[0], p4[1], p4[2]);
+        glColor3f(1, 1, 1); glVertex3f(p2[0], p2[1], p2[2]);
+        glColor3f(1, 1, 1); glVertex3f(p3[0], p3[1], p3[2]);
+        
+        glColor3f(1, 1, 1); glVertex3f(p3[0], p3[1], p3[2]);
+        glColor3f(1, 1, 1); glVertex3f(p1[0], p1[1], p1[2]);
+        
+    }
     
-    glColor3f(1, 1, 1); glVertex3f(p4[0], p4[1], p4[2]);
-    glColor3f(1, 1, 0); glVertex3f(p1[0], p1[1], p1[2]);
-    
-    
-    //bottom face
-    glColor3f(0, 0, 0); glVertex3f(p5[0], p5[1], p5[2]);
-    glColor3f(0, 0, 1); glVertex3f(p6[0], p6[1], p6[2]);
-    
-    glColor3f(1, 0, 1); glVertex3f(p6[0], p6[1], p6[2]);
-    glColor3f(1, 0, 0); glVertex3f(p7[0], p7[1], p7[2]);
-    
-    glColor3f(0, 1, 0); glVertex3f(p7[0], p7[1], p7[2]);
-    glColor3f(0, 1, 1); glVertex3f(p8[0], p8[1], p8[2]);
-    
-    glColor3f(1, 1, 1); glVertex3f(p8[0], p8[1], p8[2]);
-    glColor3f(1, 1, 0); glVertex3f(p5[0], p5[1], p5[2]);
-    
-    
-    //sides!
-    glColor3f(0, 0, 0); glVertex3f(p1[0], p1[1], p1[2]);
-    glColor3f(0, 1, 0); glVertex3f(p5[0], p5[1], p5[2]);
-    
-    glColor3f(1, 1, 0); glVertex3f(p2[0], p2[1], p2[2]);
-    glColor3f(1, 0, 0); glVertex3f(p6[0], p6[1], p6[2]);
-    
-    glColor3f(0, 0, 1); glVertex3f(p3[0], p3[1], p3[2]);
-    glColor3f(0, 1, 1); glVertex3f(p7[0], p7[1], p7[2]);
-    
-    glColor3f(1, 1, 1); glVertex3f(p4[0], p4[1], p4[2]);
-    glColor3f(1, 0, 1); glVertex3f(p8[0], p8[1], p8[2]);
-
+    //CURRENTLY DON'T DRAW IF IT'S AN OTHER SHAPE.
     
     glEnd();
     

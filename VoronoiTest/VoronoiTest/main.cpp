@@ -101,9 +101,8 @@ void		KeyboardFunc(unsigned char key, int x, int y)
         exit(0);
 }
 
-
-int	main(int argc, char **argv)
-{
+//TODO: MOVE TO MESH CLASS
+std::vector<glm::vec3> MakeCubeListOfVerts(){
     std::vector<glm::vec3> listOfVerts;
     listOfVerts.push_back(glm::vec3(-1, 1, -1));
     listOfVerts.push_back(glm::vec3(1, 1, -1));
@@ -113,15 +112,13 @@ int	main(int argc, char **argv)
     listOfVerts.push_back(glm::vec3(1, -1, -1));
     listOfVerts.push_back(glm::vec3(1, -1, 1));
     listOfVerts.push_back(glm::vec3(-1, -1, 1));
-    //myCube = Cube(listOfVerts);
-    //myCube = Cube();
-    std::vector<float> pot;
-    pot.push_back(1.0f);
-    pot.push_back(0.0f);
-    pot.push_back(-1.0f);
-    glm::vec3 POI(pot[0], pot[1], pot[2]);
-    //myCube.GenerateRandomInternalPoints(500, pot);
     
+    return listOfVerts;
+    
+}
+
+//TODO: MOVE TO MESH CLASS
+std::vector<int> MakeCubeListOfIndices(){
     std::vector<int> listOfIndices;
     listOfIndices.push_back(1);
     listOfIndices.push_back(2);
@@ -154,7 +151,7 @@ int	main(int argc, char **argv)
     listOfIndices.push_back(4);
     listOfIndices.push_back(5);
     listOfIndices.push_back(8);
-
+    
     listOfIndices.push_back(1);
     listOfIndices.push_back(4);
     listOfIndices.push_back(3);
@@ -171,18 +168,82 @@ int	main(int argc, char **argv)
     listOfIndices.push_back(6);
     listOfIndices.push_back(7);
     
+    return listOfIndices;
+    
+}
+
+//TODO: MOVE TO MESH CLASS
+std::vector<glm::vec3> MakeTetraListOfVerts(){
+    std::vector<glm::vec3> listOfVerts;
+    listOfVerts.push_back((glm::vec3(-0.5f, -0.5f, -0.5f))); //bottom point
+    listOfVerts.push_back((glm::vec3(2 - 0.5f, -0.5f, -0.5f))); //bottom point
+    float sqrtPt75 = glm::sqrt(0.75);
+    listOfVerts.push_back(glm::vec3(1 - 0.5f, -0.5f, (sqrtPt75*2.0f) - 0.5f)); //bottom point
+    listOfVerts.push_back(glm::vec3((.5f*2.0f) - 0.5f, (sqrtPt75*2.0f) - 0.5f, (2.0f*(sqrtPt75)/3) - 0.5f)); //top point
+    
+    return listOfVerts;
+    
+}
+
+//TODO: MOVE TO MESH CLASS
+std::vector<int> MakeTetraListOfIndices(){
+    std::vector<int> listOfIndices;
+ 
+    listOfIndices.push_back(0);
+    listOfIndices.push_back(1);
+    listOfIndices.push_back(2);
+    
+    listOfIndices.push_back(0);
+    listOfIndices.push_back(2);
+    listOfIndices.push_back(3);
+    
+    listOfIndices.push_back(2);
+    listOfIndices.push_back(1);
+    listOfIndices.push_back(3);
+    
+    listOfIndices.push_back(0);
+    listOfIndices.push_back(3);
+    listOfIndices.push_back(1);
+    
+    return listOfIndices;
+}
+
+
+int	main(int argc, char **argv)
+{
+    
+    //CUBE CASE
+    //std::vector<glm::vec3> listOfVerts = MakeCubeListOfVerts();
+    //std::vector<int> listOfIndices = MakeCubeListOfIndices();
+    //string shapeType = "cube";
+    
+    //TETRAHEDON CASE
+    std::vector<glm::vec3> listOfVerts = MakeTetraListOfVerts();
+    std::vector<int> listOfIndices = MakeTetraListOfIndices();
+    string shapeType = "tetrahedron";
+    
+    //myCube = Cube(listOfVerts);
+    //myCube = Cube();
+    std::vector<float> pot;
+    pot.push_back(0.0f);
+    pot.push_back(0.0f);
+    pot.push_back(0.0f);
+    glm::vec3 POI(pot[0], pot[1], pot[2]);
+    //myCube.GenerateRandomInternalPoints(500, pot);
+    
+    
     // USE PASSED IN ARGUMENTS
-    myMesh = Mesh(listOfVerts, listOfIndices, glm::vec3(0, 0, 0));
+    myMesh = Mesh(listOfVerts, listOfIndices, glm::vec3(0, 0, 0), shapeType);
     myMesh.GenerateRandomInternalPoints(500, pot); 
     
     glm::vec3 POI2 = glm::vec3(pot[0], pot[1], pot[2]);
     //Voronoi Decomp
     voroTester = VoronoiTest();
     //vector<glm::vec3> randomDebugPoints = myCube.DebugGenerateRandomPts(4);
-    //voroTester.ConvexGeoDecomp(listOfVerts, POI2, listOfIndices);
-    voroTester.CubeExample();
+    voroTester.ConvexGeoDecomp(listOfVerts, POI2, listOfIndices);
+    //voroTester.CubeExample(POI2);
     
-    double max = voroTester.GetMax("x", listOfVerts);
+
     //int newNum = sizeof(*indices); ///sizeof(indices[0]);
     /* Creation of the window */
     glutInit(&argc, argv);
