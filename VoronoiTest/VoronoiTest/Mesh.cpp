@@ -35,9 +35,17 @@ Mesh::Mesh(std::vector<glm::vec3> vertices, std::vector<int> indices, glm::vec3 
     
     numOfIntersections = 0;
     
+    float centerX = 0.0f;
+    float centerY = 0.0f;
+    float centerZ = 0.0f;
+    
+    
     //add vertices from mesh to myVertices
     for(int i = 0; i < vertices.size(); i++) {
         myVertices.push_back(vertices[i]);
+        centerX += vertices[i].x;
+        centerY += vertices[i].y;
+        centerZ += vertices[i].z;
     }
     
     //add triangle indices to myIndices
@@ -46,7 +54,9 @@ Mesh::Mesh(std::vector<glm::vec3> vertices, std::vector<int> indices, glm::vec3 
         myIndices.push_back(indices[j] - 1);
     }
     
-    myCenter = center; //center of bounding box of the mesh
+     //center of bounding box of the mesh
+    //myCenter = center;
+    myCenter = glm::vec3(centerX/vertices.size(), centerY/vertices.size(), centerZ/vertices.size());
     
     
     //JUST FOR DRAWING -- WILL HAVE NO EFFECT ON THE MESH FUNCTIONALITY.
@@ -130,24 +140,24 @@ void Mesh::DrawWireframe(){
     
     else if (myType == "tetrahedron"){
         //sides
-        glColor3f(0, 0, 0); glVertex3f(p4[0], p4[1], p4[2]);
-        glColor3f(0, 0, 1); glVertex3f(p1[0], p1[1],  p1[2]);
+        glColor3f(1, 1, 1); glVertex3f(p4[0], p4[1], p4[2]);
+        glColor3f(1, 1, 1); glVertex3f(p1[0], p1[1],  p1[2]);
         
-        glColor3f(0, 1, 1); glVertex3f(p4[0], p4[1], p4[2]);
-        glColor3f(0, 1, 0); glVertex3f(p2[0], p2[1], p2[2]);
+        glColor3f(1, 1, 1); glVertex3f(p4[0], p4[1], p4[2]);
+        glColor3f(1, 1, 1); glVertex3f(p2[0], p2[1], p2[2]);
         
-        glColor3f(1, 0, 0); glVertex3f(p4[0], p4[1], p4[2]);
-        glColor3f(1, 0, 1); glVertex3f(p3[0], p3[1], p3[2]);
+        glColor3f(1, 1, 1); glVertex3f(p4[0], p4[1], p4[2]);
+        glColor3f(1, 1, 1); glVertex3f(p3[0], p3[1], p3[2]);
         
         //base
         glColor3f(1, 1, 1); glVertex3f(p1[0], p1[1], p1[2]);
-        glColor3f(1, 1, 0); glVertex3f(p2[0], p2[1], p2[2]);
+        glColor3f(1, 1, 1); glVertex3f(p2[0], p2[1], p2[2]);
     
-        glColor3f(0, 0, 0); glVertex3f(p2[0], p2[1], p2[2]);
-        glColor3f(0, 0, 1); glVertex3f(p3[0], p3[1], p3[2]);
+        glColor3f(1, 1, 1); glVertex3f(p2[0], p2[1], p2[2]);
+        glColor3f(1, 1, 1); glVertex3f(p3[0], p3[1], p3[2]);
         
-        glColor3f(1, 0, 1); glVertex3f(p3[0], p3[1], p3[2]);
-        glColor3f(1, 0, 0); glVertex3f(p1[0], p1[1], p1[2]);
+        glColor3f(1, 1, 1); glVertex3f(p3[0], p3[1], p3[2]);
+        glColor3f(1, 1, 1); glVertex3f(p1[0], p1[1], p1[2]);
         
     }
     

@@ -225,9 +225,9 @@ int	main(int argc, char **argv)
     //myCube = Cube(listOfVerts);
     //myCube = Cube();
     std::vector<float> pot;
-    pot.push_back(1.0f);
     pot.push_back(0.0f);
-    pot.push_back(-1.0f);
+    pot.push_back(0.0f);
+    pot.push_back(0.0f);
     glm::vec3 POI(pot[0], pot[1], pot[2]);
     //myCube.GenerateRandomInternalPoints(500, pot);
     
