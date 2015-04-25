@@ -37,7 +37,6 @@ void VoronoiTest::ConvexGeoDecomp(vector<glm::vec3> meshVerts, glm::vec3 POI, st
     double z_max = maxXYZ[2];//GetMax("z", meshVerts);
     
     double cvol=(x_max-x_min)*(y_max-y_min)*(z_max-z_min);
-    numCells = POI.x;
     
     // Set up the number of blocks that the container is divided into
     const int n_x=6,n_y=6,n_z=6;
@@ -91,6 +90,7 @@ void VoronoiTest::ConvexGeoDecomp(vector<glm::vec3> meshVerts, glm::vec3 POI, st
     
     allCellFaces.clear();
     allCellVerticesToDraw.clear();
+    //newCellVerticesToDraw.clear();
     
     voronoicell c;
     double vol=0;
@@ -163,10 +163,17 @@ void VoronoiTest::ConvexGeoDecomp(vector<glm::vec3> meshVerts, glm::vec3 POI, st
                 
                 
                 vector<glm::vec3> cellVertsInMesh; //will be filled with the verts that are in the mesh
-                bool isEntirelyInMesh = CheckCellWithinMesh(currentCellVertsVec3, minXYZ, maxXYZ, cellVertsInMesh);
+                vector<glm::vec3> cellVertsNotInMesh;
+                bool isEntirelyInMesh = CheckCellWithinMesh(currentCellVertsVec3, minXYZ, maxXYZ, cellVertsInMesh,  myMesh);
+                
+                for(int i = 0; i < cellVertsInMesh.size(); i++) {
+                    cellVertsInMeshToDraw.push_back(cellVertsInMesh[i].x);
+                    cellVertsInMeshToDraw.push_back(cellVertsInMesh[i].y);
+                    cellVertsInMeshToDraw.push_back(cellVertsInMesh[i].z);
+                }
                 
                 if(isEntirelyInMesh){
-            
+                    printf("is entirely in mesh");
                     //cellVerticesToDraw = vertexVector;
                     allCellVerticesToDraw.push_back(cellVerticesToDraw);
                     
@@ -174,11 +181,11 @@ void VoronoiTest::ConvexGeoDecomp(vector<glm::vec3> meshVerts, glm::vec3 POI, st
                     allCellFaces.push_back(currentCellFaces);
                     
                 }
-                else{
-                    
-                    int a = 0;
+                else {
+                    allCellFaces2.push_back(currentCellFaces);
                     
                 }
+                
             
             }
         }while(vl.inc());
@@ -196,10 +203,40 @@ void VoronoiTest::ConvexGeoDecomp(vector<glm::vec3> meshVerts, glm::vec3 POI, st
 
 //returns if true/false if the cell is entirely inside of the mesh
 //fills the cellVertsInMesh vector with the cells that *are* inside the mesh regardless of the cell being entirely contained in the mesh
-bool VoronoiTest::CheckCellWithinMesh(vector<glm::vec3> cellVerts, glm::vec3 minXYZ, glm::vec3 maxXYZ, vector<glm::vec3> &cellVertsInMesh){
+bool VoronoiTest::CheckCellWithinMesh(vector<glm::vec3> cellVerts, glm::vec3 minXYZ, glm::vec3 maxXYZ, vector<glm::vec3> &cellVertsInMesh, Mesh mesh){
     cellVertsInMesh.clear();
-    
     bool isEntirelyInsideMesh = true;
+    
+    //test whether point is within mesh
+    for(int j = 0; j < cellVerts.size(); j++) {
+        mesh.numOfIntersections = 0;
+        
+        //raycast from each point in myRandomPoints in the direction of center of mesh
+        float x = mesh.myCenter[0] - cellVerts[j][0];
+        float y = mesh.myCenter[1] - cellVerts[j][1];
+        float z = mesh.myCenter[2] - cellVerts[j][2];
+        
+        glm::vec3 d = glm::vec3(x, y, z);
+        glm::vec3 o = glm::vec3(cellVerts[j][0], cellVerts[j][1], cellVerts[j][2]);
+        Ray ray;
+        float epsilon = 0.00001;
+        ray.orig = o + d*epsilon;
+        ray.dir = d;
+        
+        mesh.intersectImpl(ray);
+            
+        //if the number of intersections is odd, add to points in mesh.
+        if(mesh.numOfIntersections %2 == 1) {
+            cellVertsInMesh.push_back(cellVerts[j]);
+        }
+    }
+
+    if(cellVertsInMesh.size() > 0) isEntirelyInsideMesh = true;
+    else isEntirelyInsideMesh = false;
+    //convexHulls.push_back(convexMesh);
+
+    
+    /**
     for(int i = 0; i < cellVerts.size(); i++){
         glm::vec3 currentCellVert = cellVerts[i];
         //if outside the minXYZ bounds
@@ -214,7 +251,7 @@ bool VoronoiTest::CheckCellWithinMesh(vector<glm::vec3> cellVerts, glm::vec3 min
             cellVertsInMesh.push_back(currentCellVert);
         }
     }
-    
+    */
     return isEntirelyInsideMesh;
 }
 
@@ -452,6 +489,7 @@ void VoronoiTest::CubeExample(glm::vec3 POI){
     
     allCellFaces.clear();
     allCellVerticesToDraw.clear();
+    //newCellVerticesToDraw.clear();
     
     voronoicell c;
     double vol=0;
@@ -724,9 +762,50 @@ void VoronoiTest::DrawVoronoiEdges(){
                     glColor3f(0, 1, 0); glVertex3f(endVert[0], endVert[1],  endVert[2]);
                 }
                 else {
-                    glColor3f(0, 0, 1); glVertex3f(startVert[0], startVert[1], startVert[2]);
-                    glColor3f(0, 0, 1); glVertex3f(endVert[0], endVert[1],  endVert[2]);
+                    glColor3f(0, 1, 0); glVertex3f(startVert[0], startVert[1], startVert[2]);
+                    glColor3f(0, 1, 0); glVertex3f(endVert[0], endVert[1],  endVert[2]);
 
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    //end drawing//
+    glEnd();
+    glBegin(GL_LINES);
+    
+    unsigned long numCells2 = allCellFaces2.size();
+    for(int i = 0; i < numCells2; i++){
+        
+        vector<vector<glm::vec3>> currentCellFaces = allCellFaces2.at(i);
+        unsigned long numFaces = currentCellFaces.size();
+        for(int j = 0; j < numFaces; j++){
+            
+            vector<glm::vec3> currentFace = currentCellFaces.at(j);
+            unsigned long numVerts = currentFace.size();
+            for(int k = 0; k < numVerts; k+=2){
+                
+                //DRAW EACH EDGE HERE
+                glm::vec3 startVert = currentFace.at(k);
+                glm::vec3 endVert;
+                if (k+1 != numVerts) {
+                    endVert = currentFace.at(k+1);
+                }
+                else {
+                    endVert = currentFace.at(0);
+                }
+                //top face
+                if (i == 0){
+                    glColor3f(1, 0, 0); glVertex3f(startVert[0], startVert[1], startVert[2]);
+                    glColor3f(1, 0, 0); glVertex3f(endVert[0], endVert[1],  endVert[2]);
+                }
+                else {
+                    glColor3f(1, 0, 0); glVertex3f(startVert[0], startVert[1], startVert[2]);
+                    glColor3f(1, 0, 0); glVertex3f(endVert[0], endVert[1],  endVert[2]);
+                    
                 }
                 
             }

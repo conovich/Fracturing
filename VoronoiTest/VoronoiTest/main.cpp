@@ -60,11 +60,13 @@ void		DisplayFunc(void)
     voroTester.DrawVoronoiEdges();
     //voroTester.DrawVoronoiVertices();
     voroTester.DrawVertices(voroTester.cellVerticesToDraw, 1, 1, 1);
+    voroTester.DrawVertices(voroTester.cellVertsInMeshToDraw, 0, 0, 1);
+    //voroTester.DrawAllVertices(voroTester.newCellVerticesToDraw);
     //voroTester.DrawAllVertices(voroTester.allCellVerticesToDraw);
     
     
     /* Rotate a bit more */
-    alpha = alpha + 0.01;
+    alpha = alpha + 0.1;
     
     /* End */
     glFlush();
@@ -227,14 +229,14 @@ int	main(int argc, char **argv)
     std::vector<float> pot;
     pot.push_back(0.0f);
     pot.push_back(0.0f);
-    pot.push_back(0.0f);
+    pot.push_back(-0.5f);
     glm::vec3 POI(pot[0], pot[1], pot[2]);
     //myCube.GenerateRandomInternalPoints(500, pot);
     
     
     // USE PASSED IN ARGUMENTS
     myMesh = Mesh(listOfVerts, listOfIndices, glm::vec3(0, 0, 0), shapeType);
-    myMesh.GenerateRandomInternalPoints(500, pot); 
+    myMesh.GenerateRandomInternalPoints(1000, pot);
     
     glm::vec3 POI2 = glm::vec3(pot[0], pot[1], pot[2]);
     //Voronoi Decomp

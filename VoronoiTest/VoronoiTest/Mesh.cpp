@@ -228,6 +228,7 @@ void Mesh::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
         float y = myCenter[1] - myRandomPoints[j][1];
         float z = myCenter[2] - myRandomPoints[j][2];
         
+        
         glm::vec3 d = glm::vec3(x, y, z);
         glm::vec3 o = glm::vec3(myRandomPoints[j][0], myRandomPoints[j][1], myRandomPoints[j][2]);
         Ray ray;
