@@ -101,9 +101,7 @@ void		KeyboardFunc(unsigned char key, int x, int y)
         exit(0);
 }
 
-
-int	main(int argc, char **argv)
-{
+std::vector<glm::vec3> MakeCubeListOfVerts(){
     std::vector<glm::vec3> listOfVerts;
     listOfVerts.push_back(glm::vec3(-1, 1, -1));
     listOfVerts.push_back(glm::vec3(1, 1, -1));
@@ -113,15 +111,12 @@ int	main(int argc, char **argv)
     listOfVerts.push_back(glm::vec3(1, -1, -1));
     listOfVerts.push_back(glm::vec3(1, -1, 1));
     listOfVerts.push_back(glm::vec3(-1, -1, 1));
-    //myCube = Cube(listOfVerts);
-    //myCube = Cube();
-    std::vector<float> pot;
-    pot.push_back(1.0f);
-    pot.push_back(0.0f);
-    pot.push_back(-1.0f);
-    glm::vec3 POI(pot[0], pot[1], pot[2]);
-    //myCube.GenerateRandomInternalPoints(500, pot);
     
+    return listOfVerts;
+    
+}
+
+std::vector<int> MakeCubeListOfIndices(){
     std::vector<int> listOfIndices;
     listOfIndices.push_back(1);
     listOfIndices.push_back(2);
@@ -154,7 +149,7 @@ int	main(int argc, char **argv)
     listOfIndices.push_back(4);
     listOfIndices.push_back(5);
     listOfIndices.push_back(8);
-
+    
     listOfIndices.push_back(1);
     listOfIndices.push_back(4);
     listOfIndices.push_back(3);
@@ -171,8 +166,67 @@ int	main(int argc, char **argv)
     listOfIndices.push_back(6);
     listOfIndices.push_back(7);
     
+    return listOfIndices;
+    
+}
+
+std::vector<glm::vec3> MakeTetraListOfVerts(){
+    std::vector<glm::vec3> listOfVerts;
+    listOfVerts.push_back(glm::vec3(0, 0, 0));
+    listOfVerts.push_back(glm::vec3(1, 0, 0));
+    listOfVerts.push_back(glm::vec3(.5, 0, glm::sqrt(0.75)));
+    listOfVerts.push_back(glm::vec3(.5, glm::sqrt(0.75), (glm::sqrt(0.75))/3));
+    
+    return listOfVerts;
+    
+}
+
+std::vector<int> MakeTetraListOfIndices(){
+    std::vector<int> listOfIndices;
+ 
+    listOfIndices.push_back(0);
+    listOfIndices.push_back(1);
+    listOfIndices.push_back(2);
+    
+    listOfIndices.push_back(0);
+    listOfIndices.push_back(2);
+    listOfIndices.push_back(3);
+    
+    listOfIndices.push_back(2);
+    listOfIndices.push_back(1);
+    listOfIndices.push_back(3);
+    
+    listOfIndices.push_back(0);
+    listOfIndices.push_back(3);
+    listOfIndices.push_back(1);
+    
+    return listOfIndices;
+}
+
+
+int	main(int argc, char **argv)
+{
+    
+    //CUBE CASE
+    //std::vector<glm::vec3> listOfVerts = MakeCubeListOfVerts();
+    //std::vector<int> listOfIndices = MakeCubeListOfIndices();
+    
+    //TETRAHEDON CASE
+    std::vector<glm::vec3> listOfVerts = MakeTetraListOfVerts();
+    std::vector<int> listOfIndices = MakeTetraListOfIndices();
+    
+    //myCube = Cube(listOfVerts);
+    //myCube = Cube();
+    std::vector<float> pot;
+    pot.push_back(1.0f);
+    pot.push_back(0.0f);
+    pot.push_back(-1.0f);
+    glm::vec3 POI(pot[0], pot[1], pot[2]);
+    //myCube.GenerateRandomInternalPoints(500, pot);
+    
+    
     // USE PASSED IN ARGUMENTS
-    myMesh = Mesh(listOfVerts, listOfIndices, glm::vec3(0, 0, 0));
+    myMesh = Mesh(listOfVerts, listOfIndices, glm::vec3(0, 0, 0), "tetrahedron");
     myMesh.GenerateRandomInternalPoints(500, pot); 
     
     glm::vec3 POI2 = glm::vec3(pot[0], pot[1], pot[2]);

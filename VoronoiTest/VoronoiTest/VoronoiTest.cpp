@@ -63,7 +63,7 @@ void VoronoiTest::ConvexGeoDecomp(vector<glm::vec3> meshVerts, glm::vec3 POI, st
     pot.push_back(POI.z);
     
     // USE PASSED IN ARGUMENTS
-    Mesh myMesh = Mesh(meshVerts, listOfIndices, glm::vec3(0, 0, 0));
+    Mesh myMesh = Mesh(meshVerts, listOfIndices, glm::vec3(0, 0, 0), "other");
     myMesh.GenerateRandomInternalPoints(100, pot);
     // Randomly add particles into the container
     //for(i=0;i<particles;i++) {
@@ -383,7 +383,7 @@ void VoronoiTest::CubeExample(glm::vec3 POI){
     listOfIndices.push_back(7);
     
     // USE PASSED IN ARGUMENTS
-    Mesh myMesh = Mesh(listOfVerts, listOfIndices, glm::vec3(0, 0, 0));
+    Mesh myMesh = Mesh(listOfVerts, listOfIndices, glm::vec3(0, 0, 0), "cube");
     myMesh.GenerateRandomInternalPoints(500, pot);
     //double x_guy = GetMin("x", listOfVerts);
     

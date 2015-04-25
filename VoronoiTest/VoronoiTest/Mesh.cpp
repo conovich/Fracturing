@@ -30,7 +30,7 @@ Mesh::Mesh(){
     //numOfIntersections = 0;
 }
 
-Mesh::Mesh(std::vector<glm::vec3> vertices, std::vector<int> indices, glm::vec3 center) {
+Mesh::Mesh(std::vector<glm::vec3> vertices, std::vector<int> indices, glm::vec3 center, string type) {
     numOfIntersections = 0;
     
     //add vertices from mesh to myVertices
@@ -45,14 +45,33 @@ Mesh::Mesh(std::vector<glm::vec3> vertices, std::vector<int> indices, glm::vec3 
     }
     
     myCenter = center; //center of bounding box of the mesh
-    p1 = vertices[0];
-    p2 = vertices[1];
-    p3 = vertices[2];
-    p4 = vertices[3];
-    p5 = vertices[4];
-    p6 = vertices[5];
-    p7 = vertices[6];
-    p8 = vertices[7];
+    
+    
+    //JUST FOR DRAWING -- WILL HAVE
+    if(type == "cube"){
+        p1 = vertices[0];
+        p2 = vertices[1];
+        p3 = vertices[2];
+        p4 = vertices[3];
+        p5 = vertices[4];
+        p6 = vertices[5];
+        p7 = vertices[6];
+        p8 = vertices[7];
+    }
+    else if(type == "tetrahedron"){
+        
+    }
+    else if(type == "other"){
+        
+    }
+    
+}
+
+glm::vec3 Mesh::CalculateCenter(){
+    //TODO: calculate center based on the vertices!!!
+    glm::vec3 center;
+    
+    return center;
     
 }
 
