@@ -23,6 +23,10 @@ class Mesh {
 public:
     Mesh();
     Mesh(std::vector<glm::vec3> vert, std::vector<int> indices, glm::vec3 center, string type);
+    
+    //TODO: should refactor into differenct classes. when we have time. if we have time.
+    string myType;
+    
     virtual void DrawWireframe();
     virtual void DrawInternalPoints();
     

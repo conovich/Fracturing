@@ -101,6 +101,7 @@ void		KeyboardFunc(unsigned char key, int x, int y)
         exit(0);
 }
 
+//TODO: MOVE TO MESH CLASS
 std::vector<glm::vec3> MakeCubeListOfVerts(){
     std::vector<glm::vec3> listOfVerts;
     listOfVerts.push_back(glm::vec3(-1, 1, -1));
@@ -116,6 +117,7 @@ std::vector<glm::vec3> MakeCubeListOfVerts(){
     
 }
 
+//TODO: MOVE TO MESH CLASS
 std::vector<int> MakeCubeListOfIndices(){
     std::vector<int> listOfIndices;
     listOfIndices.push_back(1);
@@ -170,17 +172,20 @@ std::vector<int> MakeCubeListOfIndices(){
     
 }
 
+//TODO: MOVE TO MESH CLASS
 std::vector<glm::vec3> MakeTetraListOfVerts(){
     std::vector<glm::vec3> listOfVerts;
-    listOfVerts.push_back(glm::vec3(0, 0, 0));
-    listOfVerts.push_back(glm::vec3(1, 0, 0));
-    listOfVerts.push_back(glm::vec3(.5, 0, glm::sqrt(0.75)));
-    listOfVerts.push_back(glm::vec3(.5, glm::sqrt(0.75), (glm::sqrt(0.75))/3));
+    listOfVerts.push_back((glm::vec3(-0.5f, -0.5f, -0.5f))); //bottom point
+    listOfVerts.push_back((glm::vec3(2 - 0.5f, -0.5f, -0.5f))); //bottom point
+    float sqrtPt75 = glm::sqrt(0.75);
+    listOfVerts.push_back(glm::vec3(1 - 0.5f, -0.5f, (sqrtPt75*2.0f) - 0.5f)); //bottom point
+    listOfVerts.push_back(glm::vec3((.5f*2.0f) - 0.5f, (sqrtPt75*2.0f) - 0.5f, (2.0f*(sqrtPt75)/3) - 0.5f)); //top point
     
     return listOfVerts;
     
 }
 
+//TODO: MOVE TO MESH CLASS
 std::vector<int> MakeTetraListOfIndices(){
     std::vector<int> listOfIndices;
  
@@ -210,10 +215,12 @@ int	main(int argc, char **argv)
     //CUBE CASE
     //std::vector<glm::vec3> listOfVerts = MakeCubeListOfVerts();
     //std::vector<int> listOfIndices = MakeCubeListOfIndices();
+    //string shapeType = "cube";
     
     //TETRAHEDON CASE
     std::vector<glm::vec3> listOfVerts = MakeTetraListOfVerts();
     std::vector<int> listOfIndices = MakeTetraListOfIndices();
+    string shapeType = "tetrahedron";
     
     //myCube = Cube(listOfVerts);
     //myCube = Cube();
@@ -226,7 +233,7 @@ int	main(int argc, char **argv)
     
     
     // USE PASSED IN ARGUMENTS
-    myMesh = Mesh(listOfVerts, listOfIndices, glm::vec3(0, 0, 0), "tetrahedron");
+    myMesh = Mesh(listOfVerts, listOfIndices, glm::vec3(0, 0, 0), shapeType);
     myMesh.GenerateRandomInternalPoints(500, pot); 
     
     glm::vec3 POI2 = glm::vec3(pot[0], pot[1], pot[2]);
