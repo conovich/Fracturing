@@ -32,7 +32,7 @@ public:
     glm::vec3 GetMax(vector<glm::vec3> meshVerts);
     
     
-    void ConvexGeoDecomp(std::vector<glm::vec3> meshVerts, glm::vec3 POI, std::vector<int> listOfIndices);
+    void ConvexGeoDecomp(glm::vec3 POI, Mesh myMesh);
     bool CheckCellWithinMesh(vector<glm::vec3> cellVerts, glm::vec3 minXYZ, glm::vec3 maxXYZ, vector<glm::vec3> &cellVertsInMesh, Mesh mesh);
     vector<glm::vec3> GetMeshVertsInCell(vector<glm::vec3> cellVerts, vector<glm::vec3> meshVerts);
     //vector<glm::vec3> GetCellVertsInMesh(vector<glm::vec3> cellVerts, vector<glm::vec3> meshVerts);

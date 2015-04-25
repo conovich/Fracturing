@@ -23,10 +23,10 @@ const int numX=6,numY=6,numZ=6;
 
 // This function returns a random double between 0 and 1
 double rnd() {return double(rand())/RAND_MAX;}
-void VoronoiTest::ConvexGeoDecomp(vector<glm::vec3> meshVerts, glm::vec3 POI, std::vector<int> listOfIndices){
+void VoronoiTest::ConvexGeoDecomp(glm::vec3 POI, Mesh myMesh){
     
-    glm::vec3 minXYZ = GetMin(meshVerts);
-    glm::vec3 maxXYZ = GetMax(meshVerts);
+    glm::vec3 minXYZ = GetMin(myMesh.myVertices);
+    glm::vec3 maxXYZ = GetMax(myMesh.myVertices);
     
     double x_min = minXYZ[0];//GetMin("x", meshVerts);
     double y_min = minXYZ[1];//GetMin("y", meshVerts);
@@ -62,8 +62,12 @@ void VoronoiTest::ConvexGeoDecomp(vector<glm::vec3> meshVerts, glm::vec3 POI, st
     pot.push_back(POI.z);
     
     // USE PASSED IN ARGUMENTS
-    Mesh myMesh = Mesh(meshVerts, listOfIndices, glm::vec3(0, 0, 0), "other");
-    myMesh.GenerateRandomInternalPoints(100, pot);
+    
+    //Mesh myMesh = Mesh(meshVerts, listOfIndices, glm::vec3(0, 0, 0), "other");
+    //myMesh.GenerateRandomInternalPoints(100, pot);
+    
+    
+    
     // Randomly add particles into the container
     //for(i=0;i<particles;i++) {
     for (int i = 0; i < myMesh.numInternalPoints; i++) {
@@ -182,7 +186,7 @@ void VoronoiTest::ConvexGeoDecomp(vector<glm::vec3> meshVerts, glm::vec3 POI, st
                     
                 }
                 else {
-                    allCellFaces2.push_back(currentCellFaces);
+                    //allCellFaces2.push_back(currentCellFaces);
                     
                 }
                 

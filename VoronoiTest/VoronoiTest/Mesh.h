@@ -29,9 +29,11 @@ public:
     
     virtual void DrawWireframe();
     virtual void DrawInternalPoints();
+    virtual void DrawExternalPoints();
     
     std::vector<std::vector<float>> myRandomPoints;
     std::vector<std::vector<float>>myInternalPoints;
+    std::vector<std::vector<float>>myExternalPoints; //for debugging
     std::vector<glm::vec3> myVertices;
     std::vector<int> myIndices;
     virtual void GenerateRandomInternalPoints(int numPoints, std::vector<float> impactPoint);

@@ -34,7 +34,7 @@
 Cube myCube;
 Mesh myMesh;
 VoronoiTest voroTester;
-
+float alphaPlus;
 /*
  ** Function called to update rendering
  */
@@ -56,6 +56,7 @@ void		DisplayFunc(void)
     //myCube.DrawInternalPoints();
     myMesh.DrawWireframe();
     myMesh.DrawInternalPoints();
+    myMesh.DrawExternalPoints();
     
     voroTester.DrawVoronoiEdges();
     //voroTester.DrawVoronoiVertices();
@@ -66,7 +67,7 @@ void		DisplayFunc(void)
     
     
     /* Rotate a bit more */
-    alpha = alpha + 0.1;
+    alpha = alpha + alphaPlus;
     
     /* End */
     glFlush();
@@ -101,6 +102,14 @@ void		KeyboardFunc(unsigned char key, int x, int y)
     foo = x + y; /* Has no effect: just to avoid a warning */
     if ('q' == key || 'Q' == key || 27 == key)
         exit(0);
+    if ('p' == key || 'P' == key){
+        if(alphaPlus == 0){
+            alphaPlus = 0.03;
+        }
+        else{
+            alphaPlus = 0;
+        }
+    }
 }
 
 //TODO: MOVE TO MESH CLASS
@@ -213,7 +222,7 @@ std::vector<int> MakeTetraListOfIndices(){
 
 int	main(int argc, char **argv)
 {
-    
+    alphaPlus = 0.03;
     //CUBE CASE
     //std::vector<glm::vec3> listOfVerts = MakeCubeListOfVerts();
     //std::vector<int> listOfIndices = MakeCubeListOfIndices();
@@ -242,7 +251,7 @@ int	main(int argc, char **argv)
     //Voronoi Decomp
     voroTester = VoronoiTest();
     //vector<glm::vec3> randomDebugPoints = myCube.DebugGenerateRandomPts(4);
-    voroTester.ConvexGeoDecomp(listOfVerts, POI2, listOfIndices);
+    voroTester.ConvexGeoDecomp(POI2, myMesh);
     //voroTester.CubeExample(POI2);
     
 
