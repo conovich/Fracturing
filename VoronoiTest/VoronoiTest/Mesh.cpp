@@ -50,8 +50,7 @@ Mesh::Mesh(std::vector<glm::vec3> vertices, std::vector<int> indices, glm::vec3 
     
     //add triangle indices to myIndices
     for(int j = 0; j < indices.size(); j++) {
-        //REMEMBER TO CHANGE THIS TO NOT "- 1"
-        myIndices.push_back(indices[j] - 1);
+        myIndices.push_back(indices[j]);
     }
     
      //center of bounding box of the mesh
@@ -173,7 +172,7 @@ void Mesh::DrawInternalPoints(){
     glVertex3f(0.0f, 0.0f, 0.0f);
     std::vector<float> point;
     int i = 0;
-    std::cout<<numInternalPoints<<std::endl;
+    //std::cout<<numInternalPoints<<std::endl;
     for(i = 0; i < numInternalPoints; i++){ //FOR SOME REASON .SIZE() WASN'T WORKING
         point = myInternalPoints.at(i);
         //glVertex3f(0.0f, 0.0f, 0.0f);
@@ -204,6 +203,27 @@ void Mesh::DrawExternalPoints(){
     glEnd();
 }
 
+void Mesh::DrawRay(){
+    glBegin(GL_LINES);
+    
+    
+    glColor3f(1, 0, 0);
+    
+    glm::vec3 direction = rayToDraw.dir;
+    
+    glm::vec3 startPoint = rayToDraw.orig;
+    
+    float lineMultiplier = 10.0f;
+    
+    glm::vec3 endPoint = startPoint - (direction*lineMultiplier);
+    
+    glVertex3f(startPoint[0], startPoint[1], startPoint[2]);
+    glVertex3f(endPoint[0], endPoint[1], endPoint[2]);
+    
+    
+    glEnd();
+}
+
 void Mesh::GenerateRandomInternalPoints(int numPoints, std::vector<float> impactPt){
     numRandomPoints = numPoints;
     myInternalPoints.clear();
@@ -217,10 +237,13 @@ void Mesh::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
     
     for(int i = 0; i < numPoints; i++){
         
+        float radius = 0.2f;
+        
+        
         //http://stackoverflow.com/questions/686353/c-random-float-number-generation
-        float randomX = (impactPt[0] - .5) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[0] + 0.5) - (impactPt[0] - 0.5))));
-        float randomY = (impactPt[1] - .5) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[1] + 0.5) - (impactPt[1] - 0.5))));
-        float randomZ = (impactPt[2] - .5) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[2] + 0.5) - (impactPt[2] - 0.5))));
+        float randomX = (impactPt[0] - radius) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[0] + radius) - (impactPt[0] - radius))));
+        float randomY = (impactPt[1] - radius) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[1] + radius) - (impactPt[1] - radius))));
+        float randomZ = (impactPt[2] - radius) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[2] + radius) - (impactPt[2] - radius))));
         
         //randomX = 0.0f;
         //randomY = 2.0f;
@@ -239,6 +262,13 @@ void Mesh::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
     
     //generate points within the mesh
     for(int j = 0; j < numRandomPoints; j++) {
+        
+        if(j == 2){
+        
+            int debugging = 0;
+        
+        }
+        
         numOfIntersections = 0;
         
         //raycast from each point in myRandomPoints in the direction of center of mesh
@@ -255,8 +285,11 @@ void Mesh::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
         
         intersectImpl(ray);
         
+        rayToDraw = ray;
+        
          //if the number of intersections is odd, add to internal points.
          if(numOfIntersections %2 == 1) {
+             //std::cout<<"\nNUM INTERSECTIONS: "<<numOfIntersections<<"\n"<<std::endl;
              myInternalPoints.push_back(myRandomPoints[j]);
              numInternalPoints++;
          }
@@ -266,6 +299,7 @@ void Mesh::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
     }
     //convexHulls.push_back(convexMesh);
 }
+
 
 int Mesh::intersectImpl(const Ray &ray)
 {
@@ -291,7 +325,87 @@ int Mesh::intersectImpl(const Ray &ray)
         }
         
     }
+    
+    if(numOfIntersections > 1){
+        
+        int ack = 0;
+    
+    }
+    
     return numOfIntersections;
+    
+    /*numOfIntersections = 0;
+    
+    //loop through the indices
+    for(int i = 0; i < myIndices.size(); i+=3)
+    {
+        glm::vec3 p0 = myVertices[myIndices[i]];
+        glm::vec3 p1 = myVertices[myIndices[i+1]];
+        glm::vec3 p2 = myVertices[myIndices[i+2]];
+        
+        //plane normal!
+        //glm::vec3 p = glm::cross(ray.dir, p2 - p0);
+        glm::vec3 planeCrossProduct = glm::cross((p1 - p0), (p2 - p0));
+        glm::vec3 planeNormal = glm::normalize(planeCrossProduct);
+        
+        glm::vec3 rayPlanePOI;
+        bool isRayPlaneIntersection = RayPlaneIntersection(ray, planeNormal, p0, rayPlanePOI);
+        
+        if(isRayPlaneIntersection){
+        
+            if(PointInTri(rayPlanePOI, p0, p1, p2)){
+                numOfIntersections++;
+            }
+            else{
+                int ARGH = 0;
+            }
+        }
+        
+        
+    }
+
+    
+    return numOfIntersections;*/
+    
+}
+
+
+bool Mesh::RayPlaneIntersection(const Ray &ray, glm::vec3 planeNormal, glm::vec3 planePoint, glm::vec3 &POI){
+    
+    float epsilon = 0.0001;
+    
+    float denom = glm::dot(planeNormal, ray.dir);//normal.dot(ray.direction);
+    if (abs(denom) > epsilon) // your favorite epsilon
+    {
+        float t = glm::dot((planePoint - ray.orig),planeNormal) / denom;
+        if (t >= 0 - epsilon){ //return true; // you might want to allow an epsilon here too
+            //fill POI
+            
+            POI = ray.orig + t*ray.dir;
+            
+            return true;
+        }
+    }
+    return false;
+
+}
+
+bool Mesh::PointInTri(glm::vec3 point, glm::vec3 vert1, glm::vec3 vert2, glm::vec3 vert3){
+	glm::vec3 cp1 = glm::cross(vert2 - vert1, point - vert1); //cross product 1
+	glm::vec3 cp2 = glm::cross(vert2 - vert1, vert3 - vert1); //cross product
+    
+	if(glm::dot(cp1, cp2) >= 0){
+		cp1 = glm::cross(vert3 - vert2, point - vert2);
+		cp2 = glm::cross(vert3 - vert2, vert1 - vert2);
+		if(glm::dot(cp1, cp2) >= 0){
+			cp1 = glm::cross(vert1 - vert3, point - vert3);
+			cp2 = glm::cross(vert1 - vert3, vert2 - vert3);
+			if(glm::dot(cp1, cp2) >= 0){
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 Intersection Mesh::triangleIntersect(glm::vec3 v0, glm::vec3 v1, glm::vec3 v2, const Ray &ray)
@@ -546,7 +660,7 @@ void Cube::DrawInternalPoints(){
     glVertex3f(0.0f, 0.0f, 0.0f);
     std::vector<float> point;
     int i = 0;
-    std::cout<<numInternalPoints<<std::endl;
+    //std::cout<<numInternalPoints<<std::endl;
     for(i = 0; i < numInternalPoints; i++){ //FOR SOME REASON .SIZE() WASN'T WORKING
         point = myInternalPoints.at(i);
         glVertex3f(0.0f, 0.0f, 0.0f);
@@ -618,10 +732,14 @@ void Cube::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
     
     for(int i = 0; i < numPoints; i++){
         
+        
+        float radius = 0.2f;
+        
+        
         //http://stackoverflow.com/questions/686353/c-random-float-number-generation
-        float randomX = impactPt[0] + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[0] + 0.5) - (impactPt[0] - 0.5))));
-        float randomY = impactPt[1] + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[1] + 0.5) - (impactPt[1] - 0.5))));
-        float randomZ = impactPt[2]+ static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[2] + 0.5) - (impactPt[2] - 0.5))));
+        float randomX = (impactPt[0] - radius) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[0] + radius) - (impactPt[0] - radius))));
+        float randomY = (impactPt[1] - radius) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[1] + radius) - (impactPt[1] - radius))));
+        float randomZ = (impactPt[2] - radius) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((impactPt[2] + radius) - (impactPt[2] - radius))));
         
         //randomX = 0.0f;
         //randomY = 2.0f;

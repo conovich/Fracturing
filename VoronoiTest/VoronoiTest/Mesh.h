@@ -31,6 +31,12 @@ public:
     virtual void DrawInternalPoints();
     virtual void DrawExternalPoints();
     
+    
+    virtual void DrawRay();
+    
+    Ray rayToDraw;
+    
+    
     std::vector<std::vector<float>> myRandomPoints;
     std::vector<std::vector<float>>myInternalPoints;
     std::vector<std::vector<float>>myExternalPoints; //for debugging
@@ -44,6 +50,11 @@ public:
     
     int intersectImpl(const Ray &ray);
     Intersection triangleIntersect(glm::vec3 v0, glm::vec3 v1, glm::vec3 v2, const Ray &ray);
+    
+    
+    //NEW INTERSECTION STUFF
+    bool RayPlaneIntersection(const Ray &ray, glm::vec3 planeNormal, glm::vec3 planePoint, glm::vec3 &POI);
+    bool PointInTri(glm::vec3 point, glm::vec3 v1, glm::vec3 v2, glm::vec3 v3);
     
     
     glm::vec3 CalculateCenter();

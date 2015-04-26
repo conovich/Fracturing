@@ -200,8 +200,8 @@ void VoronoiTest::ConvexGeoDecomp(glm::vec3 POI, Mesh myMesh){
     pFile = fopen ("myfile.txt","w");
     con.print_custom("List of Vertices: %t \n  Next: %p", pFile);
     fclose(pFile);
-    std::cout<<"numcells: "<<std::endl;
-    std::cout<<numCells<<std::endl;
+    //std::cout<<"numcells: "<<std::endl;
+    //std::cout<<numCells<<std::endl;
     
 }
 
@@ -215,47 +215,38 @@ bool VoronoiTest::CheckCellWithinMesh(vector<glm::vec3> cellVerts, glm::vec3 min
     for(int j = 0; j < cellVerts.size(); j++) {
         mesh.numOfIntersections = 0;
         
+        //The following epsilons provide an offset from the center -- otherwise any point lying on an edge symmetric to another edge will end up with two intersections instead of one!
+        //Thus, MAKE THESE DIFFERENT NUMBERS OR IT WON'T WORK.
+        float centerEpsilonX = 0.01;
+        float centerEpsilonY = 0.04;
+        float centerEpsilonZ = 0.06;
         //raycast from each point in myRandomPoints in the direction of center of mesh
-        float x = mesh.myCenter[0] - cellVerts[j][0];
-        float y = mesh.myCenter[1] - cellVerts[j][1];
-        float z = mesh.myCenter[2] - cellVerts[j][2];
+        float x = mesh.myCenter[0] - cellVerts[j][0] + centerEpsilonX;
+        float y = mesh.myCenter[1] - cellVerts[j][1] + centerEpsilonY;
+        float z = mesh.myCenter[2] - cellVerts[j][2] + centerEpsilonZ;
         
         glm::vec3 d = glm::vec3(x, y, z);
         glm::vec3 o = glm::vec3(cellVerts[j][0], cellVerts[j][1], cellVerts[j][2]);
         Ray ray;
-        float epsilon = 0.00001;
-        ray.orig = o + d*epsilon;
+        float origEpsilon = 0.1;
+        ray.orig = o + d*origEpsilon;
         ray.dir = d;
         
         mesh.intersectImpl(ray);
             
         //if the number of intersections is odd, add to points in mesh.
-        if(mesh.numOfIntersections %2 == 1) {
+        if(mesh.numOfIntersections == 1) {
             cellVertsInMesh.push_back(cellVerts[j]);
         }
     }
 
-    if(cellVertsInMesh.size() > 0) isEntirelyInsideMesh = true;
-    else isEntirelyInsideMesh = false;
-    //convexHulls.push_back(convexMesh);
-
-    
-    /**
-    for(int i = 0; i < cellVerts.size(); i++){
-        glm::vec3 currentCellVert = cellVerts[i];
-        //if outside the minXYZ bounds
-        if(currentCellVert[0] < minXYZ[0] || currentCellVert[1] < minXYZ[1] || currentCellVert[2] < minXYZ[2]){
-            isEntirelyInsideMesh = false;
-        }
-        //if outside maxXYZ bounds
-        else if(currentCellVert[0] > maxXYZ[0] || currentCellVert[1] > maxXYZ[1] || currentCellVert[2] > maxXYZ[2]){
-            isEntirelyInsideMesh = false;
-        }
-        else{ //inside the bounds!
-            cellVertsInMesh.push_back(currentCellVert);
-        }
+    if(cellVertsInMesh.size() == cellVerts.size()){
+        isEntirelyInsideMesh = true;
     }
-    */
+    else{
+        isEntirelyInsideMesh = false;
+    }
+
     return isEntirelyInsideMesh;
 }
 
@@ -579,8 +570,8 @@ void VoronoiTest::CubeExample(glm::vec3 POI){
     pFile = fopen ("myfile.txt","w");
     con.print_custom("List of Vertices: %t \n  Next: %p", pFile);
     fclose(pFile);
-    std::cout<<"numcells: "<<std::endl;
-    std::cout<<numCells<<std::endl;
+    //std::cout<<"numcells: "<<std::endl;
+    //std::cout<<numCells<<std::endl;
     
 }
 
@@ -672,8 +663,8 @@ void VoronoiTest::ComputeVoronoiDecompCube(Cube hitCube, vector<glm::vec3> inter
         }
     }
     
-    std::cout<<"numcells: "<<std::endl;
-    std::cout<<numCells<<std::endl;
+    //std::cout<<"numcells: "<<std::endl;
+    //std::cout<<numCells<<std::endl;
     
     
     //con.print_custom("ID=%i, pos=(%x,%y,%z), vertices=%w, edges=%g, faces=%s","packing.custom1");
@@ -779,47 +770,9 @@ void VoronoiTest::DrawVoronoiEdges(){
     
     //end drawing//
     glEnd();
-    glBegin(GL_LINES);
     
-    unsigned long numCells2 = allCellFaces2.size();
-    for(int i = 0; i < numCells2; i++){
-        
-        vector<vector<glm::vec3>> currentCellFaces = allCellFaces2.at(i);
-        unsigned long numFaces = currentCellFaces.size();
-        for(int j = 0; j < numFaces; j++){
-            
-            vector<glm::vec3> currentFace = currentCellFaces.at(j);
-            unsigned long numVerts = currentFace.size();
-            for(int k = 0; k < numVerts; k+=2){
-                
-                //DRAW EACH EDGE HERE
-                glm::vec3 startVert = currentFace.at(k);
-                glm::vec3 endVert;
-                if (k+1 != numVerts) {
-                    endVert = currentFace.at(k+1);
-                }
-                else {
-                    endVert = currentFace.at(0);
-                }
-                //top face
-                if (i == 0){
-                    glColor3f(1, 0, 0); glVertex3f(startVert[0], startVert[1], startVert[2]);
-                    glColor3f(1, 0, 0); glVertex3f(endVert[0], endVert[1],  endVert[2]);
-                }
-                else {
-                    glColor3f(1, 0, 0); glVertex3f(startVert[0], startVert[1], startVert[2]);
-                    glColor3f(1, 0, 0); glVertex3f(endVert[0], endVert[1],  endVert[2]);
-                    
-                }
-                
-            }
-            
-        }
-        
-    }
     
-    //end drawing//
-    glEnd();
+    
 }
 
 void VoronoiTest::DrawVertices(std::vector<double> vertexVector, int R, int G, int B){
