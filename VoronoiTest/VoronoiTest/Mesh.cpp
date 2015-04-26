@@ -186,6 +186,24 @@ void Mesh::DrawInternalPoints(){
     glEnd();
 }
 
+void Mesh::DrawExternalPoints(){
+    glBegin(GL_POINTS);
+    glColor3f(1, 1, 1);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    std::vector<float> point;
+    int i = 0;
+    for(i = 0; i < myExternalPoints.size(); i++){ //FOR SOME REASON .SIZE() WASN'T WORKING
+        point = myExternalPoints.at(i);
+        //glVertex3f(0.0f, 0.0f, 0.0f);
+        float x = point[0];
+        float y = point[1];
+        float z = point[2];
+        glVertex3f(x, y, z);
+    }
+    
+    glEnd();
+}
+
 void Mesh::GenerateRandomInternalPoints(int numPoints, std::vector<float> impactPt){
     numRandomPoints = numPoints;
     myInternalPoints.clear();
@@ -228,6 +246,7 @@ void Mesh::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
         float y = myCenter[1] - myRandomPoints[j][1];
         float z = myCenter[2] - myRandomPoints[j][2];
         
+        
         glm::vec3 d = glm::vec3(x, y, z);
         glm::vec3 o = glm::vec3(myRandomPoints[j][0], myRandomPoints[j][1], myRandomPoints[j][2]);
         Ray ray;
@@ -240,6 +259,9 @@ void Mesh::GenerateRandomInternalPoints(int numPoints, std::vector<float> impact
          if(numOfIntersections %2 == 1) {
              myInternalPoints.push_back(myRandomPoints[j]);
              numInternalPoints++;
+         }
+         else{
+             myExternalPoints.push_back(myRandomPoints[j]);
          }
     }
     //convexHulls.push_back(convexMesh);

@@ -32,8 +32,8 @@ public:
     glm::vec3 GetMax(vector<glm::vec3> meshVerts);
     
     
-    void ConvexGeoDecomp(std::vector<glm::vec3> meshVerts, glm::vec3 POI, std::vector<int> listOfIndices);
-    bool CheckCellWithinMesh(vector<glm::vec3> cellVerts, glm::vec3 minXYZ, glm::vec3 maxXYZ, vector<glm::vec3> &cellVertsInMesh);
+    void ConvexGeoDecomp(glm::vec3 POI, Mesh myMesh);
+    bool CheckCellWithinMesh(vector<glm::vec3> cellVerts, glm::vec3 minXYZ, glm::vec3 maxXYZ, vector<glm::vec3> &cellVertsInMesh, Mesh mesh);
     vector<glm::vec3> GetMeshVertsInCell(vector<glm::vec3> cellVerts, vector<glm::vec3> meshVerts);
     //vector<glm::vec3> GetCellVertsInMesh(vector<glm::vec3> cellVerts, vector<glm::vec3> meshVerts);
     vector<glm::vec3> GetCellMeshIntersectionPoints(vector<glm::vec3> cellVerts, vector<glm::vec3> meshVerts);
@@ -48,6 +48,7 @@ public:
     
     
     vector<vector<vector<glm::vec3>>> allCellFaces;
+    vector<vector<vector<glm::vec3>>> allCellFaces2;
     double x_min;
     int numCells; //number of cells computed in voronoi decomp or cube example
     int numCellVerts;
@@ -62,6 +63,8 @@ public:
     void DrawEdges(std::vector<double> vertexVector, int R, int G, int B);
     vector<double> cellVerticesToDraw;
     vector<vector<double>> allCellVerticesToDraw;
+    vector<double> cellVertsInMeshToDraw;
+    //vector<vector<double>> newCellVerticesToDraw;
     
     
 };

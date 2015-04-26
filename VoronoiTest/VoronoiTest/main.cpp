@@ -29,14 +29,12 @@
 
 #include "Mesh.h"
 #include "VoronoiTest.h"
-#include "ThreeDIntersection.h"
 
 
 Cube myCube;
 Mesh myMesh;
 VoronoiTest voroTester;
-ThreeDIntersection cubeTester;
-
+float alphaPlus;
 /*
  ** Function called to update rendering
  */
@@ -57,17 +55,19 @@ void		DisplayFunc(void)
     //myCube.DrawWireframe();
     //myCube.DrawInternalPoints();
     myMesh.DrawWireframe();
-    //myMesh.DrawInternalPoints();
+    myMesh.DrawInternalPoints();
+    myMesh.DrawExternalPoints();
     
-    //voroTester.DrawVoronoiEdges();
+    voroTester.DrawVoronoiEdges();
     //voroTester.DrawVoronoiVertices();
     voroTester.DrawVertices(voroTester.cellVerticesToDraw, 1, 1, 1);
+    voroTester.DrawVertices(voroTester.cellVertsInMeshToDraw, 0, 0, 1);
+    //voroTester.DrawAllVertices(voroTester.newCellVerticesToDraw);
     //voroTester.DrawAllVertices(voroTester.allCellVerticesToDraw);
     
-    cubeTester.DrawCube();
-    cubeTester.DrawTetra();
+    
     /* Rotate a bit more */
-    alpha = alpha + 0.01;
+    alpha = alpha + alphaPlus;
     
     /* End */
     glFlush();
@@ -102,19 +102,27 @@ void		KeyboardFunc(unsigned char key, int x, int y)
     foo = x + y; /* Has no effect: just to avoid a warning */
     if ('q' == key || 'Q' == key || 27 == key)
         exit(0);
+    if ('p' == key || 'P' == key){
+        if(alphaPlus == 0){
+            alphaPlus = 0.03;
+        }
+        else{
+            alphaPlus = 0;
+        }
+    }
 }
 
 //TODO: MOVE TO MESH CLASS
 std::vector<glm::vec3> MakeCubeListOfVerts(){
     std::vector<glm::vec3> listOfVerts;
-    listOfVerts.push_back(glm::vec3(.5, 1.5, -.5));
-    listOfVerts.push_back(glm::vec3(1.5, 1.5, -.5));
-    listOfVerts.push_back(glm::vec3(1.5, 1.5, .5));
-    listOfVerts.push_back(glm::vec3(.5, 1.5, .5));
-    listOfVerts.push_back(glm::vec3(.5, .5, -.5));
-    listOfVerts.push_back(glm::vec3(1.5, .5, -.5));
-    listOfVerts.push_back(glm::vec3(1.5, .5, .5));
-    listOfVerts.push_back(glm::vec3(.5, .5, .5));
+    listOfVerts.push_back(glm::vec3(-1, 1, -1));
+    listOfVerts.push_back(glm::vec3(1, 1, -1));
+    listOfVerts.push_back(glm::vec3(1, 1, 1));
+    listOfVerts.push_back(glm::vec3(-1, 1, 1));
+    listOfVerts.push_back(glm::vec3(-1, -1, -1));
+    listOfVerts.push_back(glm::vec3(1, -1, -1));
+    listOfVerts.push_back(glm::vec3(1, -1, 1));
+    listOfVerts.push_back(glm::vec3(-1, -1, 1));
     
     return listOfVerts;
     
@@ -123,53 +131,53 @@ std::vector<glm::vec3> MakeCubeListOfVerts(){
 //TODO: MOVE TO MESH CLASS
 std::vector<int> MakeCubeListOfIndices(){
     std::vector<int> listOfIndices;
-    listOfIndices.push_back(0);
     listOfIndices.push_back(1);
-    listOfIndices.push_back(5);
-    
-    listOfIndices.push_back(0);
-    listOfIndices.push_back(4);
-    listOfIndices.push_back(5);
-    
-    listOfIndices.push_back(1);
-    listOfIndices.push_back(6);
-    listOfIndices.push_back(5);
-    
     listOfIndices.push_back(2);
+    listOfIndices.push_back(6);
+    
     listOfIndices.push_back(1);
+    listOfIndices.push_back(5);
     listOfIndices.push_back(6);
     
     listOfIndices.push_back(2);
-    listOfIndices.push_back(6);
     listOfIndices.push_back(7);
+    listOfIndices.push_back(6);
     
-    listOfIndices.push_back(2);
     listOfIndices.push_back(3);
     listOfIndices.push_back(7);
-    
-    listOfIndices.push_back(0);
-    listOfIndices.push_back(4);
-    listOfIndices.push_back(7);
-    
-    listOfIndices.push_back(0);
-    listOfIndices.push_back(3);
-    listOfIndices.push_back(7);
-    
-    listOfIndices.push_back(0);
-    listOfIndices.push_back(3);
-    listOfIndices.push_back(2);
-    
-    listOfIndices.push_back(0);
-    listOfIndices.push_back(1);
-    listOfIndices.push_back(2);
-    
-    listOfIndices.push_back(4);
-    listOfIndices.push_back(7);
     listOfIndices.push_back(6);
+    
+    listOfIndices.push_back(3);
+    listOfIndices.push_back(7);
+    listOfIndices.push_back(8);
+    
+    listOfIndices.push_back(3);
+    listOfIndices.push_back(4);
+    listOfIndices.push_back(8);
+    
+    listOfIndices.push_back(1);
+    listOfIndices.push_back(5);
+    listOfIndices.push_back(8);
     
     listOfIndices.push_back(4);
     listOfIndices.push_back(5);
+    listOfIndices.push_back(8);
+    
+    listOfIndices.push_back(1);
+    listOfIndices.push_back(4);
+    listOfIndices.push_back(3);
+    
+    listOfIndices.push_back(1);
+    listOfIndices.push_back(2);
+    listOfIndices.push_back(3);
+    
+    listOfIndices.push_back(5);
+    listOfIndices.push_back(8);
+    listOfIndices.push_back(7);
+    
+    listOfIndices.push_back(5);
     listOfIndices.push_back(6);
+    listOfIndices.push_back(7);
     
     return listOfIndices;
     
@@ -214,36 +222,15 @@ std::vector<int> MakeTetraListOfIndices(){
 
 int	main(int argc, char **argv)
 {
-    
+    alphaPlus = 0.03;
     //CUBE CASE
     //std::vector<glm::vec3> listOfVerts = MakeCubeListOfVerts();
     //std::vector<int> listOfIndices = MakeCubeListOfIndices();
     //string shapeType = "cube";
     
     //TETRAHEDON CASE
-    
-    glm::vec3 POI2 = glm::vec3(.5, .5, .5);
-    voroTester = VoronoiTest();
-    voroTester.CubeExample(POI2);
-    
-    cubeTester = ThreeDIntersection();
-    std::vector<glm::vec3> cellVertices;
-    for (int i = 0; i < voroTester.allCellFaces[23].size(); i++) {
-        for (int j = 0; j <voroTester.allCellFaces[23][i].size(); j++) {
-        cellVertices.push_back(voroTester.allCellFaces[23][i][j]);
-        }
-        
-    }
-    /*
-    for (int i = 0; i < cellVertices.size(); i++){
-        cubeTester.cubeInds.push_back(i);
-    }*/
-    cubeTester.cubeVerts = MakeCubeListOfVerts(); //cellVertices; //MakeCubeListOfVerts();
-    cubeTester.cubeInds = MakeCubeListOfIndices();
-    cubeTester.tetraVerts = MakeTetraListOfVerts();
-    cubeTester.tetraInds = MakeTetraListOfIndices();
-    cubeTester.normals = cubeTester.GetNormals();
-    cubeTester.GetVertsInTetra();
+    std::vector<glm::vec3> listOfVerts = MakeTetraListOfVerts();
+    std::vector<int> listOfIndices = MakeTetraListOfIndices();
     string shapeType = "tetrahedron";
     
     //myCube = Cube(listOfVerts);
@@ -251,20 +238,20 @@ int	main(int argc, char **argv)
     std::vector<float> pot;
     pot.push_back(0.0f);
     pot.push_back(0.0f);
-    pot.push_back(0.0f);
+    pot.push_back(-0.5f);
     glm::vec3 POI(pot[0], pot[1], pot[2]);
     //myCube.GenerateRandomInternalPoints(500, pot);
     
     
     // USE PASSED IN ARGUMENTS
-    //myMesh = Mesh(listOfVerts, listOfIndices, glm::vec3(0, 0, 0), shapeType);
-    //myMesh.GenerateRandomInternalPoints(500, pot);
+    myMesh = Mesh(listOfVerts, listOfIndices, glm::vec3(0, 0, 0), shapeType);
+    myMesh.GenerateRandomInternalPoints(1000, pot);
     
-    //glm::vec3 POI2 = glm::vec3(pot[0], pot[1], pot[2]);
+    glm::vec3 POI2 = glm::vec3(pot[0], pot[1], pot[2]);
     //Voronoi Decomp
-    //voroTester = VoronoiTest();
+    voroTester = VoronoiTest();
     //vector<glm::vec3> randomDebugPoints = myCube.DebugGenerateRandomPts(4);
-    //voroTester.ConvexGeoDecomp(listOfVerts, POI2, listOfIndices);
+    voroTester.ConvexGeoDecomp(POI2, myMesh);
     //voroTester.CubeExample(POI2);
     
 

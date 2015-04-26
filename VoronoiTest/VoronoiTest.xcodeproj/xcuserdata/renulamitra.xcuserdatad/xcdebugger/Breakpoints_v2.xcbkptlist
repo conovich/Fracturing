@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VoronoiTest/Mesh.cpp"
-            timestampString = "451680059.38615"
+            timestampString = "451684216.915857"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "602"
-            endingLineNumber = "602"
+            startingLineNumber = "603"
+            endingLineNumber = "603"
             landmarkName = "Cube::GenerateRandomInternalPoints(int numPoints, std::vector&lt;float&gt; impactPt)"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VoronoiTest/Mesh.cpp"
-            timestampString = "451680059.38615"
+            timestampString = "451684216.915857"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "497"
-            endingLineNumber = "497"
+            startingLineNumber = "498"
+            endingLineNumber = "498"
             landmarkName = "Cube::DrawWireframe()"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VoronoiTest/Mesh.cpp"
-            timestampString = "451680059.38615"
+            timestampString = "451684216.915857"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "578"
-            endingLineNumber = "578"
+            startingLineNumber = "579"
+            endingLineNumber = "579"
             landmarkName = "Cube::DebugGenerateRandomPts(int numberOfPts)"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VoronoiTest/Mesh.cpp"
-            timestampString = "451680059.38615"
+            timestampString = "451684216.915857"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "330"
-            endingLineNumber = "330"
+            startingLineNumber = "331"
+            endingLineNumber = "331"
             landmarkName = "Cube::Cube()"
             landmarkType = "5">
             <Locations>
@@ -118,11 +118,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VoronoiTest/Mesh.cpp"
-            timestampString = "451680059.38615"
+            timestampString = "451684216.915857"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "566"
-            endingLineNumber = "566"
+            startingLineNumber = "567"
+            endingLineNumber = "567"
             landmarkName = "Cube::DebugGenerateRandomPts(int numberOfPts)"
             landmarkType = "5">
          </BreakpointContent>
@@ -134,11 +134,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VoronoiTest/Mesh.cpp"
-            timestampString = "451680059.38615"
+            timestampString = "451684216.915857"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "530"
-            endingLineNumber = "530"
+            startingLineNumber = "531"
+            endingLineNumber = "531"
             landmarkName = "Cube::DrawInternalPoints()"
             landmarkType = "5">
          </BreakpointContent>
@@ -188,6 +188,70 @@
             startingLineNumber = "126"
             endingLineNumber = "126"
             landmarkName = "Mesh::DrawWireframe()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VoronoiTest/VoronoiTest.cpp"
+            timestampString = "451687523.942249"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "VoronoiTest::ConvexGeoDecomp(vector&lt;glm::vec3&gt; meshVerts, glm::vec3 POI, std::vector&lt;int&gt; listOfIndices)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VoronoiTest/VoronoiTest.cpp"
+            timestampString = "451687732.596313"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
+            landmarkName = "VoronoiTest::ConvexGeoDecomp(vector&lt;glm::vec3&gt; meshVerts, glm::vec3 POI, std::vector&lt;int&gt; listOfIndices)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VoronoiTest/VoronoiTest.cpp"
+            timestampString = "451687730.283763"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
+            landmarkName = "VoronoiTest::ConvexGeoDecomp(vector&lt;glm::vec3&gt; meshVerts, glm::vec3 POI, std::vector&lt;int&gt; listOfIndices)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VoronoiTest/VoronoiTest.cpp"
+            timestampString = "451687760.10361"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
+            landmarkName = "VoronoiTest::ConvexGeoDecomp(vector&lt;glm::vec3&gt; meshVerts, glm::vec3 POI, std::vector&lt;int&gt; listOfIndices)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
