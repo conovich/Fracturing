@@ -24,6 +24,7 @@
 		3E4F4D421ADC796200EDBF9A /* libLinearMath.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4F4D3A1ADC796200EDBF9A /* libLinearMath.a */; };
 		3E4F4D431ADC796200EDBF9A /* libMiniCL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4F4D3B1ADC796200EDBF9A /* libMiniCL.a */; };
 		3E4F4D9E1AE18CE900EDBF9A /* glm in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4F4D9D1AE18CE900EDBF9A /* glm */; };
+		3ED345431AEC431200143A89 /* ThreeDIntersection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3ED345421AEC431200143A89 /* ThreeDIntersection.cpp */; };
 		6DE527161AE157FC0048DA82 /* nearlyEqual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DE527141AE157FC0048DA82 /* nearlyEqual.cpp */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +61,8 @@
 		3E4F4D3A1ADC796200EDBF9A /* libLinearMath.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLinearMath.a; path = ../../../../usr/local/lib/libLinearMath.a; sourceTree = "<group>"; };
 		3E4F4D3B1ADC796200EDBF9A /* libMiniCL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMiniCL.a; path = ../../../../usr/local/lib/libMiniCL.a; sourceTree = "<group>"; };
 		3E4F4D9D1AE18CE900EDBF9A /* glm */ = {isa = PBXFileReference; lastKnownFileType = folder; name = glm; path = ../../Desktop/glm; sourceTree = "<group>"; };
+		3ED345421AEC431200143A89 /* ThreeDIntersection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreeDIntersection.cpp; sourceTree = "<group>"; };
+		3ED345441AEC432D00143A89 /* ThreeDIntersection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThreeDIntersection.h; sourceTree = "<group>"; };
 		6D82CC6D1AE192A9002F78ED /* config.mk */ = {isa = PBXFileReference; lastKnownFileType = text; path = config.mk; sourceTree = "<group>"; };
 		6D82CC701AE192A9002F78ED /* import */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = import; sourceTree = "<group>"; };
 		6D82CC711AE192A9002F78ED /* import.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = import.cc; sourceTree = "<group>"; };
@@ -828,6 +831,8 @@
 				0427B9801ADB001B009CC475 /* VoronoiTest.cpp */,
 				0427B9811ADB001B009CC475 /* VoronoiTest.h */,
 				0427B9731ADA4026009CC475 /* VoronoiTest.1 */,
+				3ED345421AEC431200143A89 /* ThreeDIntersection.cpp */,
+				3ED345441AEC432D00143A89 /* ThreeDIntersection.h */,
 			);
 			path = VoronoiTest;
 			sourceTree = "<group>";
@@ -1731,6 +1736,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0427B9851ADB004A009CC475 /* Mesh.cpp in Sources */,
+				3ED345431AEC431200143A89 /* ThreeDIntersection.cpp in Sources */,
 				0427B9821ADB001B009CC475 /* VoronoiTest.cpp in Sources */,
 				0427B9721ADA4026009CC475 /* main.cpp in Sources */,
 				6DE527161AE157FC0048DA82 /* nearlyEqual.cpp in Sources */,

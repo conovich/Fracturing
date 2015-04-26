@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "202"
             endingLineNumber = "202"
-            landmarkName = "Mesh::intersectImpl(const Ray &amp;ray)"
+            landmarkName = "Mesh::GenerateRandomInternalPoints(int numPoints, std::vector&lt;float&gt; impactPt)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -31,7 +31,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "39"
             endingLineNumber = "39"
-            landmarkName = "Mesh::Mesh(std::vector&lt;glm::vec3&gt; vertices, std::vector&lt;int&gt; indices, glm::vec3 center)"
+            landmarkName = "Mesh::Mesh(std::vector&lt;glm::vec3&gt; vertices, std::vector&lt;int&gt; indices, glm::vec3 center, string newType)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -47,7 +47,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "38"
             endingLineNumber = "38"
-            landmarkName = "Mesh::Mesh(std::vector&lt;glm::vec3&gt; vertices, std::vector&lt;int&gt; indices, glm::vec3 center)"
+            landmarkName = "Mesh::Mesh(std::vector&lt;glm::vec3&gt; vertices, std::vector&lt;int&gt; indices, glm::vec3 center, string newType)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -63,7 +63,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "461"
             endingLineNumber = "461"
-            landmarkName = "VoronoiTest::CubeExample()"
+            landmarkName = "VoronoiTest::CubeExample(glm::vec3 POI)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -79,7 +79,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "486"
             endingLineNumber = "486"
-            landmarkName = "VoronoiTest::CubeExample()"
+            landmarkName = "VoronoiTest::CubeExample(glm::vec3 POI)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -95,7 +95,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "475"
             endingLineNumber = "475"
-            landmarkName = "VoronoiTest::CubeExample()"
+            landmarkName = "VoronoiTest::CubeExample(glm::vec3 POI)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -111,7 +111,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "508"
             endingLineNumber = "508"
-            landmarkName = "VoronoiTest::CubeExample()"
+            landmarkName = "VoronoiTest::CubeExample(glm::vec3 POI)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -122,12 +122,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VoronoiTest/main.cpp"
-            timestampString = "451599651.066523"
+            timestampString = "451692665.737308"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "203"
-            endingLineNumber = "203"
-            landmarkName = "main(int argc, char **argv)"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
+            landmarkName = "MakeTetraListOfIndices()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -143,7 +143,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "510"
             endingLineNumber = "510"
-            landmarkName = "VoronoiTest::CubeExample()"
+            landmarkName = "VoronoiTest::CubeExample(glm::vec3 POI)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -175,14 +175,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "417"
             endingLineNumber = "417"
-            landmarkName = "VoronoiTest::CubeExample()"
+            landmarkName = "VoronoiTest::CubeExample(glm::vec3 POI)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VoronoiTest/VoronoiTest.cpp"
@@ -191,7 +191,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "456"
             endingLineNumber = "456"
-            landmarkName = "VoronoiTest::CubeExample()"
+            landmarkName = "VoronoiTest::CubeExample(glm::vec3 POI)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -207,7 +207,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "386"
             endingLineNumber = "386"
-            landmarkName = "VoronoiTest::CubeExample()"
+            landmarkName = "VoronoiTest::CubeExample(glm::vec3 POI)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -218,12 +218,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VoronoiTest/main.cpp"
-            timestampString = "451599651.066523"
+            timestampString = "451692665.737308"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
-            landmarkName = "main(int argc, char **argv)"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
+            landmarkName = "MakeTetraListOfVerts()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -239,7 +239,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "390"
             endingLineNumber = "390"
-            landmarkName = "VoronoiTest::CubeExample()"
+            landmarkName = "VoronoiTest::CubeExample(glm::vec3 POI)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -250,12 +250,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VoronoiTest/main.cpp"
-            timestampString = "451599646.718842"
+            timestampString = "451692665.737308"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
-            landmarkName = "main(int argc, char **argv)"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
+            landmarkName = "MakeTetraListOfVerts()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -271,14 +271,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "259"
             endingLineNumber = "259"
-            landmarkName = "VoronoiTest::GetMax(string coordinate, vector&lt;glm::vec3&gt; meshVerts)"
+            landmarkName = "VoronoiTest::GetMin(vector&lt;glm::vec3&gt; meshVerts)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VoronoiTest/VoronoiTest.cpp"
@@ -288,6 +288,118 @@
             startingLineNumber = "121"
             endingLineNumber = "121"
             landmarkName = "VoronoiTest::ConvexGeoDecomp(vector&lt;glm::vec3&gt; meshVerts, glm::vec3 POI, std::vector&lt;int&gt; listOfIndices)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VoronoiTest/main.cpp"
+            timestampString = "451702905.405652"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
+            landmarkName = "main(int argc, char **argv)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VoronoiTest/ThreeDIntersection.cpp"
+            timestampString = "451703913.53497"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
+            landmarkName = "ThreeDIntersection::triangleIntersect(glm::vec3 v0, glm::vec3 v1, glm::vec3 v2, const Ray &amp;ray)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VoronoiTest/ThreeDIntersection.cpp"
+            timestampString = "451701660.708101"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "ThreeDIntersection::GetVertsInTetra()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VoronoiTest/ThreeDIntersection.cpp"
+            timestampString = "451701671.667498"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "ThreeDIntersection::GetVertsInTetra()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VoronoiTest/ThreeDIntersection.cpp"
+            timestampString = "451702277.705202"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "ThreeDIntersection::GetVertsInTetra()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VoronoiTest/ThreeDIntersection.cpp"
+            timestampString = "451703689.934711"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "ThreeDIntersection::GetVertsInTetra()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VoronoiTest/ThreeDIntersection.cpp"
+            timestampString = "451703929.306683"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
+            landmarkName = "ThreeDIntersection::intersectionImpl(const Ray &amp;ray)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

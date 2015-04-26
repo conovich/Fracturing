@@ -303,7 +303,7 @@ void VoronoiTest::CubeExample(glm::vec3 POI){
     const int n_x=6,n_y=6,n_z=6;
     
     // Set the number of particles that are going to be randomly introduced
-    const int particles=30;
+    const int particles=10;
     
     
     
